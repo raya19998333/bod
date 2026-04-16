@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPI — DSO & Covenant</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary:#744379; --primary-dark:#5e3360; --primary-light:#8d5a8f;
+    --bg:#e8eaf2; --text:#2d2f45; --text-muted:#7b7f9e; --text-dim:#a0a4be;
+    --success:#059669; --danger:#dc3545; --warning:#8d5a8f; --orange:#8d5a8f; --purple:#744379;
+    --teal:#5e3360;
+    --grad-main:linear-gradient(135deg,#744379 0%,#5e3360 100%);
+    --neu-shadow:8px 8px 20px rgba(163,165,194,.6),-8px -8px 20px rgba(255,255,255,.85);
+    --neu-shadow-sm:5px 5px 12px rgba(163,165,194,.55),-5px -5px 12px rgba(255,255,255,.8);
+    --neu-shadow-inset:inset 4px 4px 10px rgba(163,165,194,.5),inset -4px -4px 10px rgba(255,255,255,.75);
+    --neu-shadow-hover:10px 10px 24px rgba(163,165,194,.65),-10px -10px 24px rgba(255,255,255,.9);
+    --font-head:'Plus Jakarta Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+    --font-body:'DM Sans',sans-serif;
+    --radius:20px; --radius-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:13px;min-height:100vh}
+  .page{max-width:1400px;margin:0 auto;padding:24px 20px 40px;display:flex;flex-direction:column;gap:22px}
+
+  /* HEADER */
+  .header{background:var(--bg);border-radius:var(--radius);padding:22px 28px;box-shadow:var(--neu-shadow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .header h1{font-family:var(--font-head);font-size:22px;font-weight:700;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+  .header p{font-size:12px;color:var(--text-muted);margin-top:5px}
+  .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+  .period-badge{font-family:var(--font-mono);font-size:11px;font-weight:600;background:var(--grad-main);color:white;padding:6px 16px;border-radius:50px;letter-spacing:1px;box-shadow:4px 4px 10px rgba(116,67,121,.3),-2px -2px 8px rgba(255,255,255,.7)}
+  .period-label{font-size:10px;color:var(--text-dim);letter-spacing:.5px;text-transform:uppercase}
+
+  /* KPI CARDS */
+  .kpi4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .kpi{background:var(--bg);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--neu-shadow);position:relative;overflow:hidden;transition:all .3s ease}
+  .kpi:hover{transform:translateY(-3px);box-shadow:var(--neu-shadow-hover)}
+  .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+  .kpi.dso::before{background:var(--grad-main)}
+  .kpi.cov::before{background:linear-gradient(90deg,#8d5a8f,#5e3360)}
+  .kpi.dscr::before{background:linear-gradient(90deg,#059669,#34d399)}
+  .kpi.ni::before{background:linear-gradient(90deg,#744379,#8d5a8f)}
+
+  .kpi-accent-dot{position:absolute;top:14px;right:14px;width:8px;height:8px;border-radius:50%}
+  .dso .kpi-accent-dot{background:#744379;box-shadow:0 0 8px rgba(116,67,121,.5)}
+  .cov .kpi-accent-dot{background:#8d5a8f;box-shadow:0 0 8px rgba(141,90,143,.5)}
+  .dscr .kpi-accent-dot{background:#059669;box-shadow:0 0 8px rgba(5,150,105,.5)}
+  .ni .kpi-accent-dot{background:#744379;box-shadow:0 0 8px rgba(116,67,121,.5)}
+
+  .kpi-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px;display:inline-flex;align-items:center;gap:5px}
+  .kpi-cat::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%}
+  .kpi-cat.b{color:#744379}.kpi-cat.b::before{background:#744379}
+  .kpi-cat.g{color:#8d5a8f}.kpi-cat.g::before{background:#8d5a8f}
+  .kpi-cat.gr{color:#059669}.kpi-cat.gr::before{background:#059669}
+  .kpi-cat.p{color:#744379}.kpi-cat.p::before{background:#744379}
+
+  .kpi-lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px;font-weight:600}
+  .kpi-big{font-family:var(--font-head);font-size:28px;font-weight:800;color:var(--text);line-height:1;letter-spacing:-1px;margin-bottom:4px}
+  .kpi-unit{font-size:11px;color:var(--text-muted);margin-bottom:10px}
+
+  .kpi-vars{display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(116,67,121,.1);padding-top:10px;margin-top:2px}
+  .var-row{display:flex;justify-content:space-between;align-items:center}
+  .var-lbl{font-size:10px;color:var(--text-dim)}
+
+  .pill{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 8px;border-radius:50px;box-shadow:var(--neu-shadow-sm)}
+  .pill.pos{background:var(--bg);color:#059669}
+  .pill.neg{background:var(--bg);color:#dc3545}
+  .pill.neu{background:var(--bg);color:var(--text-muted)}
+  .pill.warn{background:var(--bg);color:#8d5a8f}
+  .pill.ok{background:var(--bg);color:#059669}
+
+  /* THRESHOLD BAR */
+  .thr-block{margin-top:12px;padding-top:10px;border-top:1px solid rgba(116,67,121,.1)}
+  .thr-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;display:flex;justify-content:space-between;font-weight:600}
+  .thr-track{width:100%;height:8px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:visible;position:relative}
+  .thr-fill{height:100%;border-radius:50px;position:absolute;top:0;left:0}
+  .thr-line{position:absolute;top:-4px;height:16px;width:2.5px;border-radius:1px;background:var(--text-dim)}
+  .thr-line-lbl{position:absolute;top:18px;font-size:8px;color:var(--text-dim);transform:translateX(-50%);white-space:nowrap}
+
+  /* GRIDS */
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .g21{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
+
+  /* PANELS */
+  .panel{background:var(--bg);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--neu-shadow);transition:all .3s ease}
+  .panel:hover{transform:translateY(-2px);box-shadow:var(--neu-shadow-hover)}
+  .panel-title{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .panel-title-dot{width:8px;height:8px;border-radius:50%;background:var(--grad-main);flex-shrink:0}
+  .panel-sub{font-size:11px;color:var(--text-muted);margin-bottom:16px}
+
+  /* CHART BOX */
+  .ch{position:relative;width:100%}
+  .ch230{height:230px}.ch180{height:180px}
+
+  /* DIVIDER */
+  .divider{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:12px}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(116,67,121,.25),transparent)}
+
+  /* DSO ROWS */
+  .dso-section-label{font-size:10px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+  .dso-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(163,165,194,.18)}
+  .dso-row:last-child{border-bottom:none}
+  .dso-seg{font-size:11px;color:var(--text);width:150px;flex-shrink:0;font-weight:500}
+  .dso-bar-wrap{flex:1;height:8px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden}
+  .dso-bar{height:100%;border-radius:50px}
+  .dso-val{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text);width:50px;text-align:right;flex-shrink:0}
+
+  /* DSO FORMULA BOX */
+  .formula-box{background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm);padding:12px 14px;margin-top:14px}
+  .formula-box-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-weight:700}
+
+  /* COVENANT EQUATION */
+  .cov-eq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:14px 16px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm)}
+  .cov-term{text-align:center}
+  .cov-term .val{font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--text)}
+  .cov-term .lbl{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
+  .cov-op{font-family:var(--font-mono);font-size:18px;color:var(--text-dim);font-weight:600;padding:0 4px}
+  .cov-result{text-align:center;padding:10px 16px;background:var(--bg);box-shadow:var(--neu-shadow-sm);border-radius:var(--radius-sm)}
+  .cov-result .val{font-family:var(--font-head);font-size:18px;font-weight:800;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .cov-result .lbl{font-size:9px;color:var(--primary);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
+  .unavail{font-family:var(--font-mono);font-size:17px;color:#dc3545;font-weight:700}
+
+  /* COVENANT TABLE */
+  .cov-table{width:100%;border-collapse:collapse}
+  .cov-table th{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;padding:8px 10px;border-bottom:2px solid rgba(116,67,121,.15);text-align:right;font-weight:700;font-family:var(--font-head)}
+  .cov-table th:first-child{text-align:left}
+  .cov-table td{font-size:11px;padding:8px 10px;border-bottom:1px solid rgba(163,165,194,.18);vertical-align:middle}
+  .cov-table td:first-child{color:var(--text-muted)}
+  .cov-table td.n{font-family:var(--font-mono);font-size:12px;color:var(--text);text-align:right;font-weight:600}
+  .cov-table td.nc{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right}
+  .cov-table td.ok{font-family:var(--font-mono);font-size:10px;color:#059669;text-align:right;font-weight:700}
+  .cov-table td.breach{font-family:var(--font-mono);font-size:10px;color:#dc3545;text-align:right;font-weight:700}
+  .cov-table tr.total-row td{border-top:2px solid rgba(116,67,121,.2);font-weight:700}
+  .cov-table tr.total-row td.n{font-size:13px;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+  /* NOTE BOX */
+  .note-box{padding:12px 14px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm);border-left:3px solid #8d5a8f;font-size:10.5px;color:var(--text-muted);line-height:1.65;margin-top:14px}
+  .note-box b{color:var(--text);font-weight:600}
+  .note-box .r{color:#dc3545;font-weight:600}
+
+  /* COMPLIANCE CARDS */
+  .compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .compliance-card{padding:14px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm);border-top:3px solid #059669;transition:all .25s ease}
+  .compliance-card:hover{box-shadow:var(--neu-shadow-sm)}
+  .compliance-card-label{font-size:9px;color:#059669;text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:8px}
+  .compliance-card-val{font-family:var(--font-head);font-size:22px;font-weight:800;color:#059669}
+  .compliance-card-sub{font-size:10px;color:var(--text-muted);margin-top:4px}
+  .compliance-card-ok{font-size:10px;color:#059669;margin-top:3px;font-weight:600}
+
+  /* EXEC */
+  .exec{background:var(--bg);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--neu-shadow);position:relative;overflow:hidden}
+  .exec::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad-main);border-radius:var(--radius) 0 0 var(--radius)}
+  .exec-top{font-family:var(--font-head);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
+  .exec-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .exec-item{padding:12px 14px;border-radius:var(--radius-sm);background:var(--bg);box-shadow:var(--neu-shadow-inset);transition:all .25s ease}
+  .exec-item:hover{box-shadow:var(--neu-shadow-sm)}
+  .exec-ttl{font-size:10px;font-weight:700;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+  .exec-txt{font-size:11px;color:var(--text-muted);line-height:1.65}
+  .exec-txt b{color:var(--text);font-weight:600}
+  .exec-txt .g{color:#059669;font-weight:600}.exec-txt .r{color:#dc3545;font-weight:600}.exec-txt .w{color:#8d5a8f;font-weight:600}
+
+  canvas{display:block}
+
+  @media(max-width:1100px){.kpi4{grid-template-columns:repeat(2,1fr)}.g2,.g21{grid-template-columns:1fr}.exec-cols{grid-template-columns:1fr 1fr}}
+  @media(max-width:700px){.page{padding:16px 14px 28px;gap:16px}.kpi4{grid-template-columns:1fr 1fr}.exec-cols{grid-template-columns:1fr}}
+
+/* ===== RAYA SIDEBAR LAYOUT ===== */
+body { margin: 0; }
+.raya-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; background: #e8eaf2; }
+.raya-sidebar {
+  background: linear-gradient(135deg, #744379 0%, #5e3360 100%);
+  padding: 28px 16px; display: flex; flex-direction: column;
+  min-height: 100vh; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  box-shadow: 6px 0 20px rgba(116,67,121,0.2);
+}
+.raya-sidebar-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+.raya-brand-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 800; font-size: 15px; color: white; flex-shrink: 0; }
+.raya-brand-text { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 15px; font-weight: 800; color: white; letter-spacing: 1px; line-height: 1.2; }
+.raya-brand-sub { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.raya-nav-section { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); padding: 0 10px; margin: 14px 0 6px; }
+.raya-nav-menu { list-style: none; }
+.raya-nav-item { margin-bottom: 3px; }
+.raya-nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; color: rgba(255,255,255,0.75); text-decoration: none; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.22s; position: relative; }
+.raya-nav-link:hover { background: rgba(255,255,255,0.12); color: white; }
+.raya-nav-link.active { background: rgba(255,255,255,0.18); color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.22); }
+.raya-nav-link.active::before { content: ''; position: absolute; left: 0; top: 22%; bottom: 22%; width: 3px; background: white; border-radius: 0 3px 3px 0; }
+.raya-nav-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+.raya-nav-link.active .raya-nav-icon, .raya-nav-link:hover .raya-nav-icon { background: rgba(255,255,255,0.25); }
+.raya-nav-icon svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.8); stroke-width: 1.8; fill: none; }
+.raya-nav-link.active .raya-nav-icon svg, .raya-nav-link:hover .raya-nav-icon svg { stroke: white; }
+.raya-sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.18); }
+.raya-user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); }
+.raya-avatar { width: 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: white; flex-shrink: 0; }
+.raya-user-name { font-size: 12px; font-weight: 600; color: white; }
+.raya-user-role { font-size: 10px; color: rgba(255,255,255,0.6); }
+.raya-main { min-width: 0; overflow-y: auto; }
+.page { min-width: 0 !important; }
+@media (max-width: 900px) {
+  .raya-layout { grid-template-columns: 1fr; }
+  .raya-sidebar { min-height: auto; height: auto; position: relative; flex-direction: row; flex-wrap: wrap; padding: 14px 16px; gap: 10px; }
+  .raya-sidebar-brand { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .raya-nav-section, .raya-sidebar-footer { display: none; }
+  .raya-nav-menu { display: flex; flex-wrap: wrap; gap: 4px; }
+  .raya-nav-item { margin-bottom: 0; }
+  .raya-nav-link { padding: 7px 10px; font-size: 11px; }
+  .raya-nav-icon { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div class="raya-layout">
+<aside class="raya-sidebar">
+  <div class="raya-sidebar-brand">
+    <div class="raya-brand-icon">LB</div>
+    <div>
+      <div class="raya-brand-text">Nama Dhofar</div>
+      <div class="raya-brand-sub">Board Dashboard 2026</div>
+    </div>
+  </div>
+  <div class="raya-nav-section">Navigation</div>
+  <ul class="raya-nav-menu">
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="summary_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="3.5"/><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span>
+        Overview
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="income_statement_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+        Income Statement
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="balance_sheet_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+        Balance Sheet
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="receivables_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        Receivables
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="capex_vowd_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+        CAPEX & VOWD
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link active" href="kpi_dso_covenant_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        KPI — DSO
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="operations_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>
+        Operations
+      </a>
+    </li>
+  </ul>
+  <div class="raya-sidebar-footer">
+    <div class="raya-user-card">
+      <div class="raya-avatar">LB</div>
+      <div>
+        <div class="raya-user-name">Latifa Bait Saleem</div>
+        <div class="raya-user-role">Chief Financial Officer (CFO)</div>
+      </div>
+    </div>
+  </div>
+</aside>
+<main class="raya-main" style="padding:24px;overflow-y:auto">
+
+<div class="page">
+
+  <div class="header">
+    <div>
+      <h1>KPI — DSO &amp; Covenant Analysis</h1>
+      <p>Nama Dhofar Services &nbsp;·&nbsp; FS + Covenant Sheet + Details-Tech &nbsp;·&nbsp; Figures in OMR '000 unless noted</p>
+    </div>
+    <div class="header-right">
+      <div class="period-badge">Mar-2026 Actual</div>
+      <div class="period-label">Latifa Bait Saleem · CFO</div>
+    </div>
+  </div>
+
+  <div class="kpi4">
+    <div class="kpi dso">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-cat b">DSO</div>
+      <div class="kpi-lbl">Days Sales Outstanding</div>
+      <div class="kpi-big">101<span style="font-size:16px;color:var(--text-dim);font-weight:400"> days</span></div>
+      <div class="kpi-unit">(AR ÷ Total Revenue) × 90 days</div>
+      <div class="kpi-vars">
+        <div class="var-row"><span class="var-lbl">vs Budget (64 days)</span><div class="pill neg">+57.1%</div></div>
+        <div class="var-row"><span class="var-lbl">vs Dec-25 (96 days)</span><div class="pill neg">+5.2%</div></div>
+      </div>
+    </div>
+    <div class="kpi cov">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-cat g">Covenant</div>
+      <div class="kpi-lbl">EBITDA (Mar-26 + Mar-25) − VOWD</div>
+      <div class="kpi-big" style="color:#8d5a8f">4,397<span style="font-size:14px;color:var(--text-dim);font-weight:400"> OMR K</span></div>
+      <div class="kpi-unit">Partial: EBITDA Mar-26 − VOWD only</div>
+      <div class="kpi-vars">
+        <div class="var-row"><span class="var-lbl">EBITDA Mar-26</span><div class="pill neu">13,153 K</div></div>
+        <div class="var-row"><span class="var-lbl">EBITDA Mar-25</span><div class="pill neg">#DIV/0! in source</div></div>
+        <div class="var-row"><span class="var-lbl">VOWD Mar-26</span><div class="pill neg">8,756 K</div></div>
+      </div>
+    </div>
+    <div class="kpi dscr">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-cat gr">Debt Service Cover</div>
+      <div class="kpi-lbl">DSCR — Covenant Sheet</div>
+      <div class="kpi-big" style="color:#059669">161.23<span style="font-size:14px;color:var(--text-dim);font-weight:400">x</span></div>
+      <div class="kpi-unit">Net Op. Income ÷ Debt Service</div>
+      <div class="thr-block">
+        <div class="thr-label"><span>Min. Threshold</span><span style="color:#059669">✓ Compliant</span></div>
+        <div class="thr-track">
+          <div class="thr-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:100%"></div>
+          <div class="thr-line" style="left:.7%"><div class="thr-line-lbl">1.10x min</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="kpi ni">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-cat p">Net Indebtedness / Equity</div>
+      <div class="kpi-lbl">Total Net Indebtedness ÷ Equity</div>
+      <div class="kpi-big" style="color:#059669">−0.08<span style="font-size:14px;color:var(--text-dim);font-weight:400">x</span></div>
+      <div class="kpi-unit">Negative = net cash position</div>
+      <div class="thr-block">
+        <div class="thr-label"><span>Max. Threshold 2.33x</span><span style="color:#059669">✓ Compliant</span></div>
+        <div class="thr-track">
+          <div class="thr-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:3%"></div>
+          <div class="thr-line" style="left:100%"><div class="thr-line-lbl">2.33x max</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">DSO Analysis</div>
+
+  <div class="g21">
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>DSO — Mar-2026 vs Budget vs Dec-2025</div>
+      <div class="panel-sub">Days Sales Outstanding = (Account Receivables ÷ Total Revenue) × 90 days</div>
+      <div class="ch ch230"><canvas id="dsoChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>DSO Components</div>
+      <div class="panel-sub">Receivables and Revenue inputs (OMR K)</div>
+      <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:14px">
+        <div>
+          <div class="dso-section-label">Account Receivables</div>
+          <div class="dso-row" style="border:none;padding-top:0">
+            <div class="dso-seg">Mar-2026 Actual</div>
+            <div class="dso-bar-wrap"><div class="dso-bar" style="background:linear-gradient(90deg,#744379,#5e3360);width:100%"></div></div>
+            <div class="dso-val">56,107</div>
+            <div style="flex-shrink:0"><div class="pill neg">+25.4%</div></div>
+          </div>
+          <div class="dso-row" style="border:none;padding:4px 0">
+            <div class="dso-seg">Budget</div>
+            <div class="dso-bar-wrap"><div class="dso-bar" style="background:rgba(116,67,121,.35);width:79.7%"></div></div>
+            <div class="dso-val">44,743</div>
+            <div style="flex-shrink:0"></div>
+          </div>
+          <div class="dso-row">
+            <div class="dso-seg">Dec-2025 Actual</div>
+            <div class="dso-bar-wrap"><div class="dso-bar" style="background:rgba(116,67,121,.55);width:94.9%"></div></div>
+            <div class="dso-val">53,267</div>
+            <div style="flex-shrink:0"></div>
+          </div>
+        </div>
+        <div>
+          <div class="dso-section-label">Total Revenue</div>
+          <div class="dso-row" style="border:none;padding-top:0">
+            <div class="dso-seg">Mar-2026 Actual</div>
+            <div class="dso-bar-wrap"><div class="dso-bar" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:79.7%"></div></div>
+            <div class="dso-val">49,952</div>
+            <div style="flex-shrink:0"></div>
+          </div>
+          <div class="dso-row">
+            <div class="dso-seg">Budget</div>
+            <div class="dso-bar-wrap"><div class="dso-bar" style="background:rgba(141,90,143,.35);width:100%"></div></div>
+            <div class="dso-val">62,656</div>
+            <div style="flex-shrink:0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-box-label">DSO Formula</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text)">Mar-26: (56,107 ÷ 49,952) × 90 = <span style="color:#dc3545;font-weight:700">101.1 days</span></div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:5px">Budget: (44,743 ÷ 62,656) × 90 = <span style="color:#059669;font-weight:600">64.3 days</span></div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:5px">Dec-25: (53,267 ÷ 49,952) × 90 = <span style="color:#8d5a8f;font-weight:600">96.0 days</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">Covenant = EBITDA (Mar-26 + Mar-25) − VOWD</div>
+
+  <div class="g2">
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>Covenant Calculation Breakdown</div>
+      <div class="panel-sub">Formula: EBITDA Mar-26 + EBITDA Mar-25 − VOWD Mar-26 (OMR K)</div>
+      <div class="cov-eq">
+        <div class="cov-term"><div class="val">13,153</div><div class="lbl">EBITDA Mar-26</div></div>
+        <div class="cov-op">+</div>
+        <div class="cov-term"><div class="unavail">#DIV/0!</div><div class="lbl" style="color:#dc3545">EBITDA Mar-25</div></div>
+        <div class="cov-op">−</div>
+        <div class="cov-term"><div class="val">8,756</div><div class="lbl">VOWD Mar-26</div></div>
+        <div style="flex:1;text-align:right"><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim)">=</div></div>
+        <div class="cov-result"><div class="val">4,397</div><div class="lbl">Partial Result</div></div>
+      </div>
+      <div class="note-box"><b>Source Note:</b> EBITDA Mar-25 shows <span class="r">#DIV/0!</span> in FS sheet (row 24, col 5) due to a formula error in the Subsidy line for the Mar-2025 period. The partial covenant result of <b>OMR 4,397K</b> reflects only <b>EBITDA Mar-26 (13,153) − VOWD (8,756)</b>. Full covenant value requires a corrected Mar-25 EBITDA.</div>
+      <div style="margin-top:16px">
+        <table class="cov-table">
+          <thead><tr><th style="text-align:left">Component</th><th>Value (OMR K)</th><th>Source</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>EBITDA Mar-2026</td><td class="n">13,152.826</td><td class="nc">FS Row 24 · Col 2</td><td class="ok">✓ Available</td></tr>
+            <tr><td>EBITDA Mar-2025</td><td class="n" style="color:#dc3545">#DIV/0!</td><td class="nc">FS Row 24 · Col 5</td><td class="breach">✗ Formula Error</td></tr>
+            <tr><td>VOWD Mar-2026 (DISC Total)</td><td class="n">8,756.026</td><td class="nc">Details-Tech Row 17</td><td class="ok">✓ Available</td></tr>
+            <tr class="total-row"><td style="font-weight:700">Covenant (Partial)</td><td class="n" style="color:#8d5a8f">4,396.800</td><td class="nc">Mar-26 only</td><td><div class="pill warn">Incomplete</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>Covenant Compliance — Mar-2026</div>
+      <div class="panel-sub">Covenant sheet — all ratios and thresholds</div>
+      <table class="cov-table" style="margin-bottom:16px">
+        <thead><tr><th style="text-align:left">Covenant</th><th>Actual</th><th>Threshold</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Gross Operating Revenue</td><td class="n">49,952</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td>Op. &amp; Maintenance Expenses</td><td class="n">36,799</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td>Net Operating Income (EBITDA)</td><td class="n" style="color:#059669">13,153</td><td class="nc">—</td><td class="ok">OMR K</td></tr>
+          <tr><td>Debt Repayment</td><td class="n">81.578</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td>Accrued Interest on Debt</td><td class="n">0</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td>Debt Service (i + ii)</td><td class="n">81.578</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td style="color:#059669;font-weight:500">Debt Service Cover Ratio</td><td class="n" style="color:#059669">161.23x</td><td class="nc">Min 1.10x</td><td class="ok">✓ Compliant</td></tr>
+          <tr><td>Long Term Loan</td><td class="n">10,829</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td>Finance Lease</td><td class="n">58,378</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td>Less: Cash &amp; Equivalents</td><td class="n">(86,140)</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td>Total Net Indebtedness</td><td class="n" style="color:#059669">(16,933)</td><td class="nc">—</td><td class="ok">Net Cash</td></tr>
+          <tr><td>Total Equity</td><td class="n">202,437</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
+          <tr><td style="color:#059669;font-weight:500">Net Indebtedness / Equity</td><td class="n" style="color:#059669">−0.084x</td><td class="nc">Max 2.33x</td><td class="ok">✓ Compliant</td></tr>
+        </tbody>
+      </table>
+      <div class="compliance-grid">
+        <div class="compliance-card">
+          <div class="compliance-card-label">DSCR Covenant</div>
+          <div class="compliance-card-val">161.23x</div>
+          <div class="compliance-card-sub">Min threshold: 1.10x</div>
+          <div class="compliance-card-ok">Headroom: 160.13x ✓</div>
+        </div>
+        <div class="compliance-card">
+          <div class="compliance-card-label">Net Debt / Equity</div>
+          <div class="compliance-card-val">−0.08x</div>
+          <div class="compliance-card-sub">Max threshold: 2.33x</div>
+          <div class="compliance-card-ok">Net cash position ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exec">
+    <div class="exec-top">Key Observations</div>
+    <div class="exec-cols">
+      <div class="exec-item">
+        <div class="exec-ttl">DSO — Collection Risk</div>
+        <div class="exec-txt">DSO stands at <b>101 days</b>, <span class="r">57% above budget (64 days)</span> and rising from 96 days in Dec-2025. AR of OMR 56,107K has grown faster than revenue, signalling a collection lag that requires management intervention.</div>
+      </div>
+      <div class="exec-item">
+        <div class="exec-ttl">Covenant Formula</div>
+        <div class="exec-txt">Covenant = EBITDA (Mar-26 + Mar-25) − VOWD. With EBITDA Mar-26 at <b>OMR 13,153K</b> and VOWD at <b>OMR 8,756K</b>, the partial result is <span class="w">OMR 4,397K</span>. EBITDA Mar-25 is <span class="r">unavailable</span> in source data (formula error in FS Row 24).</div>
+      </div>
+      <div class="exec-item">
+        <div class="exec-ttl">Covenant Compliance</div>
+        <div class="exec-txt">Both financial covenants are met: DSCR at <b>161.23x</b> (min 1.10x) and Net Debt/Equity at <b>−0.08x</b> (max 2.33x). The company is in a <span class="g">net cash position</span>, with cash and deposits exceeding total indebtedness by <b>OMR 16,933K</b>.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+const RC={primary:'#744379',bg:'#e8eaf2',muted:'#a0a4be',text:'#2d2f45',danger:'#dc3545',success:'#059669',warning:'#8d5a8f',orange:'#8d5a8f'};
+const TIP={backgroundColor:'rgba(232,234,242,.97)',borderColor:'rgba(116,67,121,.2)',borderWidth:1,titleColor:RC.primary,bodyColor:RC.text,titleFont:{family:'IBM Plex Mono',size:10},bodyFont:{family:'IBM Plex Mono',size:10},padding:12};
+new Chart(document.getElementById('dsoChart'),{
+  type:'bar',
+  data:{labels:['DSO (days)'],datasets:[
+    {label:'Mar-2026 Actual',data:[101.1],backgroundColor:'rgba(220,53,69,.7)',borderColor:'#dc3545',borderWidth:1.5,borderRadius:8,barPercentage:.5,categoryPercentage:.7},
+    {label:'Budget',data:[64.3],backgroundColor:'rgba(5,150,105,.55)',borderColor:'#059669',borderWidth:1.5,borderRadius:8,barPercentage:.5,categoryPercentage:.7},
+    {label:'Dec-2025 Actual',data:[96.0],backgroundColor:'rgba(141,90,143,.6)',borderColor:'#8d5a8f',borderWidth:1.5,borderRadius:8,barPercentage:.5,categoryPercentage:.7}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:14}},tooltip:{...TIP,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.raw.toFixed(1)} days`}}},
+    scales:{x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'DM Sans',size:10}}},y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:10},callback:v=>v+' d'},max:130,min:0}}}
+});
+</script>
+</main>
+</div>
+</body>
+</html>

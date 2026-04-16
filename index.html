@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overview — Nama Dhofar Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary:#744379; --primary-dark:#5e3360; --primary-light:#8d5a8f;
+    --bg:#e8eaf2; --text:#2d2f45; --text-muted:#7b7f9e; --text-dim:#a0a4be;
+    --success:#059669; --danger:#dc3545; --warning:#8d5a8f; --orange:#8d5a8f;
+    --purple:#744379; --teal:#5e3360;
+    --grad-main:linear-gradient(135deg,#744379 0%,#5e3360 100%);
+    --neu-shadow:8px 8px 20px rgba(163,165,194,.6),-8px -8px 20px rgba(255,255,255,.85);
+    --neu-shadow-sm:5px 5px 12px rgba(163,165,194,.55),-5px -5px 12px rgba(255,255,255,.8);
+    --neu-shadow-inset:inset 4px 4px 10px rgba(163,165,194,.5),inset -4px -4px 10px rgba(255,255,255,.75);
+    --neu-shadow-hover:10px 10px 24px rgba(163,165,194,.65),-10px -10px 24px rgba(255,255,255,.9);
+    --font-head:'Plus Jakarta Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+    --font-body:'DM Sans',sans-serif;
+    --radius:20px; --radius-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh}
+
+  /* ===== SIDEBAR LAYOUT ===== */
+  .raya-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:var(--bg)}
+  .raya-sidebar{background:var(--grad-main);padding:28px 16px;display:flex;flex-direction:column;min-height:100vh;position:sticky;top:0;height:100vh;overflow-y:auto;box-shadow:6px 0 20px rgba(116,67,121,.2)}
+  .raya-sidebar-brand{display:flex;align-items:center;gap:12px;padding-bottom:20px;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.2)}
+  .raya-brand-icon{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:15px;color:white;flex-shrink:0}
+  .raya-brand-text{font-family:var(--font-head);font-size:15px;font-weight:800;color:white;letter-spacing:1px;line-height:1.2}
+  .raya-brand-sub{font-size:10px;color:rgba(255,255,255,.6);margin-top:2px}
+  .raya-nav-section{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);padding:0 10px;margin:14px 0 6px}
+  .raya-nav-menu{list-style:none}
+  .raya-nav-item{margin-bottom:3px}
+  .raya-nav-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:rgba(255,255,255,.75);text-decoration:none;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .22s;position:relative}
+  .raya-nav-link:hover{background:rgba(255,255,255,.12);color:white}
+  .raya-nav-link.active{background:rgba(255,255,255,.18);color:white;font-weight:600;border:1px solid rgba(255,255,255,.22)}
+  .raya-nav-link.active::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:3px;background:white;border-radius:0 3px 3px 0}
+  .raya-nav-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);flex-shrink:0}
+  .raya-nav-link.active .raya-nav-icon,.raya-nav-link:hover .raya-nav-icon{background:rgba(255,255,255,.25)}
+  .raya-nav-icon svg{width:14px;height:14px;stroke:rgba(255,255,255,.8);stroke-width:1.8;fill:none}
+  .raya-nav-link.active .raya-nav-icon svg,.raya-nav-link:hover .raya-nav-icon svg{stroke:white}
+  .raya-sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.18)}
+  .raya-user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}
+  .raya-avatar{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:white;flex-shrink:0}
+  .raya-user-name{font-size:12px;font-weight:600;color:white}
+  .raya-user-role{font-size:10px;color:rgba(255,255,255,.6)}
+  .raya-main{min-width:0;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:22px}
+
+  /* ===== HEADER ===== */
+  .header{background:var(--bg);border-radius:var(--radius);padding:22px 28px;box-shadow:var(--neu-shadow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .header h1{font-family:var(--font-head);font-size:22px;font-weight:700;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .header p{font-size:12px;color:var(--text-muted);margin-top:4px}
+  .period-badge{font-family:var(--font-mono);font-size:11px;font-weight:600;background:var(--grad-main);color:white;padding:6px 16px;border-radius:50px;letter-spacing:1px;box-shadow:4px 4px 10px rgba(116,67,121,.3),-2px -2px 8px rgba(255,255,255,.7)}
+  .period-label{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;margin-top:4px;text-align:right}
+
+  /* ===== SECTION CARDS (links to dashboards) ===== */
+  .nav-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .nav-card{background:var(--bg);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--neu-shadow);text-decoration:none;color:var(--text);transition:all .3s ease;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+  .nav-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+  .nav-card:hover{transform:translateY(-4px);box-shadow:var(--neu-shadow-hover)}
+  .nav-card.c1::before{background:linear-gradient(90deg,#744379,#5e3360)}
+  .nav-card.c2::before{background:linear-gradient(90deg,#059669,#34d399)}
+  .nav-card.c3::before{background:linear-gradient(90deg,#8d5a8f,#5e3360)}
+  .nav-card.c4::before{background:linear-gradient(90deg,#8d5a8f,#5e3360)}
+  .nav-card.c5::before{background:linear-gradient(90deg,#dc3545,#f87171)}
+  .nav-card.c6::before{background:linear-gradient(90deg,#5e3360,#8d5a8f)}
+  .nav-card-icon{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;background:var(--bg);box-shadow:var(--neu-shadow-inset)}
+  .nav-card-icon svg{width:18px;height:18px;fill:none;stroke-width:1.8}
+  .nav-card-title{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text)}
+  .nav-card-sub{font-size:11px;color:var(--text-muted)}
+  .nav-card-arrow{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--bg);box-shadow:var(--neu-shadow-sm);display:flex;align-items:center;justify-content:center;opacity:.6;transition:.3s}
+  .nav-card:hover .nav-card-arrow{opacity:1;box-shadow:var(--neu-shadow)}
+  .nav-card-arrow svg{width:14px;height:14px;fill:none;stroke:var(--primary);stroke-width:2}
+
+  /* ===== DIVIDER ===== */
+  .divider{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:12px}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(116,67,121,.25),transparent)}
+
+  /* ===== KPI GRID ===== */
+  .kpi-mega-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .section-block{background:var(--bg);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--neu-shadow)}
+  .section-block-title{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+  .section-block-title a{font-size:10px;color:var(--primary);text-decoration:none;font-weight:600;opacity:.8}
+  .section-block-title a:hover{opacity:1}
+
+  /* ===== MINI KPI ===== */
+  .mini-kpi-row{display:flex;flex-direction:column;gap:10px}
+  .mini-kpi{background:var(--bg);border-radius:var(--radius-sm);padding:12px 14px;box-shadow:var(--neu-shadow-inset);display:flex;justify-content:space-between;align-items:center;transition:.25s}
+  .mini-kpi:hover{box-shadow:var(--neu-shadow-sm)}
+  .mini-kpi-left{}
+  .mini-kpi-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-bottom:3px}
+  .mini-kpi-val{font-family:var(--font-head);font-size:18px;font-weight:800;color:var(--text);line-height:1}
+  .mini-kpi-sub{font-size:10px;color:var(--text-dim);margin-top:2px;font-family:var(--font-mono)}
+  .pill{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:4px 10px;border-radius:50px;box-shadow:var(--neu-shadow-sm);white-space:nowrap}
+  .pill.pos{background:var(--bg);color:#059669}
+  .pill.neg{background:var(--bg);color:#dc3545}
+  .pill.neu{background:var(--bg);color:var(--text-muted)}
+  .pill.ok{background:var(--bg);color:#059669}
+  .pill.warn{background:var(--bg);color:#8d5a8f}
+
+  /* ===== ALERT STRIP ===== */
+  .alerts-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .alert-card{background:var(--bg);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--neu-shadow);border-left:4px solid transparent;transition:.3s}
+  .alert-card:hover{transform:translateY(-2px);box-shadow:var(--neu-shadow-hover)}
+  .alert-card.alert-red{border-left-color:#dc3545}
+  .alert-card.alert-orange{border-left-color:#8d5a8f}
+  .alert-card.alert-green{border-left-color:#059669}
+  .alert-card.alert-blue{border-left-color:#744379}
+  .alert-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
+  .alert-card.alert-red .alert-label{color:#dc3545}
+  .alert-card.alert-orange .alert-label{color:#8d5a8f}
+  .alert-card.alert-green .alert-label{color:#059669}
+  .alert-card.alert-blue .alert-label{color:#744379}
+  .alert-val{font-family:var(--font-head);font-size:20px;font-weight:800;line-height:1;margin-bottom:4px}
+  .alert-card.alert-red .alert-val{color:#dc3545}
+  .alert-card.alert-orange .alert-val{color:#8d5a8f}
+  .alert-card.alert-green .alert-val{color:#059669}
+  .alert-card.alert-blue .alert-val{color:#744379}
+  .alert-desc{font-size:11px;color:var(--text-muted);line-height:1.5}
+
+  /* ===== CHART AREA ===== */
+  .chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .chart-panel{background:var(--bg);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--neu-shadow)}
+  .chart-panel-title{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+  .chart-panel-title-dot{width:7px;height:7px;border-radius:50%;background:var(--grad-main);flex-shrink:0}
+  .chart-panel-sub{font-size:11px;color:var(--text-muted);margin-bottom:14px}
+  .ch{position:relative;width:100%}
+  .ch220{height:220px}
+  .ch180{height:180px}
+
+  canvas{display:block}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:1100px){.nav-cards{grid-template-columns:repeat(2,1fr)}.kpi-mega-grid{grid-template-columns:repeat(2,1fr)}.alerts-grid{grid-template-columns:repeat(2,1fr)}.chart-row{grid-template-columns:1fr}}
+  @media(max-width:900px){.raya-layout{grid-template-columns:1fr}.raya-sidebar{min-height:auto;height:auto;position:relative;flex-direction:row;flex-wrap:wrap;padding:14px 16px;gap:10px}.raya-sidebar-brand{border-bottom:none;padding-bottom:0;margin-bottom:0}.raya-nav-section,.raya-sidebar-footer{display:none}.raya-nav-menu{display:flex;flex-wrap:wrap;gap:4px}.raya-nav-item{margin-bottom:0}.raya-nav-link{padding:7px 10px;font-size:11px}.raya-nav-icon{display:none}}
+  @media(max-width:700px){.nav-cards{grid-template-columns:1fr}.kpi-mega-grid{grid-template-columns:1fr}.alerts-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="raya-layout">
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="raya-sidebar">
+  <div class="raya-sidebar-brand">
+    <div class="raya-brand-icon"><img src="" alt="Logo"></div>
+    <div>
+      <div class="raya-brand-text">Nama Dhofar Services</div>
+      <div class="raya-brand-sub">Board Dashboard 2026</div>
+    </div>
+  </div>
+  <div class="raya-nav-section">Navigation</div>
+  <ul class="raya-nav-menu">
+    <li class="raya-nav-item">
+      <a class="raya-nav-link active" href="summary_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="income_statement_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="balance_sheet_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="receivables_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Receivables
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="capex_vowd_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>CAPEX & VOWD
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="kpi_dso_covenant_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="operations_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations
+      </a>
+    </li>
+  </ul>
+  <div class="raya-sidebar-footer">
+    <div class="raya-user-card">
+      <div class="raya-avatar">LB</div>
+      <div>
+        <div class="raya-user-name">Latifa Bait Saleem</div>
+        <div class="raya-user-role">Chief Financial Officer (CFO)</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="raya-main">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <h1>Executive Overview</h1>
+      <p>Nama Dhofar Services &nbsp;·&nbsp; Consolidated KPIs across all reports &nbsp;·&nbsp; All figures in OMR Thousands</p>
+    </div>
+    <div style="text-align:right">
+      <div class="period-badge">PTD: MAR 2025 – MAR 2026</div>
+      <div class="period-label">Latifa Bait Saleem · CFO</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD NAVIGATION CARDS -->
+  <div class="nav-cards">
+    <a class="nav-card c1" href="income_statement_dashboard_raya.html">
+      <div class="nav-card-icon"><svg viewBox="0 0 24 24" stroke="#744379"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="nav-card-title">Income Statement</div>
+      <div class="nav-card-sub">Revenue · EBITDA · Net Income vs Budget</div>
+      <div class="nav-card-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="nav-card c2" href="balance_sheet_dashboard_raya.html">
+      <div class="nav-card-icon"><svg viewBox="0 0 24 24" stroke="#059669"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="nav-card-title">Balance Sheet</div>
+      <div class="nav-card-sub">Assets · Equity · Liabilities · IC Balances</div>
+      <div class="nav-card-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="nav-card c3" href="receivables_dashboard_raya.html">
+      <div class="nav-card-icon"><svg viewBox="0 0 24 24" stroke="#8d5a8f"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="nav-card-title">Receivables</div>
+      <div class="nav-card-sub">Trade AR · Subsidy · Private vs Government</div>
+      <div class="nav-card-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="nav-card c4" href="capex_vowd_dashboard_raya.html">
+      <div class="nav-card-icon"><svg viewBox="0 0 24 24" stroke="#8d5a8f"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+      <div class="nav-card-title">CAPEX & VOWD</div>
+      <div class="nav-card-sub">Work Package breakdown vs Budget</div>
+      <div class="nav-card-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="nav-card c5" href="kpi_dso_covenant_raya.html">
+      <div class="nav-card-icon"><svg viewBox="0 0 24 24" stroke="#dc3545"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="nav-card-title">KPI — DSO & Covenant</div>
+      <div class="nav-card-sub">Days Sales Outstanding · DSCR · Compliance</div>
+      <div class="nav-card-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+    <a class="nav-card c6" href="operations_dashboard_raya.html">
+      <div class="nav-card-icon"><svg viewBox="0 0 24 24" stroke="#5e3360"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+      <div class="nav-card-title">Operations</div>
+      <div class="nav-card-sub">OPEX · Staff · Customers · Consumption</div>
+      <div class="nav-card-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </a>
+  </div>
+
+  <!-- KEY ALERTS -->
+  <div class="divider">Key Alerts & Highlights — Mar 2026</div>
+
+  <div class="alerts-grid">
+    <div class="alert-card alert-red">
+      <div class="alert-label">⚠ Revenue Shortfall</div>
+      <div class="alert-val">−20.3%</div>
+      <div class="alert-desc">Revenue at OMR 49,952K — OMR 12,704K below budget (62,656K). Lower Sales Revenue −21.2% and Subsidy shortfall −13.3%.</div>
+    </div>
+    <div class="alert-card alert-orange">
+      <div class="alert-label">⚠ DSO Elevated</div>
+      <div class="alert-val">101 days</div>
+      <div class="alert-desc">DSO stands 57% above budget (64 days) and rising from 96 days in Dec-2025. Private AR surged +41.7% to OMR 43,343K.</div>
+    </div>
+    <div class="alert-card alert-green">
+      <div class="alert-label">✓ Net Income Beat</div>
+      <div class="alert-val">+99.7%</div>
+      <div class="alert-desc">Net Income of OMR 1,796K is nearly double the budget (OMR 899K). Proportionate cost reductions offset revenue shortfall.</div>
+    </div>
+    <div class="alert-card alert-blue">
+      <div class="alert-label">✓ Covenants Compliant</div>
+      <div class="alert-val">161.23x</div>
+      <div class="alert-desc">DSCR at 161.23x (min 1.10x) and Net Debt/Equity at −0.08x (max 2.33x). Company is in a net cash position.</div>
+    </div>
+  </div>
+
+  <!-- KPI SECTIONS -->
+  <div class="divider">Consolidated KPIs by Report</div>
+
+  <div class="kpi-mega-grid">
+
+    <!-- INCOME STATEMENT -->
+    <div class="section-block">
+      <div class="section-block-title">
+        <span style="display:flex;align-items:center;gap:7px">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--grad-main);display:inline-block"></span>
+          Income Statement
+        </span>
+        <a href="income_statement_dashboard_raya.html">View →</a>
+      </div>
+      <div class="mini-kpi-row">
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total Revenue</div>
+            <div class="mini-kpi-val">49,952 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 62,656K</div>
+          </div>
+          <div class="pill neg">−20.3%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">EBITDA</div>
+            <div class="mini-kpi-val">13,153 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 15,019K</div>
+          </div>
+          <div class="pill neg">−12.4%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Net Income / Loss</div>
+            <div class="mini-kpi-val">1,796 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 899K</div>
+          </div>
+          <div class="pill pos">+99.7%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Operating Subsidy</div>
+            <div class="mini-kpi-val">20,125 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 23,209K</div>
+          </div>
+          <div class="pill neg">−13.3%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BALANCE SHEET -->
+    <div class="section-block">
+      <div class="section-block-title">
+        <span style="display:flex;align-items:center;gap:7px">
+          <span style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#059669,#34d399);display:inline-block"></span>
+          Balance Sheet
+        </span>
+        <a href="balance_sheet_dashboard_raya.html">View →</a>
+      </div>
+      <div class="mini-kpi-row">
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total Assets</div>
+            <div class="mini-kpi-val">639,810 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Prev: 448,335K</div>
+          </div>
+          <div class="pill pos">+42.7%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Equity</div>
+            <div class="mini-kpi-val">202,437 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 216,213K</div>
+          </div>
+          <div class="pill neg">−6.4%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">IC Payables</div>
+            <div class="mini-kpi-val">87,080 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 79,745K</div>
+          </div>
+          <div class="pill neg">+9.2%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total Liabilities</div>
+            <div class="mini-kpi-val">263,770 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 485,759K</div>
+          </div>
+          <div class="pill pos">−45.7%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECEIVABLES -->
+    <div class="section-block">
+      <div class="section-block-title">
+        <span style="display:flex;align-items:center;gap:7px">
+          <span style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#8d5a8f,#8d5a8f);display:inline-block"></span>
+          Receivables
+        </span>
+        <a href="receivables_dashboard_raya.html">View →</a>
+      </div>
+      <div class="mini-kpi-row">
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total Trade AR</div>
+            <div class="mini-kpi-val">56,107 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 44,743K</div>
+          </div>
+          <div class="pill neg">+25.4%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Private AR</div>
+            <div class="mini-kpi-val">43,343 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Prev: 30,584K</div>
+          </div>
+          <div class="pill neg">+41.7%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Government AR</div>
+            <div class="mini-kpi-val">12,764 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Prev: 19,588K</div>
+          </div>
+          <div class="pill pos">−34.8%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Subsidy Receivable</div>
+            <div class="mini-kpi-val">28,539 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Prev: 35,812K</div>
+          </div>
+          <div class="pill pos">−20.3%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAPEX / VOWD -->
+    <div class="section-block">
+      <div class="section-block-title">
+        <span style="display:flex;align-items:center;gap:7px">
+          <span style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#8d5a8f,#8d5a8f);display:inline-block"></span>
+          CAPEX & VOWD
+        </span>
+        <a href="capex_vowd_dashboard_raya.html">View →</a>
+      </div>
+      <div class="mini-kpi-row">
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total VOWD</div>
+            <div class="mini-kpi-val">8,756 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 7,876K</div>
+          </div>
+          <div class="pill neg">+11.2%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total CAPEX</div>
+            <div class="mini-kpi-val">6,075 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 6,873K</div>
+          </div>
+          <div class="pill pos">−11.6%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">VOWD Achievement</div>
+            <div class="mini-kpi-val">111.2%</div>
+            <div class="mini-kpi-sub">vs Budget 100%</div>
+          </div>
+          <div class="pill neg">Over-ran</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">CAPEX Achievement</div>
+            <div class="mini-kpi-val">88.4%</div>
+            <div class="mini-kpi-sub">vs Budget 100%</div>
+          </div>
+          <div class="pill warn">Under-ran</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI / DSO -->
+    <div class="section-block">
+      <div class="section-block-title">
+        <span style="display:flex;align-items:center;gap:7px">
+          <span style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#dc3545,#f87171);display:inline-block"></span>
+          KPI — DSO & Covenant
+        </span>
+        <a href="kpi_dso_covenant_raya.html">View →</a>
+      </div>
+      <div class="mini-kpi-row">
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">DSO</div>
+            <div class="mini-kpi-val">101 <span style="font-size:11px;color:var(--text-dim);font-weight:400">days</span></div>
+            <div class="mini-kpi-sub">Budget: 64 days</div>
+          </div>
+          <div class="pill neg">+57.1%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">DSCR</div>
+            <div class="mini-kpi-val">161.23<span style="font-size:11px;color:var(--text-dim);font-weight:400">x</span></div>
+            <div class="mini-kpi-sub">Min: 1.10x</div>
+          </div>
+          <div class="pill ok">✓ Compliant</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Net Debt / Equity</div>
+            <div class="mini-kpi-val">−0.08<span style="font-size:11px;color:var(--text-dim);font-weight:400">x</span></div>
+            <div class="mini-kpi-sub">Max: 2.33x</div>
+          </div>
+          <div class="pill ok">Net Cash ✓</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Covenant (Partial)</div>
+            <div class="mini-kpi-val">4,397 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Mar-26 only</div>
+          </div>
+          <div class="pill warn">Incomplete</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPERATIONS -->
+    <div class="section-block">
+      <div class="section-block-title">
+        <span style="display:flex;align-items:center;gap:7px">
+          <span style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,#5e3360,#8d5a8f);display:inline-block"></span>
+          Operations
+        </span>
+        <a href="operations_dashboard_raya.html">View →</a>
+      </div>
+      <div class="mini-kpi-row">
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total OPEX</div>
+            <div class="mini-kpi-val">36,799 <span style="font-size:11px;color:var(--text-dim);font-weight:400">OMR K</span></div>
+            <div class="mini-kpi-sub">Budget: 47,637K</div>
+          </div>
+          <div class="pill pos">−22.8%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Total Staff</div>
+            <div class="mini-kpi-val">608 <span style="font-size:11px;color:var(--text-dim);font-weight:400">employees</span></div>
+            <div class="mini-kpi-sub">Budget: 603</div>
+          </div>
+          <div class="pill neg">+0.8%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">Customers (DISC)</div>
+            <div class="mini-kpi-val">317,280</div>
+            <div class="mini-kpi-sub">Budget: 317,366</div>
+          </div>
+          <div class="pill pos">−0.03%</div>
+        </div>
+        <div class="mini-kpi">
+          <div class="mini-kpi-left">
+            <div class="mini-kpi-label">MWH Consumption</div>
+            <div class="mini-kpi-val">486,668 <span style="font-size:11px;color:var(--text-dim);font-weight:400">MWH</span></div>
+            <div class="mini-kpi-sub">Budget: 495,030</div>
+          </div>
+          <div class="pill pos">−1.7%</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CHARTS -->
+  <div class="divider">Visual Summary</div>
+
+  <div class="chart-row">
+    <div class="chart-panel">
+      <div class="chart-panel-title"><div class="chart-panel-title-dot"></div>P&amp;L Overview — Actual vs Budget</div>
+      <div class="chart-panel-sub">Key Income Statement items (OMR K)</div>
+      <div class="ch ch220"><canvas id="plChart"></canvas></div>
+    </div>
+    <div class="chart-panel">
+      <div class="chart-panel-title"><div class="chart-panel-title-dot"></div>Balance Sheet Structure — Mar 2026</div>
+      <div class="chart-panel-sub">Assets vs Liabilities + Equity (OMR K)</div>
+      <div class="ch ch220"><canvas id="bsChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-panel">
+      <div class="chart-panel-title"><div class="chart-panel-title-dot"></div>Receivables Breakdown</div>
+      <div class="chart-panel-sub">Trade AR by type — Dec 2025 vs Mar 2026 (OMR K)</div>
+      <div class="ch ch180"><canvas id="arChart"></canvas></div>
+    </div>
+    <div class="chart-panel">
+      <div class="chart-panel-title"><div class="chart-panel-title-dot"></div>CAPEX &amp; VOWD vs Budget</div>
+      <div class="chart-panel-sub">By Work Package — Mar 2026 (OMR)</div>
+      <div class="ch ch180"><canvas id="capexChart"></canvas></div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+const RC={primary:'#744379',secondary:'#5e3360',bg:'#e8eaf2',muted:'#a0a4be',text:'#2d2f45',danger:'#dc3545',success:'#059669',warning:'#8d5a8f',orange:'#8d5a8f',teal:'#5e3360'};
+const TIP={backgroundColor:'rgba(232,234,242,.97)',borderColor:'rgba(116,67,121,.2)',borderWidth:1,titleColor:RC.primary,bodyColor:RC.text,titleFont:{family:'IBM Plex Mono',size:10},bodyFont:{family:'IBM Plex Mono',size:10},padding:12};
+const SCALE={x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'DM Sans',size:9}}},y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:9}}}};
+
+// P&L Chart
+new Chart(document.getElementById('plChart'),{
+  type:'bar',
+  data:{
+    labels:['Revenue','Direct Cost','G&A','Finance Cost','Net Income'],
+    datasets:[
+      {label:'Actual',data:[49952,28928,7871,3690,1796],backgroundColor:['rgba(116,67,121,.75)','rgba(220,53,69,.7)','rgba(141,90,143,.7)','rgba(94,51,96,.7)','rgba(5,150,105,.75)'],borderColor:['#744379','#dc3545','#8d5a8f','#5e3360','#059669'],borderWidth:1.5,borderRadius:8,barPercentage:.45,categoryPercentage:.8},
+      {label:'Budget',data:[62656,40103,7534,3827,899],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:8,barPercentage:.45,categoryPercentage:.8}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}K`}}},scales:{...SCALE,y:{...SCALE.y,ticks:{...SCALE.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}
+});
+
+// Balance Sheet Donut
+new Chart(document.getElementById('bsChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Non-Current Assets','Account Receivables','Fixed Deposits','Current Assets','Cash & Banks'],
+    datasets:[{data:[446886,56107,71187,50678,14953],backgroundColor:['#744379','#8d5a8f','#059669','#8d5a8f','#744379'],borderColor:RC.bg,borderWidth:3,hoverOffset:8}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:6}},tooltip:{...TIP,callbacks:{label:c=>` ${c.label}: OMR ${c.raw.toLocaleString()}K`}}}}
+});
+
+// AR Chart
+new Chart(document.getElementById('arChart'),{
+  type:'bar',
+  data:{
+    labels:['Govt AR','Private AR','Total Trade AR'],
+    datasets:[
+      {label:'Dec 2025',data:[19588,30584,50172],backgroundColor:'rgba(163,165,194,.35)',borderColor:'rgba(163,165,194,.6)',borderWidth:1.5,borderRadius:8,barPercentage:.45,categoryPercentage:.8},
+      {label:'Mar 2026',data:[12764,43343,56107],backgroundColor:['rgba(116,67,121,.7)','rgba(220,53,69,.7)','rgba(141,90,143,.7)'],borderColor:['#744379','#dc3545','#8d5a8f'],borderWidth:1.5,borderRadius:8,barPercentage:.45,categoryPercentage:.8}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:8}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}K`}}},scales:{...SCALE,y:{...SCALE.y,ticks:{...SCALE.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}
+});
+
+// CAPEX Chart
+new Chart(document.getElementById('capexChart'),{
+  type:'bar',
+  data:{
+    labels:['WP 21','WP 24','WP 27','WP 28','WP 29'],
+    datasets:[
+      {label:'VOWD Actual',data:[676586,1643335,916247,4719935,799923],backgroundColor:'rgba(116,67,121,.7)',borderColor:'#744379',borderWidth:1.5,borderRadius:6,barPercentage:.3,categoryPercentage:.9},
+      {label:'CAPEX Actual',data:[296526,2200841,98147,3423233,55998],backgroundColor:'rgba(141,90,143,.7)',borderColor:'#8d5a8f',borderWidth:1.5,borderRadius:6,barPercentage:.3,categoryPercentage:.9},
+      {label:'Budget',data:[1178953,1693845,2736011,2126321,140699],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:6,barPercentage:.3,categoryPercentage:.9}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:8}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}`}}},scales:{...SCALE,y:{...SCALE.y,ticks:{...SCALE.y.ticks,callback:v=>v>=1000000?(v/1000000).toFixed(1)+'M':v>=1000?(v/1000).toFixed(0)+'K':v}}}}
+});
+</script>
+</body>
+</html>

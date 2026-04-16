@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Dashboard – Nama Dhofar Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --primary:#744379;--primary-dark:#5e3360;--primary-light:#8d5a8f;
+    --bg:#e8eaf2;--text:#2d2f45;--text-muted:#7b7f9e;--text-dim:#a0a4be;
+    --success:#059669;--danger:#dc3545;--warning:#8d5a8f;--orange:#8d5a8f;
+    --purple:#744379;--teal:#5e3360;
+    --grad-main:linear-gradient(135deg,#744379 0%,#5e3360 100%);
+    --neu-shadow:8px 8px 20px rgba(163,165,194,.6),-8px -8px 20px rgba(255,255,255,.85);
+    --neu-shadow-sm:5px 5px 12px rgba(163,165,194,.55),-5px -5px 12px rgba(255,255,255,.8);
+    --neu-shadow-inset:inset 4px 4px 10px rgba(163,165,194,.5),inset -4px -4px 10px rgba(255,255,255,.75);
+    --neu-shadow-hover:10px 10px 24px rgba(163,165,194,.65),-10px -10px 24px rgba(255,255,255,.9);
+    --font-head:'Plus Jakarta Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+    --font-body:'DM Sans',sans-serif;
+    --radius:20px;--radius-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:13px;min-height:100vh}
+  .page{max-width:1400px;margin:0 auto;padding:24px 20px 40px;display:flex;flex-direction:column;gap:18px}
+
+  /* HEADER */
+  .hd{background:var(--bg);border-radius:var(--radius);padding:22px 28px;box-shadow:var(--neu-shadow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .hd h1{font-family:var(--font-head);font-size:22px;font-weight:700;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+  .hd p{font-size:12px;color:var(--text-muted);margin-top:5px}
+  .hd-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+  .period-badge{font-family:var(--font-mono);font-size:11px;font-weight:600;background:var(--grad-main);color:white;padding:6px 16px;border-radius:50px;letter-spacing:1px;box-shadow:4px 4px 10px rgba(116,67,121,.3),-2px -2px 8px rgba(255,255,255,.7)}
+  .period-label{font-size:10px;color:var(--text-dim);letter-spacing:.5px;text-transform:uppercase}
+
+  /* SECTION DIVIDER */
+  .sec{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:12px;margin-top:4px}
+  .sec::before,.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(116,67,121,.25),transparent)}
+  .sec span{white-space:nowrap}
+
+  /* PANEL */
+  .panel{background:var(--bg);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--neu-shadow);transition:all .3s ease}
+  .panel:hover{transform:translateY(-2px);box-shadow:var(--neu-shadow-hover)}
+  .pt{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:7px}
+  .pt-dot{width:7px;height:7px;border-radius:50%;background:var(--grad-main);flex-shrink:0}
+  .ps{font-size:11px;color:var(--text-muted);margin-bottom:12px}
+
+  /* GRIDS */
+  .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .g21{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+
+  /* KPI CARDS */
+  .kpi{background:var(--bg);border-radius:var(--radius);padding:15px 16px;box-shadow:var(--neu-shadow);position:relative;overflow:hidden;transition:all .3s ease}
+  .kpi:hover{transform:translateY(-2px);box-shadow:var(--neu-shadow-hover)}
+  .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+  .kpi.k-blue::before{background:var(--grad-main)}
+  .kpi.k-green::before{background:linear-gradient(90deg,#059669,#34d399)}
+  .kpi.k-gold::before{background:linear-gradient(90deg,#8d5a8f,#5e3360)}
+  .kpi.k-red::before{background:linear-gradient(90deg,#dc3545,#f87171)}
+  .kpi.k-orange::before{background:linear-gradient(90deg,#8d5a8f,#5e3360)}
+  .kpi.k-purple::before{background:linear-gradient(90deg,#744379,#8d5a8f)}
+  .kpi.k-teal::before{background:linear-gradient(90deg,#5e3360,#8d5a8f)}
+
+  .k-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;display:inline-flex;align-items:center;gap:4px}
+  .k-cat::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%}
+  .k-b{color:#744379}.k-b::before{background:#744379}
+  .k-g{color:#059669}.k-g::before{background:#059669}
+  .k-go{color:#8d5a8f}.k-go::before{background:#8d5a8f}
+  .k-r{color:#dc3545}.k-r::before{background:#dc3545}
+  .k-o{color:#8d5a8f}.k-o::before{background:#8d5a8f}
+  .k-p{color:#744379}.k-p::before{background:#744379}
+  .k-t{color:#5e3360}.k-t::before{background:#5e3360}
+
+  .k-lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;font-weight:600}
+  .k-val{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--text);line-height:1;margin-bottom:6px;letter-spacing:-.5px}
+  .k-val sup{font-size:11px;font-weight:400;color:var(--text-dim)}
+  .k-row{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(116,67,121,.1);padding-top:8px;margin-top:4px}
+  .k-prev{font-family:var(--font-mono);font-size:10px;color:var(--text-dim)}
+
+  .pill{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 7px;border-radius:50px;box-shadow:var(--neu-shadow-sm)}
+  .pos{background:var(--bg);color:#059669}
+  .neg{background:var(--bg);color:#dc3545}
+  .neu{background:var(--bg);color:var(--text-muted)}
+  .warn{background:var(--bg);color:#8d5a8f}
+
+  /* CHART BOX */
+  .ch{position:relative;width:100%}
+  .h160{height:160px}.h200{height:200px}.h220{height:220px}.h240{height:240px}.h180{height:180px}
+
+  /* MINI BARS */
+  .mb-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(163,165,194,.18)}
+  .mb-row:last-child{border-bottom:none}
+  .mb-lbl{font-size:11px;color:var(--text-muted);width:150px;flex-shrink:0;font-weight:500}
+  .mb-wrap{flex:1;height:8px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden;position:relative}
+  .mb-act{height:100%;border-radius:50px;position:absolute;top:0;left:0}
+  .mb-bud-line{position:absolute;top:-2px;height:12px;width:2px;background:rgba(116,67,121,.45);border-radius:1px}
+  .mb-val{font-family:var(--font-mono);font-size:10px;color:var(--text);width:52px;text-align:right;flex-shrink:0;font-weight:600}
+  .mb-pct{font-family:var(--font-mono);font-size:10px;font-weight:700;width:50px;text-align:right;flex-shrink:0}
+
+  /* STAFF ROWS */
+  .sf-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid rgba(163,165,194,.18)}
+  .sf-row:last-child{border-bottom:none}
+  .sf-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0;box-shadow:var(--neu-shadow-sm)}
+  .sf-lbl{font-size:11px;color:var(--text);width:80px;flex-shrink:0;font-weight:500}
+  .sf-wrap{flex:1;height:7px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden}
+  .sf-fill{height:100%;border-radius:50px}
+  .sf-act{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text);width:36px;text-align:right;flex-shrink:0}
+  .sf-bud{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);flex-shrink:0;width:52px;text-align:right}
+  .sf-v{flex-shrink:0}
+
+  /* INSIGHTS */
+  .ins{background:var(--bg);border-radius:var(--radius-sm);box-shadow:var(--neu-shadow-inset);padding:12px 14px;margin-top:12px;border-left:3px solid var(--primary)}
+  .ins-hd{font-size:9px;font-weight:700;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+  .ins-item{font-size:10.5px;color:var(--text-muted);line-height:1.65;padding-left:12px;position:relative;margin-bottom:5px}
+  .ins-item::before{content:'›';position:absolute;left:0;color:var(--primary);font-weight:bold;font-size:14px}
+  .ins-item b{color:var(--text);font-weight:600}
+  .ins-item .g{color:#059669;font-weight:600}.ins-item .r{color:#dc3545;font-weight:600}.ins-item .o{color:#8d5a8f;font-weight:600}
+
+  /* GAUGE ROWS */
+  .gauge-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(163,165,194,.18)}
+  .gauge-row:last-child{border-bottom:none}
+  .gauge-mo{font-size:11px;color:var(--text-muted);width:40px;flex-shrink:0;font-weight:500}
+  .gauge-track{flex:1;height:10px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden;position:relative}
+  .gauge-fill{height:100%;border-radius:50px}
+  .gauge-target{position:absolute;top:-3px;height:16px;width:2.5px;background:#8d5a8f;border-radius:1px}
+  .gauge-val{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text);width:52px;text-align:right;flex-shrink:0}
+  .gauge-pill{flex-shrink:0}
+
+  /* STAT BOX */
+  .stat-inset{background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm);padding:10px 12px}
+  .stat-inset-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px;font-weight:600}
+  .stat-inset-val{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--text)}
+
+  /* TARGET NOTE */
+  .target-note{display:flex;align-items:center;gap:7px;margin-top:8px;padding:8px 12px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm)}
+  .target-note-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;box-shadow:var(--neu-shadow-sm)}
+
+  canvas{display:block}
+
+  @media(max-width:1100px){.g5{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr 1fr}.g2,.g21{grid-template-columns:1fr}}
+  @media(max-width:700px){.page{padding:16px 14px 28px;gap:14px}.hd{padding:18px 20px}.hd h1{font-size:18px}.g4,.g5{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr}}
+  @media(max-width:440px){.g4,.g5{grid-template-columns:1fr}}
+
+/* ===== RAYA SIDEBAR LAYOUT ===== */
+body { margin: 0; }
+.raya-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; background: #e8eaf2; }
+.raya-sidebar {
+  background: linear-gradient(135deg, #744379 0%, #5e3360 100%);
+  padding: 28px 16px; display: flex; flex-direction: column;
+  min-height: 100vh; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  box-shadow: 6px 0 20px rgba(116,67,121,0.2);
+}
+.raya-sidebar-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+.raya-brand-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 800; font-size: 15px; color: white; flex-shrink: 0; }
+.raya-brand-text { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 15px; font-weight: 800; color: white; letter-spacing: 1px; line-height: 1.2; }
+.raya-brand-sub { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.raya-nav-section { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); padding: 0 10px; margin: 14px 0 6px; }
+.raya-nav-menu { list-style: none; }
+.raya-nav-item { margin-bottom: 3px; }
+.raya-nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; color: rgba(255,255,255,0.75); text-decoration: none; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.22s; position: relative; }
+.raya-nav-link:hover { background: rgba(255,255,255,0.12); color: white; }
+.raya-nav-link.active { background: rgba(255,255,255,0.18); color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.22); }
+.raya-nav-link.active::before { content: ''; position: absolute; left: 0; top: 22%; bottom: 22%; width: 3px; background: white; border-radius: 0 3px 3px 0; }
+.raya-nav-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+.raya-nav-link.active .raya-nav-icon, .raya-nav-link:hover .raya-nav-icon { background: rgba(255,255,255,0.25); }
+.raya-nav-icon svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.8); stroke-width: 1.8; fill: none; }
+.raya-nav-link.active .raya-nav-icon svg, .raya-nav-link:hover .raya-nav-icon svg { stroke: white; }
+.raya-sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.18); }
+.raya-user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); }
+.raya-avatar { width: 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: white; flex-shrink: 0; }
+.raya-user-name { font-size: 12px; font-weight: 600; color: white; }
+.raya-user-role { font-size: 10px; color: rgba(255,255,255,0.6); }
+.raya-main { min-width: 0; overflow-y: auto; }
+.page { min-width: 0 !important; }
+@media (max-width: 900px) {
+  .raya-layout { grid-template-columns: 1fr; }
+  .raya-sidebar { min-height: auto; height: auto; position: relative; flex-direction: row; flex-wrap: wrap; padding: 14px 16px; gap: 10px; }
+  .raya-sidebar-brand { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .raya-nav-section, .raya-sidebar-footer { display: none; }
+  .raya-nav-menu { display: flex; flex-wrap: wrap; gap: 4px; }
+  .raya-nav-item { margin-bottom: 0; }
+  .raya-nav-link { padding: 7px 10px; font-size: 11px; }
+  .raya-nav-icon { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div class="raya-layout">
+<aside class="raya-sidebar">
+  <div class="raya-sidebar-brand">
+    <div class="raya-brand-icon">LB</div>
+    <div>
+      <div class="raya-brand-text">Nama Dhofar</div>
+      <div class="raya-brand-sub">Board Dashboard 2026</div>
+    </div>
+  </div>
+  <div class="raya-nav-section">Navigation</div>
+  <ul class="raya-nav-menu">
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="summary_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="3.5"/><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span>
+        Overview
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="income_statement_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+        Income Statement
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="balance_sheet_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+        Balance Sheet
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="receivables_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        Receivables
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="capex_vowd_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+        CAPEX & VOWD
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link " href="kpi_dso_covenant_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        KPI — DSO
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link active" href="operations_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>
+        Operations
+      </a>
+    </li>
+  </ul>
+  <div class="raya-sidebar-footer">
+    <div class="raya-user-card">
+      <div class="raya-avatar">LB</div>
+      <div>
+        <div class="raya-user-name">Latifa Bait Saleem</div>
+        <div class="raya-user-role">Chief Financial Officer (CFO)</div>
+      </div>
+    </div>
+  </div>
+</aside>
+<main class="raya-main" style="padding:24px;overflow-y:auto">
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hd">
+    <div>
+      <h1>Operations Dashboard</h1>
+      <p>Nama Dhofar Services &nbsp;·&nbsp; FS · Details FS · Details-Tech &nbsp;·&nbsp; Mar-2026 Actual vs Budget</p>
+    </div>
+    <div class="hd-right">
+      <div class="period-badge">Mar-2026</div>
+      <div class="period-label">Latifa Bait Saleem · CFO</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 — OPEX -->
+  <div class="sec"><span>1 · OPEX — Operating Expenses &nbsp;|&nbsp; FS Rows 14–23 &nbsp;(OMR K)</span></div>
+
+  <div class="g21">
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>OPEX Components — Actual vs Budget</div>
+      <div class="ps">FS rows 14–23 · All components (OMR K)</div>
+      <div class="ch h220"><canvas id="opexChart"></canvas></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="kpi k-blue">
+        <div class="k-cat k-b">OPEX</div>
+        <div class="k-lbl">Total OPEX — Mar-2026</div>
+        <div class="k-val">36,799 <sup>OMR K</sup></div>
+        <div class="k-row"><div class="k-prev">Budget: 47,637 K</div><div class="pill pos">−22.8%</div></div>
+      </div>
+      <div class="panel" style="padding:16px 18px">
+        <div class="pt" style="margin-bottom:10px"><div class="pt-dot"></div>Component Breakdown (OMR K)</div>
+        <div class="mb-row"><div class="mb-lbl">Pass through Cost</div><div class="mb-wrap"><div class="mb-act" style="background:linear-gradient(90deg,#744379,#5e3360);width:71.7%"></div><div class="mb-bud-line" style="left:81.2%"></div></div><div class="mb-val">23,332</div><div class="mb-pct" style="color:#059669">−28.3%</div></div>
+        <div class="mb-row"><div class="mb-lbl">Operating Cost</div><div class="mb-wrap"><div class="mb-act" style="background:linear-gradient(90deg,#8d5a8f,#744379);width:73.8%"></div><div class="mb-bud-line" style="left:100%"></div></div><div class="mb-val">5,595</div><div class="mb-pct" style="color:#059669">−26.1%</div></div>
+        <div class="mb-row"><div class="mb-lbl">Salaries &amp; Wages</div><div class="mb-wrap"><div class="mb-act" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:98.9%"></div><div class="mb-bud-line" style="left:100%"></div></div><div class="mb-val">4,552</div><div class="mb-pct" style="color:#059669">−1.1%</div></div>
+        <div class="mb-row"><div class="mb-lbl">Bad Debt Provision</div><div class="mb-wrap"><div class="mb-act" style="background:linear-gradient(90deg,#dc3545,#f87171);width:100%"></div><div class="mb-bud-line" style="left:4.8%"></div></div><div class="mb-val">2,070</div><div class="mb-pct" style="color:#dc3545">+1971%</div></div>
+        <div class="mb-row"><div class="mb-lbl">G&amp;A Expenses</div><div class="mb-wrap"><div class="mb-act" style="background:linear-gradient(90deg,#744379,#8d5a8f);width:43.2%"></div><div class="mb-bud-line" style="left:100%"></div></div><div class="mb-val">800</div><div class="mb-pct" style="color:#059669">−56.8%</div></div>
+        <div class="mb-row"><div class="mb-lbl">Electricity Expenses</div><div class="mb-wrap"><div class="mb-act" style="background:linear-gradient(90deg,#5e3360,#8d5a8f);width:41.2%"></div><div class="mb-bud-line" style="left:100%"></div></div><div class="mb-val">404</div><div class="mb-pct" style="color:#059669">−58.8%</div></div>
+        <div class="mb-row"><div class="mb-lbl">Early Exit Scheme</div><div class="mb-wrap"><div class="mb-act" style="background:var(--text-dim);width:5%"></div></div><div class="mb-val">46</div><div class="mb-pct" style="color:#8d5a8f">N/A</div></div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <div class="ins-hd">Insights</div>
+        <div class="ins-item">Total OPEX is <b class="g">OMR 10,838K below budget (−22.8%)</b>, driven by lower Pass-Through Cost and Operating Cost.</div>
+        <div class="ins-item">Bad Debt Provision is <b class="r">OMR 1,970K above budget</b> at OMR 2,070K vs. OMR 100K budgeted — the main cost overrun.</div>
+        <div class="ins-item">Electricity Expenses and G&amp;A together <b>saved OMR 1,628K</b> vs. budget.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — STAFF -->
+  <div class="sec"><span>2 · No. Staff — عدد الموظفين &nbsp;|&nbsp; Details-Tech Rows 42–58</span></div>
+
+  <div class="g2">
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>Staff Count — Actual vs Budget by Work Package (Mar-2026)</div>
+      <div class="ps">Details-Tech rows 42–58 · Col 6 = Mar-2026</div>
+      <div class="ch h200"><canvas id="staffChart"></canvas></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="kpi k-teal">
+        <div class="k-cat k-t">Staff</div>
+        <div class="k-lbl">Total Staff — DISC (Mar-2026)</div>
+        <div class="k-val">608 <sup>employees</sup></div>
+        <div class="k-row"><div class="k-prev">Budget: 603</div><div class="pill neg">+0.8%</div></div>
+      </div>
+      <div class="panel" style="padding:16px 18px">
+        <div class="pt" style="margin-bottom:10px"><div class="pt-dot"></div>Staff by Work Package</div>
+        <div class="sf-row"><div class="sf-dot" style="background:#744379"></div><div class="sf-lbl">WP 21</div><div class="sf-wrap"><div class="sf-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:96.7%"></div></div><div class="sf-act">174</div><div class="sf-bud">Bud: 179</div><div class="sf-v"><div class="pill pos">−2.8%</div></div></div>
+        <div class="sf-row"><div class="sf-dot" style="background:#8d5a8f"></div><div class="sf-lbl">WP 24</div><div class="sf-wrap"><div class="sf-fill" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:97.9%"></div></div><div class="sf-act">46</div><div class="sf-bud">Bud: 47</div><div class="sf-v"><div class="pill pos">−2.1%</div></div></div>
+        <div class="sf-row"><div class="sf-dot" style="background:#059669"></div><div class="sf-lbl">WP 27</div><div class="sf-wrap"><div class="sf-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:95.3%"></div></div><div class="sf-act">246</div><div class="sf-bud">Bud: 258</div><div class="sf-v"><div class="pill pos">−4.7%</div></div></div>
+        <div class="sf-row"><div class="sf-dot" style="background:#dc3545"></div><div class="sf-lbl">WP 28</div><div class="sf-wrap"><div class="sf-fill" style="background:linear-gradient(90deg,#dc3545,#f87171);width:100%"></div></div><div class="sf-act">142</div><div class="sf-bud">Bud: 119</div><div class="sf-v"><div class="pill neg">+19.3%</div></div></div>
+        <div class="sf-row"><div class="sf-dot" style="background:var(--text-dim)"></div><div class="sf-lbl">WP 29</div><div class="sf-wrap"><div class="sf-fill" style="background:var(--text-dim);width:0%"></div></div><div class="sf-act" style="color:var(--text-dim)">0</div><div class="sf-bud">Bud: 0</div><div class="sf-v"><div class="pill neu">—</div></div></div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <div class="ins-hd">Insights</div>
+        <div class="ins-item">Total staff of <b>608</b> is marginally above budget (603), driven by <b class="r">WP 28 (+19.3%)</b>.</div>
+        <div class="ins-item">WPs 21, 24, 27 are all <b class="g">below budget headcount</b>, indicating efficient staffing.</div>
+        <div class="ins-item">Jan-Mar 2026 trend shows <b>stable headcount</b> (610 → 609 → 608).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — CUSTOMERS -->
+  <div class="sec"><span>3 · No. Customer — عدد العملاء &nbsp;|&nbsp; Details-Tech Rows 61–89</span></div>
+
+  <div class="g4" style="margin-bottom:4px">
+    <div class="kpi k-blue"><div class="k-cat k-b">Electricity Urban (WP 21)</div><div class="k-lbl">Total Customers</div><div class="k-val">149,886</div><div class="k-row"><div class="k-prev">Bud: 150,358</div><div class="pill pos">−0.3%</div></div></div>
+    <div class="kpi k-gold"><div class="k-cat k-go">Electricity Rural (WP 24)</div><div class="k-lbl">Total Customers</div><div class="k-val">10,483</div><div class="k-row"><div class="k-prev">Bud: 10,602</div><div class="pill pos">−1.1%</div></div></div>
+    <div class="kpi k-green"><div class="k-cat k-g">Water (WP 27)</div><div class="k-lbl">Total Customers</div><div class="k-val">63,728</div><div class="k-row"><div class="k-prev">Bud: 63,333</div><div class="pill neg">+0.6%</div></div></div>
+    <div class="kpi k-purple"><div class="k-cat k-p">Wastewater (WP 28)</div><div class="k-lbl">Total Customers</div><div class="k-val">93,183</div><div class="k-row"><div class="k-prev">Bud: 93,073</div><div class="pill neg">+0.1%</div></div></div>
+  </div>
+
+  <div class="g21">
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>Customer Count — Actual vs Budget by Sector (Mar-2026)</div>
+      <div class="ps">Details-Tech rows 61–89 · Private + Government per segment</div>
+      <div class="ch h220"><canvas id="custChart"></canvas></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="panel" style="padding:16px 18px">
+        <div class="pt" style="margin-bottom:10px"><div class="pt-dot"></div>DISC Total</div>
+        <div style="font-family:var(--font-head);font-size:30px;font-weight:800;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1">317,280</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:5px">Budget: 317,366</div>
+        <div class="pill pos" style="display:inline-block;margin-top:8px">−0.03% vs budget</div>
+        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="stat-inset"><div class="stat-inset-label">Private</div><div class="stat-inset-val">309,218</div></div>
+          <div class="stat-inset"><div class="stat-inset-label">Government</div><div class="stat-inset-val">8,062</div></div>
+        </div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <div class="ins-hd">Insights</div>
+        <div class="ins-item">Total customers of <b>317,280</b> is essentially on budget (<b class="g">−86 customers</b>).</div>
+        <div class="ins-item">Water segment <b class="r">+395 above budget</b>; Wastewater <b class="r">+110 above budget</b>.</div>
+        <div class="ins-item">Electricity Urban Govt customers at <b>3,997</b> are <b class="r">331 below budget</b>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — CONSUMPTION -->
+  <div class="sec"><span>4 · Technical — Consumption &nbsp;|&nbsp; Details-Tech Rows 92–133</span></div>
+
+  <div class="g2">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="kpi k-orange"><div class="k-cat k-o">MWH — Electricity Consumption</div><div class="k-lbl">Total MWH — DISC (Mar-2026)</div><div class="k-val">486,668 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 495,030</div><div class="pill pos">−1.7%</div></div></div>
+      <div class="panel">
+        <div class="pt"><div class="pt-dot"></div>Electricity Consumption (MWH) — Actual vs Budget</div>
+        <div class="ps">Details-Tech rows 92–130 · Jan/Feb/Mar-2026 · DISC Total</div>
+        <div class="ch h200"><canvas id="mwhChart"></canvas></div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <div class="ins-hd">Insights</div>
+        <div class="ins-item">Mar-26 MWH of <b>486,668</b> is <b class="g">1.7% below budget (495,030)</b> — efficient consumption.</div>
+        <div class="ins-item">WP 24-PVT consumption at <b class="r">19,563 MWH vs budget 32,443</b> — significant underuse (−39.7%).</div>
+        <div class="ins-item">Jan-Mar trend: <b>408,654 → 399,562 → 486,668 MWH</b> — March spike mainly WP 21.</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="kpi k-teal"><div class="k-cat k-t">M3 — Water Consumption</div><div class="k-lbl">Total M3 — DISC (Mar-2026)</div><div class="k-val">3.34M <sup>M3</sup></div><div class="k-row"><div class="k-prev">Budget: 4.23M M3</div><div class="pill pos">−21.1%</div></div></div>
+      <div class="panel">
+        <div class="pt"><div class="pt-dot"></div>Water Consumption (M3) — Actual vs Budget</div>
+        <div class="ps">Details-Tech rows 110–133 · Jan/Feb/Mar-2026 · DISC Total</div>
+        <div class="ch h200"><canvas id="m3Chart"></canvas></div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <div class="ins-hd">Insights</div>
+        <div class="ins-item">Total M3 of <b>3.34M</b> is <b class="g">21.1% below budget (4.23M)</b>.</div>
+        <div class="ins-item">WP 28-PVT at <b class="r">1.11M vs budget 1.61M M3</b> — largest absolute shortfall (−30.9%).</div>
+        <div class="ins-item">Jan-Mar trend: <b>3.88M → 3.75M → 3.34M M3</b> — declining consumption through the quarter.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — BULK SUPPLY -->
+  <div class="sec"><span>5 · Bulk Supply &nbsp;|&nbsp; Details-Tech Rows 136–143</span></div>
+
+  <div class="g3">
+    <div class="kpi k-blue"><div class="k-cat k-b">Bulk Supply MWH — WP 21</div><div class="k-lbl">Electricity Bulk Supply (Mar-2026)</div><div class="k-val">587,520 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 670,862</div><div class="pill pos">−12.4%</div></div></div>
+    <div class="kpi k-gold"><div class="k-cat k-go">Bulk Supply MWH — WP 24</div><div class="k-lbl">Rural Electricity Bulk Supply</div><div class="k-val">17,799 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 12,943</div><div class="pill neg">+37.5%</div></div></div>
+    <div class="kpi k-teal"><div class="k-cat k-t">Bulk Supply M3 — WP 28</div><div class="k-lbl">Water Bulk Supply (Mar-2026)</div><div class="k-val">4.08M <sup>M3</sup></div><div class="k-row"><div class="k-prev">Budget: 4.22M M3</div><div class="pill pos">−3.4%</div></div></div>
+  </div>
+
+  <div class="g2">
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>Bulk Supply MWH — Actual vs Budget (Jan–Mar 2026)</div>
+      <div class="ps">Details-Tech rows 136–140 · WP 21 &amp; WP 24</div>
+      <div class="ch h200"><canvas id="bulkMwhChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>Bulk Supply M3 — Actual vs Budget (Jan–Mar 2026)</div>
+      <div class="ps">Details-Tech rows 142–143 · WP 28</div>
+      <div class="ch h200"><canvas id="bulkM3Chart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="ins" style="margin-bottom:4px">
+    <div class="ins-hd">Bulk Supply Insights</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+      <div class="ins-item" style="padding-left:12px">WP 21 MWH at <b>587,520</b> is <b class="g">−12.4% below budget</b>, consistent with lower consumption in Electricity Urban.</div>
+      <div class="ins-item" style="padding-left:12px">WP 24 Rural bulk supply at <b class="r">17,799 MWH is +37.5% above budget</b>, indicating higher-than-planned rural demand.</div>
+      <div class="ins-item" style="padding-left:12px">WP 28 M3 water bulk at <b>4.08M</b> is broadly on track at <b class="g">−3.4% vs budget</b>.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — SYSTEM LOSS -->
+  <div class="sec"><span>6 · System Loss — فاقد النظام &nbsp;|&nbsp; Details-Tech Rows 189–209</span></div>
+
+  <div class="g2">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="kpi k-red"><div class="k-cat k-r">Electricity Loss % — WP 21</div><div class="k-lbl">Monthly Loss % (Jan-26, Feb-26)</div><div class="k-val">6.64 <sup>% Jan &nbsp;·&nbsp; 6.55% Feb</sup></div><div class="k-row"><div class="k-prev">APSR Target: 8.37%</div><div class="pill pos">Below Target ✓</div></div></div>
+      <div class="panel">
+        <div class="pt"><div class="pt-dot"></div>Electricity Loss % — Actual vs APSR Target</div>
+        <div class="ps">Details-Tech rows 191–195 · Jan &amp; Feb-2026 (Mar = #DIV/0! in source)</div>
+        <div style="margin-bottom:8px;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600">Monthly Loss — WP 21 (MWH)</div>
+        <div class="gauge-row"><div class="gauge-mo">Jan-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:79.3%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">18,276</div><div class="gauge-pill"><div class="pill pos">6.64%</div></div></div>
+        <div class="gauge-row"><div class="gauge-mo">Feb-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:78.3%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">18,368</div><div class="gauge-pill"><div class="pill pos">6.55%</div></div></div>
+        <div class="gauge-row"><div class="gauge-mo">Mar-26</div><div class="gauge-track"><div class="gauge-fill" style="background:var(--text-dim);width:0%"></div></div><div class="gauge-val" style="color:var(--text-dim)">N/A</div><div class="gauge-pill"><div class="pill neu">#DIV/0!</div></div></div>
+        <div class="target-note">
+          <div class="target-note-dot" style="background:#8d5a8f"></div>
+          <div style="font-size:10px;color:var(--text-muted)">APSR Target: <b style="color:var(--text)">8.37%</b> &nbsp;·&nbsp; Cumulative Actual (Jan+Feb): <b style="color:#059669">6.59%</b></div>
+        </div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <div class="ins-hd">Insights</div>
+        <div class="ins-item">Electricity Loss % for Jan-Feb is <b class="g">well below APSR target (8.37%)</b> at 6.64% and 6.55% respectively.</div>
+        <div class="ins-item">Cumulative loss of <b>36,644 MWH</b> over Jan–Feb with total bulk supply of ~788,000 MWH.</div>
+        <div class="ins-item">Mar-2026 loss data shows <b class="r">#DIV/0!</b> in source file — requires correction.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="kpi k-teal"><div class="k-cat k-t">Water Loss — WP 28</div><div class="k-lbl">Lost Volume M3 (Mar-2026)</div><div class="k-val">1.69M <sup>M3</sup></div><div class="k-row"><div class="k-prev">Budget: 4.22M M3</div><div class="pill pos">−59.9%</div></div></div>
+      <div class="panel">
+        <div class="pt"><div class="pt-dot"></div>Water Loss M3/Day — Actual vs APSR Target</div>
+        <div class="ps">Details-Tech rows 206–209 · WP 28 · Target = 58,403 M3/Day</div>
+        <div style="margin-bottom:8px;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600">M3/Day — WP 28</div>
+        <div class="gauge-row"><div class="gauge-mo">Jan-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#5e3360,#8d5a8f);width:99.4%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">58,074</div><div class="gauge-pill"><div class="pill pos">−0.6%</div></div></div>
+        <div class="gauge-row"><div class="gauge-mo">Feb-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#dc3545,#f87171);width:100%"></div><div class="gauge-target" style="left:89.9%"></div></div><div class="gauge-val">64,985</div><div class="gauge-pill"><div class="pill neg">+11.3%</div></div></div>
+        <div class="gauge-row"><div class="gauge-mo">Mar-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#5e3360,#8d5a8f);width:93.5%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">54,600</div><div class="gauge-pill"><div class="pill pos">−6.5%</div></div></div>
+        <div class="target-note">
+          <div class="target-note-dot" style="background:#8d5a8f"></div>
+          <div style="font-size:10px;color:var(--text-muted)">APSR Target: <b style="color:var(--text)">58,403 M3/Day</b></div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="ps" style="margin-bottom:8px">Water Loss Volume M3 (WP 28) — Monthly</div>
+          <div class="ch h160"><canvas id="waterLossChart"></canvas></div>
+        </div>
+      </div>
+      <div class="ins" style="margin-top:0">
+        <div class="ins-hd">Insights</div>
+        <div class="ins-item">Jan and Mar water loss M3/Day are <b class="g">below APSR target</b> (58,074 and 54,600 vs 58,403).</div>
+        <div class="ins-item">February showed a spike to <b class="r">64,985 M3/Day (+11.3% above target)</b> — requires investigation.</div>
+        <div class="ins-item">Total water loss volume is <b class="g">59.9% below budget M3</b>, though budget M3 figure appears unusually high.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const RC={primary:'#744379',bg:'#e8eaf2',muted:'#a0a4be',text:'#2d2f45',danger:'#dc3545',success:'#059669',warning:'#8d5a8f',orange:'#8d5a8f',teal:'#5e3360'};
+const TIP={backgroundColor:'rgba(232,234,242,.97)',borderColor:'rgba(116,67,121,.2)',borderWidth:1,titleColor:RC.primary,bodyColor:RC.text,titleFont:{family:'IBM Plex Mono',size:10},bodyFont:{family:'IBM Plex Mono',size:10},padding:12};
+const MONTHS=['Jan-2026','Feb-2026','Mar-2026'];
+function mkChart(id,cfg){new Chart(document.getElementById(id),cfg)}
+
+const scaleOpts={x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'DM Sans',size:9}}},y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:9}}}};
+const scaleOptsK={...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}};
+
+mkChart('opexChart',{type:'bar',data:{labels:['Pass Through','Operating Cost','Salaries','Bad Debt','G&A','Electricity','Early Exit'],datasets:[{label:'Actual',data:[23332,5595,4552,2070,800,404,46],backgroundColor:'rgba(116,67,121,.7)',borderColor:'#744379',borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[32529,7574,4603,100,1852,980,0],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}K`}}},scales:{...scaleOpts,x:{...scaleOpts.x,ticks:{...scaleOpts.x.ticks,font:{family:'DM Sans',size:8},maxRotation:25}},y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
+
+mkChart('staffChart',{type:'bar',data:{labels:['WP 21','WP 24','WP 27','WP 28','DISC Total'],datasets:[{label:'Actual Mar-2026',data:[174,46,246,142,608],backgroundColor:'rgba(94,51,96,.7)',borderColor:RC.teal,borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[179,47,258,119,603],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:10}},tooltip:{...TIP}},scales:scaleOpts}});
+
+mkChart('custChart',{type:'bar',data:{labels:['21-PVT','21-GOV','24-PVT','24-GOV','27-PVT','27-GOV','28-PVT','28-GOV'],datasets:[{label:'Actual Mar-2026',data:[145889,3997,9177,1306,62759,969,91393,1790],backgroundColor:'rgba(116,67,121,.7)',borderColor:'#744379',borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[146030,4328,9234,1368,62385,948,91302,1771],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()}`}}},scales:{...scaleOpts,x:{...scaleOpts.x,ticks:{...scaleOpts.x.ticks,font:{family:'DM Sans',size:8},maxRotation:30}},y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
+
+const lineOpts=(yLabel)=>({responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:12,padding:10,usePointStyle:true,pointStyle:'line'}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} ${yLabel}`}}},scales:{...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000000?(v/1000000).toFixed(2)+'M':v>=1000?(v/1000).toFixed(0)+'K':v}}}});
+
+mkChart('mwhChart',{type:'line',data:{labels:MONTHS,datasets:[{label:'MWH Actual (DISC)',data:[408654,399562,486668],borderColor:RC.orange,backgroundColor:'rgba(141,90,143,.07)',fill:true,tension:.35,pointBackgroundColor:RC.orange,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'MWH Budget (DISC)',data:[459670,459670,495030],borderColor:'rgba(163,165,194,.55)',backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.55)',pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:4,borderWidth:1.5,borderDash:[5,3]}]},options:lineOpts('MWH')});
+
+mkChart('m3Chart',{type:'line',data:{labels:MONTHS,datasets:[{label:'M3 Actual (DISC)',data:[3883364,3751496,3335495],borderColor:RC.teal,backgroundColor:'rgba(94,51,96,.07)',fill:true,tension:.35,pointBackgroundColor:RC.teal,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'M3 Budget (DISC)',data:[4232372,4202330,4227312],borderColor:'rgba(163,165,194,.55)',backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.55)',pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:4,borderWidth:1.5,borderDash:[5,3]}]},options:lineOpts('M3')});
+
+mkChart('bulkMwhChart',{type:'line',data:{labels:MONTHS,datasets:[{label:'WP21 Actual',data:[396877,391836,587520],borderColor:RC.primary,backgroundColor:'rgba(116,67,121,.07)',fill:true,tension:.35,pointBackgroundColor:RC.primary,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'WP21 Budget',data:[623714,567458,670862],borderColor:'rgba(116,67,121,.4)',backgroundColor:'transparent',fill:false,tension:.35,pointRadius:4,borderWidth:1.5,borderDash:[5,3]},{label:'WP24 Actual',data:[16826,16876,17799],borderColor:RC.warning,backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:RC.warning,pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:5,borderWidth:2},{label:'WP24 Budget',data:[12943,12943,12943],borderColor:'rgba(141,90,143,.4)',backgroundColor:'transparent',fill:false,tension:0,pointRadius:3,borderWidth:1.5,borderDash:[3,3]}]},options:lineOpts('MWH')});
+
+mkChart('bulkM3Chart',{type:'line',data:{labels:MONTHS,datasets:[{label:'WP28 M3 Actual',data:[3929996,3551652,4076708],borderColor:RC.teal,backgroundColor:'rgba(94,51,96,.07)',fill:true,tension:.35,pointBackgroundColor:RC.teal,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'WP28 M3 Budget',data:[3756733,3666048,4222032],borderColor:'rgba(94,51,96,.4)',backgroundColor:'transparent',fill:false,tension:.35,pointRadius:4,borderWidth:1.5,borderDash:[5,3]}]},options:lineOpts('M3')});
+
+mkChart('waterLossChart',{type:'bar',data:{labels:MONTHS,datasets:[{label:'Water Loss M3 (WP28)',data:[1800284,1819585,1692591],backgroundColor:['rgba(94,51,96,.7)','rgba(220,53,69,.7)','rgba(94,51,96,.7)'],borderColor:['#5e3360','#dc3545','#5e3360'],borderWidth:1.5,borderRadius:6,barPercentage:.55,categoryPercentage:.8},{label:'APSR Target M3/Day × Days',data:[1810493,1635284,1810493],backgroundColor:'transparent',borderColor:'rgba(141,90,143,.65)',borderWidth:2,borderRadius:6,barPercentage:.55,categoryPercentage:.8,type:'line',tension:0,pointBackgroundColor:'rgba(141,90,143,.65)',pointRadius:5,borderDash:[4,2]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:9},boxWidth:10,padding:8}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} M3`}}},scales:{...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000000?(v/1000000).toFixed(2)+'M':v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
+</script>
+</main>
+</div>
+</body>
+</html>
