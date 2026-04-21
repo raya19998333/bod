@@ -6,6 +6,7 @@
 <title>Balance Sheet Dashboard – Nama Dhofar Services</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root {
     --primary: #744379;
@@ -104,7 +105,7 @@
   /* ===== KPI ROW ===== */
   .kpi-row {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 14px;
   }
   .kpi {
@@ -594,54 +595,52 @@ body { margin: 0; }
 <div class="raya-layout">
 <aside class="raya-sidebar">
   <div class="raya-sidebar-brand">
-    <div class="raya-brand-icon">LB</div>
+    <div class="raya-brand-icon" style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.10) 100%);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 4px 14px rgba(0,0,0,0.18);"><img src="https://i.postimg.cc/DzdBCjRy/image-10.png" alt="Logo" style="width:46px;height:46px;object-fit:contain;border-radius:10px;"></div>
     <div>
-      <div class="raya-brand-text">Nama Dhofar</div>
+      <div class="raya-brand-text">Nama Dhofar Services</div>
       <div class="raya-brand-sub">Board Dashboard 2026</div>
     </div>
   </div>
   <div class="raya-nav-section">Navigation</div>
   <ul class="raya-nav-menu">
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="index.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="3.5"/><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span>
-        Overview
+      <a class="raya-nav-link" href="index.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="income_statement_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
-        Income Statement
+      <a class="raya-nav-link" href="income_statement_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement
       </a>
     </li>
     <li class="raya-nav-item">
       <a class="raya-nav-link active" href="balance_sheet_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
-        Balance Sheet
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="receivables_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-        Receivables
+      <a class="raya-nav-link" href="receivables_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Receivables
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="capex_vowd_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-        CAPEX & VOWD
+      <a class="raya-nav-link" href="capex_vowd_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>CAPEX & VOWD
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="kpi_dso_covenant_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
-        KPI — DSO
+      <a class="raya-nav-link" href="kpi_dso_covenant_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
+      </a>
+    </li>
+       <li class="raya-nav-item">
+      <a class="raya-nav-link" href="cashflow_dashboard_raya.html">
+      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="operations_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>
-        Operations
+      <a class="raya-nav-link" href="operations_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations
       </a>
     </li>
   </ul>
@@ -671,37 +670,134 @@ body { margin: 0; }
     </div>
   </div>
 
-  <!-- ===== KPI CARDS ===== -->
-  <div class="kpi-row">
-    <div class="kpi gold">
-      <div class="kpi-accent-dot"></div>
-      <div class="kpi-lbl">Total Assets</div>
-      <div class="kpi-val">639,810 <span>OMR K</span></div>
-      <div class="kpi-meta"><div class="kpi-bud">Prev: 448,335</div><div class="pill pos">+42.7%</div></div>
+  <!-- ===== BALANCE SHEET DETAIL + BY BUSINESS SEGMENT (TOP) ===== -->
+  <div class="two-col">
+    <div class="panel" style="padding:22px">
+      <div class="panel-title"><div class="panel-title-dot"></div>Balance Sheet Detail</div>
+      <div class="panel-sub">Actual vs Budget vs Previous Period (OMR K)</div>
+      <div style="overflow-x:auto">
+        <table class="bs-table">
+          <thead>
+            <tr>
+              <th style="text-align:left">Item</th>
+              <th>Actual<br><span style="font-size:8px;font-weight:400">Mar 2026</span></th>
+              <th>Prev.<br><span style="font-size:8px;font-weight:400">Dec 2025</span></th>
+              <th>Budget<br><span style="font-size:8px;font-weight:400">Mar 2026</span></th>
+              <th>Var</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="section-hd"><td colspan="5">ASSETS</td></tr>
+            <tr><td>Non-Current Assets</td><td class="num">446,886</td><td class="num">431,671</td><td class="num">442,956</td><td class="var-neg">+0.9%</td></tr>
+            <tr><td>Account Receivables</td><td class="num">56,107</td><td class="num">53,267</td><td class="num">44,743</td><td class="var-neg">+25.4%</td></tr>
+            <tr><td>Fixed Deposits</td><td class="num">71,187</td><td class="num">82,073</td><td class="num">61,555</td><td class="var-neg">+15.6%</td></tr>
+            <tr><td>Current Assets</td><td class="num">50,678</td><td class="num">53,735</td><td class="num">71,298</td><td class="var-pos">-28.9%</td></tr>
+            <tr><td>Cash &amp; Banks</td><td class="num">14,953</td><td class="num">35,022</td><td class="num">31,390</td><td class="var-neg">-52.4%</td></tr>
+            <tr class="total-row"><td style="font-weight:700">Total Assets</td><td class="num">639,810</td><td class="num">655,768</td><td class="num">651,941</td><td class="var-neu">-1.9%</td></tr>
+            <tr class="section-hd"><td colspan="5">EQUITY &amp; LIABILITIES</td></tr>
+            <tr><td>Equity</td><td class="num">202,437</td><td class="num">220,140</td><td class="num">216,213</td><td class="var-pos">-6.4%</td></tr>
+            <tr><td>Corporate Loan</td><td class="num">10,829</td><td class="num">6,900</td><td class="num">247,903</td><td class="var-pos">-95.6%</td></tr>
+            <tr><td>Non-Current Liab.</td><td class="num">68,448</td><td class="num">68,912</td><td class="num">63,686</td><td class="var-neg">+7.5%</td></tr>
+            <tr><td>Lease Liability</td><td class="num">58,378</td><td class="num">62,388</td><td class="num">58,019</td><td class="var-neg">+0.6%</td></tr>
+            <tr><td style="color:#744379;font-weight:500">Intercompany Pay.</td><td class="num" style="color:#744379">87,080</td><td class="num">91,245</td><td class="num">79,745</td><td class="var-neg">+9.2%</td></tr>
+            <tr><td>Current Liabilities</td><td class="num">39,036</td><td class="num">29,464</td><td class="num">36,408</td><td class="var-neg">+7.2%</td></tr>
+            <tr class="total-row"><td style="font-weight:700">Total Liab. &amp; Equity</td><td class="num">466,207</td><td class="num">479,048</td><td class="num">701,972</td><td class="var-pos">-33.6%</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="kpi blue">
-      <div class="kpi-accent-dot"></div>
-      <div class="kpi-lbl">Equity</div>
-      <div class="kpi-val">202,437 <span>OMR K</span></div>
-      <div class="kpi-meta"><div class="kpi-bud">Budget: 216,213</div><div class="pill neg">-6.4%</div></div>
+
+    <!-- By Business Segment -->
+    <div class="panel" style="padding:22px">
+      <div class="panel-title"><div class="panel-title-dot"></div>Intercompany — By Business Segment</div>
+      <div class="panel-sub">Related Party Payables breakdown by segment (OMR K)</div>
+      <div class="seg-chart-title" style="margin-top:4px">By Business Segment</div>
+        <div class="seg-row">
+          <div class="seg-hd"><span class="seg-name">Electricity Urban</span><span class="seg-val">58,978 K</span></div>
+          <div class="seg-track">
+            <div class="seg-fill" style="background:#744379;width:57.9%">50,770</div>
+            <div class="seg-fill" style="background:#8d5a8f;width:7.8%">7,910</div>
+            <div class="seg-fill" style="background:#059669;width:0.3%"></div>
+            <div class="seg-fill" style="background:#744379;width:0.1%"></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+            <span style="font-size:9px;color:#744379;font-weight:600">OPWP 50,770</span>
+            <span style="font-size:9px;color:#8d5a8f;font-weight:600">OETC 7,910</span>
+            <span style="font-size:9px;color:#059669;font-weight:600">RAEC 280</span>
+            <span style="font-size:9px;color:#744379;font-weight:600">OWWS 17</span>
+          </div>
+        </div>
+        <div class="seg-row">
+          <div class="seg-hd"><span class="seg-name">Electricity Rural</span><span class="seg-val">18,612 K</span></div>
+          <div class="seg-track">
+            <div class="seg-fill" style="background:#744379;width:13.3%">13,067</div>
+            <div class="seg-fill" style="background:#8d5a8f;width:1.1%"></div>
+            <div class="seg-fill" style="background:#059669;width:4.1%">4,451</div>
+            <div class="seg-fill" style="background:#744379;width:0.1%"></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+            <span style="font-size:9px;color:#744379;font-weight:600">OPWP 13,067</span>
+            <span style="font-size:9px;color:#8d5a8f;font-weight:600">OETC 1,093</span>
+            <span style="font-size:9px;color:#059669;font-weight:600">RAEC 4,451</span>
+            <span style="font-size:9px;color:#744379;font-weight:600">OWWS 1</span>
+          </div>
+        </div>
+        <div class="seg-row">
+          <div class="seg-hd"><span class="seg-name">Wastewater</span><span class="seg-val">6 K</span></div>
+          <div class="seg-track">
+            <div class="seg-fill" style="background:#744379;width:0.1%"></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:4px">
+            <span style="font-size:9px;color:#744379;font-weight:600">OWWS 6</span>
+          </div>
+        </div>
+        <div class="seg-row">
+          <div class="seg-hd"><span class="seg-name">Water</span><span class="seg-val">9,993 K</span></div>
+          <div class="seg-track">
+            <div class="seg-fill" style="background:#744379;width:9.5%">9,302</div>
+            <div class="seg-fill" style="background:#8d5a8f;width:0.7%"></div>
+            <div class="seg-fill" style="background:#744379;width:0.1%"></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+            <span style="font-size:9px;color:#744379;font-weight:600">OPWP 9,302</span>
+            <span style="font-size:9px;color:#8d5a8f;font-weight:600">OETC 690</span>
+            <span style="font-size:9px;color:#744379;font-weight:600">OWWS 2</span>
+          </div>
+        </div>
+
+        <div class="ic-table-wrap">
+          <table class="bs-table" style="font-size:10.5px">
+            <thead>
+              <tr>
+                <th style="text-align:left">Company</th>
+                <th>Elec. Urban</th><th>Elec. Rural</th><th>Wastewater</th><th>Water</th><th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>OPWP</td><td class="num">50,770</td><td class="num">13,067</td><td class="num" style="color:var(--text-dim)">—</td><td class="num">9,302</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">73,139</td></tr>
+              <tr><td>OETC</td><td class="num">7,910</td><td class="num">1,093</td><td class="num" style="color:var(--text-dim)">—</td><td class="num">690</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">9,693</td></tr>
+              <tr><td>RAEC</td><td class="num">280</td><td class="num">4,451</td><td class="num" style="color:var(--text-dim)">—</td><td class="num" style="color:var(--text-dim)">—</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">4,731</td></tr>
+              <tr><td>OWWS</td><td class="num">17</td><td class="num">1</td><td class="num">6</td><td class="num">2</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">25</td></tr>
+              <tr class="total-row">
+                <td style="font-weight:700">Total</td>
+                <td class="num">58,978</td>
+                <td class="num">18,612</td>
+                <td class="num">6</td>
+                <td class="num">9,993</td>
+                <td class="num">87,588</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
     </div>
-    <div class="kpi red">
-      <div class="kpi-accent-dot"></div>
-      <div class="kpi-lbl">Total Liabilities</div>
-      <div class="kpi-val">263,770 <span>OMR K</span></div>
-      <div class="kpi-meta"><div class="kpi-bud">Budget: 485,759</div><div class="pill pos">-45.7%</div></div>
-    </div>
-    <div class="kpi purple">
-      <div class="kpi-accent-dot"></div>
-      <div class="kpi-lbl">Intercompany Payables</div>
-      <div class="kpi-val">87,080 <span>OMR K</span></div>
-      <div class="kpi-meta"><div class="kpi-bud">Budget: 79,745</div><div class="pill neg">+9.2%</div></div>
-    </div>
-    <div class="kpi green">
-      <div class="kpi-accent-dot"></div>
-      <div class="kpi-lbl">Non-Current Assets</div>
-      <div class="kpi-val">446,886 <span>OMR K</span></div>
-      <div class="kpi-meta"><div class="kpi-bud">Budget: 442,956</div><div class="pill pos">+0.9%</div></div>
+  </div>
+
+  <!-- ===== KEY ITEMS LINE CHART ===== -->
+  <div class="panel">
+    <div class="panel-title"><div class="panel-title-dot"></div>Key Items — Actual vs Budget vs Previous</div>
+    <div class="panel-sub">Line chart (OMR K) — 6 key balance sheet items</div>
+    <div class="chart-box" style="height:300px">
+      <canvas id="movementChart"></canvas>
     </div>
   </div>
 
@@ -770,52 +866,6 @@ body { margin: 0; }
     </div>
   </div>
 
-  <!-- ===== TABLE + CHART ===== -->
-  <div class="two-col">
-    <div class="panel" style="padding:22px">
-      <div class="panel-title"><div class="panel-title-dot"></div>Balance Sheet Detail</div>
-      <div class="panel-sub">Actual vs Budget vs Previous Period (OMR K)</div>
-      <div style="overflow-x:auto">
-        <table class="bs-table">
-          <thead>
-            <tr>
-              <th style="text-align:left">Item</th>
-              <th>Actual<br><span style="font-size:8px;font-weight:400">Mar 2026</span></th>
-              <th>Prev.<br><span style="font-size:8px;font-weight:400">Dec 2025</span></th>
-              <th>Budget<br><span style="font-size:8px;font-weight:400">Mar 2026</span></th>
-              <th>Var</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="section-hd"><td colspan="5">ASSETS</td></tr>
-            <tr><td>Non-Current Assets</td><td class="num">446,886</td><td class="num">431,671</td><td class="num">442,956</td><td class="var-neg">+0.9%</td></tr>
-            <tr><td>Account Receivables</td><td class="num">56,107</td><td class="num">53,267</td><td class="num">44,743</td><td class="var-neg">+25.4%</td></tr>
-            <tr><td>Fixed Deposits</td><td class="num">71,187</td><td class="num">82,073</td><td class="num">61,555</td><td class="var-neg">+15.6%</td></tr>
-            <tr><td>Current Assets</td><td class="num">50,678</td><td class="num">53,735</td><td class="num">71,298</td><td class="var-pos">-28.9%</td></tr>
-            <tr><td>Cash &amp; Banks</td><td class="num">14,953</td><td class="num">35,022</td><td class="num">31,390</td><td class="var-neg">-52.4%</td></tr>
-            <tr class="total-row"><td style="font-weight:700">Total Assets</td><td class="num">639,810</td><td class="num">655,768</td><td class="num">651,941</td><td class="var-neu">-1.9%</td></tr>
-            <tr class="section-hd"><td colspan="5">EQUITY &amp; LIABILITIES</td></tr>
-            <tr><td>Equity</td><td class="num">202,437</td><td class="num">220,140</td><td class="num">216,213</td><td class="var-pos">-6.4%</td></tr>
-            <tr><td>Corporate Loan</td><td class="num">10,829</td><td class="num">6,900</td><td class="num">247,903</td><td class="var-pos">-95.6%</td></tr>
-            <tr><td>Non-Current Liab.</td><td class="num">68,448</td><td class="num">68,912</td><td class="num">63,686</td><td class="var-neg">+7.5%</td></tr>
-            <tr><td>Lease Liability</td><td class="num">58,378</td><td class="num">62,388</td><td class="num">58,019</td><td class="var-neg">+0.6%</td></tr>
-            <tr><td style="color:#744379;font-weight:500">Intercompany Pay.</td><td class="num" style="color:#744379">87,080</td><td class="num">91,245</td><td class="num">79,745</td><td class="var-neg">+9.2%</td></tr>
-            <tr><td>Current Liabilities</td><td class="num">39,036</td><td class="num">29,464</td><td class="num">36,408</td><td class="var-neg">+7.2%</td></tr>
-            <tr class="total-row"><td style="font-weight:700">Total Liab. &amp; Equity</td><td class="num">466,207</td><td class="num">479,048</td><td class="num">701,972</td><td class="var-pos">-33.6%</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title"><div class="panel-title-dot"></div>Key Items — Actual vs Budget vs Previous</div>
-      <div class="panel-sub">Line chart (OMR K) — 6 key balance sheet items</div>
-      <div class="chart-box h260">
-        <canvas id="movementChart"></canvas>
-      </div>
-    </div>
-  </div>
-
   <!-- ===== INTERCOMPANY ===== -->
   <div class="divider">Intercompany Balances — Details FS (Rows 14–21)</div>
 
@@ -842,8 +892,8 @@ body { margin: 0; }
           <div class="ic-co-row">
             <div class="ic-co-dot" style="background:#744379"></div>
             <div class="ic-co-name">Oman Power &amp; Water Procurement<small>OPWP SAOC</small></div>
-            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:83.5%"></div></div>
-            <div class="ic-co-val">73,139</div>
+            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:87.9%"></div></div>
+            <div class="ic-co-val">77,099</div>
           </div>
           <div class="ic-co-row">
             <div class="ic-co-dot" style="background:#8d5a8f"></div>
@@ -854,8 +904,8 @@ body { margin: 0; }
           <div class="ic-co-row">
             <div class="ic-co-dot" style="background:#059669"></div>
             <div class="ic-co-name">Rural Areas Electricity Company<small>RAEC SAOC</small></div>
-            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:5.4%"></div></div>
-            <div class="ic-co-val">4,731</div>
+            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:0.9%"></div></div>
+            <div class="ic-co-val">771</div>
           </div>
           <div class="ic-co-row">
             <div class="ic-co-dot" style="background:#744379"></div>
@@ -870,88 +920,51 @@ body { margin: 0; }
             <div class="ic-co-val" style="color:var(--text-dim)">—</div>
           </div>
         </div>
-        <div class="chart-box h130" style="margin-top:16px">
-          <canvas id="icDonut"></canvas>
-        </div>
       </div>
 
-      <!-- By Segment -->
+      <!-- OPWP Charts -->
       <div>
-        <div class="seg-chart-title">By Business Segment</div>
-        <div class="seg-row">
-          <div class="seg-hd"><span class="seg-name">Electricity Urban</span><span class="seg-val">58,978 K</span></div>
-          <div class="seg-track">
-            <div class="seg-fill" style="background:#744379;width:57.9%">50,770</div>
-            <div class="seg-fill" style="background:#8d5a8f;width:7.8%">7,910</div>
-            <div class="seg-fill" style="background:#059669;width:0.3%"></div>
-            <div class="seg-fill" style="background:#744379;width:0.1%"></div>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
-            <span style="font-size:9px;color:#744379;font-weight:600">OPWP 50,770</span>
-            <span style="font-size:9px;color:#8d5a8f;font-weight:600">OETC 7,910</span>
-            <span style="font-size:9px;color:#059669;font-weight:600">RAEC 280</span>
-            <span style="font-size:9px;color:#744379;font-weight:600">OWWS 17</span>
-          </div>
+        <div class="seg-chart-title">OPWP Closure Plan</div>
+        <div class="chart-box" style="height:200px;margin-bottom:22px">
+          <canvas id="opwpClosureChart"></canvas>
         </div>
-        <div class="seg-row">
-          <div class="seg-hd"><span class="seg-name">Electricity Rural</span><span class="seg-val">18,611 K</span></div>
-          <div class="seg-track">
-            <div class="seg-fill" style="background:#744379;width:13.3%">13,067</div>
-            <div class="seg-fill" style="background:#8d5a8f;width:1.1%"></div>
-            <div class="seg-fill" style="background:#059669;width:4.1%">4,451</div>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
-            <span style="font-size:9px;color:#744379;font-weight:600">OPWP 13,067</span>
-            <span style="font-size:9px;color:#8d5a8f;font-weight:600">OETC 1,093</span>
-            <span style="font-size:9px;color:#059669;font-weight:600">RAEC 4,451</span>
-          </div>
+        <div class="seg-chart-title">OPWP Movement</div>
+        <div class="chart-box" style="height:200px">
+          <canvas id="opwpMovementChart"></canvas>
         </div>
-        <div class="seg-row">
-          <div class="seg-hd"><span class="seg-name">Water</span><span class="seg-val">9,993 K</span></div>
-          <div class="seg-track">
-            <div class="seg-fill" style="background:#744379;width:9.5%">9,302</div>
-            <div class="seg-fill" style="background:#8d5a8f;width:0.7%"></div>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
-            <span style="font-size:9px;color:#744379;font-weight:600">OPWP 9,302</span>
-            <span style="font-size:9px;color:#8d5a8f;font-weight:600">OETC 690</span>
-            <span style="font-size:9px;color:#744379;font-weight:600">OWWS 2</span>
-          </div>
-        </div>
-        <div class="seg-row">
-          <div class="seg-hd"><span class="seg-name">Wastewater</span><span class="seg-val">6 K</span></div>
-          <div class="seg-track">
-            <div class="seg-fill" style="background:#744379;width:0.1%"></div>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:4px">
-            <span style="font-size:9px;color:#744379;font-weight:600">OWWS 6</span>
-          </div>
-        </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="ic-table-wrap">
-          <table class="bs-table" style="font-size:10.5px">
-            <thead>
-              <tr>
-                <th style="text-align:left">Company</th>
-                <th>Elec. Urban</th><th>Elec. Rural</th><th>Wastewater</th><th>Water</th><th>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>OPWP</td><td class="num">50,770</td><td class="num">13,067</td><td class="num" style="color:var(--text-dim)">—</td><td class="num">9,302</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">73,139</td></tr>
-              <tr><td>OETC</td><td class="num">7,910</td><td class="num">1,093</td><td class="num" style="color:var(--text-dim)">—</td><td class="num">690</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">9,693</td></tr>
-              <tr><td>RAEC</td><td class="num">280</td><td class="num">4,451</td><td class="num" style="color:var(--text-dim)">—</td><td class="num" style="color:var(--text-dim)">—</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">4,731</td></tr>
-              <tr><td>OWWS</td><td class="num">17</td><td class="num">1</td><td class="num">6</td><td class="num">2</td><td class="num" style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700">25</td></tr>
-              <tr class="total-row">
-                <td style="font-weight:700">Total</td>
-                <td class="num">58,978</td>
-                <td class="num">18,612</td>
-                <td class="num">6</td>
-                <td class="num">9,993</td>
-                <td class="num">87,588</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <!-- ===== INTERCOMPANY CHARTS ROW ===== -->
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>Intercompany Balances — Mar-26 vs Mar-25</div>
+      <div class="panel-sub">2026 vs 2025 comparison by counterparty (OMR K)</div>
+      <div class="chart-box" style="height:260px">
+        <canvas id="icBalancesChart"></canvas>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>Received Subsidy Q1-2026</div>
+      <div class="panel-sub">Electricity vs W &amp; WW subsidy receipts by quarter (OMR K)</div>
+      <div class="chart-box" style="height:260px">
+        <canvas id="subsidyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAYABLES INSIGHTS ===== -->
+  <div class="panel" style="border-left:4px solid #744379;padding-left:28px">
+    <div class="panel-title" style="margin-bottom:14px"><div class="panel-title-dot"></div>Payables Insights</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm)">
+        <div style="min-width:24px;height:24px;border-radius:50%;background:var(--grad-main);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0;margin-top:1px">1</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65">Due to OPWP reduced after receiving total subsidy of <b style="color:#744379">R.O. 21,385</b></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm)">
+        <div style="min-width:24px;height:24px;border-radius:50%;background:var(--grad-main);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0;margin-top:1px">2</div>
+        <div style="font-size:12px;color:var(--text);line-height:1.65">Q1-2026 Electricity received by <b style="color:#744379">16 April 2026</b> and paid to OPWP total <b style="color:#744379">R.O. 13,176</b></div>
       </div>
     </div>
   </div>
@@ -970,7 +983,7 @@ body { margin: 0; }
       </div>
       <div class="exec-col-item">
         <div class="exec-item-title">Intercompany Exposure</div>
-        <div class="exec-item-text">IC payables at <b>OMR 87,080K</b> are <span class="r">9.2% above budget</span>. <b>OPWP</b> accounts for <b>83.5%</b> (OMR 73,139K), primarily from Electricity Urban operations.</div>
+        <div class="exec-item-text">IC payables at <b>OMR 87,080K</b> are <span class="r">9.2% above budget</span>. <b>OPWP</b> accounts for <b>88.0%</b> (OMR 77,099K), primarily from Electricity Urban operations.</div>
       </div>
       <div class="exec-col-item">
         <div class="exec-item-title">Capital Structure</div>
@@ -1000,11 +1013,13 @@ const TIP = {
   padding: 12
 };
 
+Chart.register(ChartDataLabels);
+
 // ===== LINE CHART =====
 new Chart(document.getElementById('movementChart'), {
   type: 'line',
   data: {
-    labels: ['Non-Current\nAssets','Receivables','Fixed\nDeposits','Equity','IC\nPayables','Curr.\nLiab.'],
+    labels: ['Non-Current Assets','Receivables','Fixed Deposits','Equity','IC Payables','Curr. Liab.'],
     datasets: [
       {
         label: 'Actual (Mar 2026)',
@@ -1019,29 +1034,46 @@ new Chart(document.getElementById('movementChart'), {
         fill: true, tension: 0.38,
         pointBackgroundColor: RC.primary,
         pointBorderColor: RC.bg, pointBorderWidth: 2.5,
-        pointRadius: 6, pointHoverRadius: 8, borderWidth: 2.5
+        pointRadius: 7, pointHoverRadius: 9, borderWidth: 2.5,
+        datalabels: {
+          align: 'top', anchor: 'end',
+          color: RC.primary,
+          font: { family: 'IBM Plex Mono', size: 9, weight: '700' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v,
+          offset: 4
+        }
       },
       {
         label: 'Budget (Mar 2026)',
         data: [442956, 44743, 61555, 216213, 79745, 36408],
-        borderColor: 'rgba(160,164,190,0.6)',
+        borderColor: 'rgba(160,164,190,0.7)',
         backgroundColor: 'transparent',
         fill: false, tension: 0.38,
-        pointBackgroundColor: 'rgba(160,164,190,0.6)',
+        pointBackgroundColor: 'rgba(160,164,190,0.7)',
         pointBorderColor: RC.bg, pointBorderWidth: 2,
-        pointRadius: 4, pointHoverRadius: 6,
-        borderWidth: 1.5, borderDash: [5,3]
+        pointRadius: 5, pointHoverRadius: 7,
+        borderWidth: 1.5, borderDash: [5,3],
+        datalabels: {
+          align: 'bottom', anchor: 'start',
+          color: 'rgba(120,124,150,0.85)',
+          font: { family: 'IBM Plex Mono', size: 8.5, weight: '600' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v,
+          offset: 4
+        }
       },
       {
         label: 'Prev. Actual (Dec 2025)',
         data: [431671, 53267, 82073, 220140, 91245, 29464],
-        borderColor: 'rgba(141,90,143,0.6)',
+        borderColor: 'rgba(141,90,143,0.65)',
         backgroundColor: 'transparent',
         fill: false, tension: 0.38,
-        pointBackgroundColor: 'rgba(141,90,143,0.6)',
+        pointBackgroundColor: 'rgba(141,90,143,0.65)',
         pointBorderColor: RC.bg, pointBorderWidth: 2,
-        pointRadius: 4, pointHoverRadius: 6,
-        borderWidth: 1.5, borderDash: [3,3]
+        pointRadius: 5, pointHoverRadius: 7,
+        borderWidth: 1.5, borderDash: [3,3],
+        datalabels: {
+          display: false
+        }
       }
     ]
   },
@@ -1049,48 +1081,254 @@ new Chart(document.getElementById('movementChart'), {
     responsive: true,
     maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
+    layout: { padding: { top: 28, bottom: 10, left: 6, right: 6 } },
     plugins: {
       legend: {
-        labels: { color: RC.muted, font: { family: 'DM Sans', size: 10 }, boxWidth: 12, padding: 12, usePointStyle: true, pointStyle: 'line' }
-      },
-      tooltip: { ...TIP, callbacks: { label: ctx => ` ${ctx.dataset.label}: OMR ${ctx.raw.toLocaleString()}K` } }
-    },
-    scales: {
-      x: { grid: { color: 'rgba(163,165,194,0.15)' }, ticks: { color: RC.muted, font: { family: 'DM Sans', size: 9 } } },
-      y: { grid: { color: 'rgba(163,165,194,0.15)' }, ticks: { color: RC.muted, font: { family: 'IBM Plex Mono', size: 9 }, callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v } }
-    }
-  }
-});
-
-// ===== DONUT =====
-new Chart(document.getElementById('icDonut'), {
-  type: 'doughnut',
-  data: {
-    labels: ['OPWP','OETC','RAEC','OWWS'],
-    datasets: [{
-      data: [73139, 9693, 4731, 25],
-      backgroundColor: [RC.primary, RC.warning, RC.success, RC.purple],
-      borderColor: RC.bg,
-      borderWidth: 3,
-      hoverOffset: 6
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '68%',
-    plugins: {
-      legend: {
-        position: 'right',
-        labels: { color: RC.muted, font: { family: 'DM Sans', size: 10 }, boxWidth: 10, padding: 8 }
+        display: true,
+        position: 'top',
+        labels: {
+          color: RC.muted,
+          font: { family: 'DM Sans', size: 11 },
+          boxWidth: 14, padding: 16,
+          usePointStyle: true, pointStyle: 'line'
+        }
       },
       tooltip: {
         ...TIP,
-        callbacks: { label: ctx => ` ${ctx.label}: OMR ${ctx.raw.toLocaleString()}K (${((ctx.raw/87588)*100).toFixed(1)}%)` }
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: OMR ${ctx.raw.toLocaleString()}K`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(163,165,194,0.15)' },
+        ticks: {
+          color: RC.text,
+          font: { family: 'DM Sans', size: 11, weight: '600' },
+          maxRotation: 0
+        }
+      },
+      y: {
+        grid: { color: 'rgba(163,165,194,0.15)' },
+        ticks: {
+          color: RC.muted,
+          font: { family: 'IBM Plex Mono', size: 10 },
+          callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v
+        }
       }
     }
   }
 });
+
+
+// ===== OPWP CLOSURE PLAN WATERFALL =====
+(function(){
+  // Floating bars [bottom, top] — purple only
+  // Closure Plan: Dues=59728, WCF=-15000, MOF=-17740, VAT=-6940, Remaining=20048
+  const closureColors = ['#5e3360','#8d5a8f','#8d5a8f','#8d5a8f','#744379'];
+  const closureLabels = ['(15,000)','(17,740)','(6,940)'];
+  new Chart(document.getElementById('opwpClosureChart'), {
+    type: 'bar',
+    data: {
+      labels: ['OPWP Dues','Working Capital\nFacility','Claim From\nMOF','VAT Claim\nfrom MOF','Remaining\nOutstanding'],
+      datasets: [{
+        data: [[0,59728],[44728,59728],[26988,44728],[20048,26988],[0,20048]],
+        backgroundColor: closureColors,
+        borderRadius: 4,
+        barPercentage: 0.55,
+        datalabels: {
+          color: ctx => closureColors[ctx.dataIndex],
+          font: { family: 'IBM Plex Mono', size: 9.5, weight: '700' },
+          anchor: 'end', align: 'end', offset: 3,
+          formatter: (v, ctx) => {
+            const vals = [59728, -15000, -17740, -6940, 20048];
+            const n = vals[ctx.dataIndex];
+            if(n < 0) return '('+Math.abs(n).toLocaleString()+')';
+            return n.toLocaleString();
+          }
+        }
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top:26, right:8 } },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ ...TIP, callbacks:{ label: ctx => {
+          const vals=[59728,-15000,-17740,-6940,20048];
+          return ' OMR '+(vals[ctx.dataIndex]<0?'('+Math.abs(vals[ctx.dataIndex]).toLocaleString()+')':vals[ctx.dataIndex].toLocaleString())+'K';
+        }}}
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{ color:RC.text, font:{family:'DM Sans',size:9,weight:'600'}, maxRotation:0 } },
+        y:{ grid:{color:'rgba(163,165,194,0.15)'}, ticks:{ color:RC.muted, font:{family:'IBM Plex Mono',size:9}, callback: v=>v>=1000?(v/1000).toFixed(0)+'K':v } }
+      }
+    }
+  });
+})();
+
+// ===== OPWP MOVEMENT WATERFALL =====
+(function(){
+  const moveColors = ['#5e3360','#744379','#744379','#8d5a8f','#5e3360'];
+  new Chart(document.getElementById('opwpMovementChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Opening','Q1 Accrual','Q1 Invoices','Q1 Payment','Total'],
+      datasets: [{
+        data: [[0,74267],[74267,86404],[86404,98588],[77099,98588],[0,77099]],
+        backgroundColor: moveColors,
+        borderRadius: 4,
+        barPercentage: 0.55,
+        datalabels: {
+          color: ctx => moveColors[ctx.dataIndex],
+          font: { family: 'IBM Plex Mono', size: 9.5, weight: '700' },
+          anchor: 'end', align: 'end', offset: 3,
+          formatter: (v, ctx) => {
+            const vals = [74267, 12137, 12184, -21489, 77099];
+            const n = vals[ctx.dataIndex];
+            if(n < 0) return '('+Math.abs(n).toLocaleString()+')';
+            return n.toLocaleString();
+          }
+        }
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top:26, right:8 } },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{ ...TIP, callbacks:{ label: ctx => {
+          const vals=[74267,12137,12184,-21489,77099];
+          return ' OMR '+(vals[ctx.dataIndex]<0?'('+Math.abs(vals[ctx.dataIndex]).toLocaleString()+')':vals[ctx.dataIndex].toLocaleString())+'K';
+        }}}
+      },
+      scales:{
+        x:{ grid:{display:false}, ticks:{ color:RC.text, font:{family:'DM Sans',size:9,weight:'600'}, maxRotation:0 } },
+        y:{ grid:{color:'rgba(163,165,194,0.15)'}, ticks:{ color:RC.muted, font:{family:'IBM Plex Mono',size:9}, callback: v=>v>=1000?(v/1000).toFixed(0)+'K':v } }
+      }
+    }
+  });
+})();
+
+// ===== IC BALANCES GROUPED BAR =====
+new Chart(document.getElementById('icBalancesChart'), {
+  type: 'bar',
+  data: {
+    labels: ['OPWP SAOC','OETC SAOC','OWWS SAOC','RAEC SAOC'],
+    datasets: [
+      {
+        label: '2026',
+        data: [77099, 9693, 25, 771],
+        backgroundColor: '#744379',
+        borderRadius: 5,
+        barPercentage: 0.55,
+        datalabels: {
+          anchor: 'end', align: 'end',
+          color: '#744379',
+          font: { family: 'IBM Plex Mono', size: 9, weight: '700' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v,
+          offset: 2
+        }
+      },
+      {
+        label: '2025',
+        data: [74284, 8309, 3601, 771],
+        backgroundColor: '#c9a7cb',
+        borderRadius: 5,
+        barPercentage: 0.55,
+        datalabels: {
+          anchor: 'end', align: 'end',
+          color: '#9b6b9e',
+          font: { family: 'IBM Plex Mono', size: 9, weight: '600' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v,
+          offset: 2
+        }
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    layout: { padding: { top: 24, right: 10 } },
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { color: RC.muted, font: { family: 'DM Sans', size: 11 }, boxWidth: 12, padding: 14 }
+      },
+      tooltip: { ...TIP, callbacks: { label: ctx => ` ${ctx.dataset.label}: OMR ${ctx.raw.toLocaleString()}K` } }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: RC.text, font: { family: 'DM Sans', size: 10, weight: '600' }, maxRotation: 0 }
+      },
+      y: {
+        grid: { color: 'rgba(163,165,194,0.15)' },
+        ticks: { color: RC.muted, font: { family: 'IBM Plex Mono', size: 9 }, callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v }
+      }
+    }
+  }
+});
+
+// ===== RECEIVED SUBSIDY BAR =====
+new Chart(document.getElementById('subsidyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Q4 2025','Q4 2024','Q1-2026'],
+    datasets: [
+      {
+        label: 'Electricity',
+        data: [6772, 7663, 6950],
+        backgroundColor: '#744379',
+        borderRadius: 5,
+        barPercentage: 0.55,
+        datalabels: {
+          anchor: 'end', align: 'end',
+          color: '#744379',
+          font: { family: 'IBM Plex Mono', size: 10, weight: '700' },
+          formatter: v => v > 0 ? v.toLocaleString() : '0',
+          offset: 2
+        }
+      },
+      {
+        label: 'W & WW',
+        data: [0, 0, 0],
+        backgroundColor: '#c9a7cb',
+        borderRadius: 5,
+        barPercentage: 0.55,
+        datalabels: {
+          anchor: 'end', align: 'end',
+          color: '#9b7a9d',
+          font: { family: 'IBM Plex Mono', size: 10, weight: '600' },
+          formatter: v => v > 0 ? v.toLocaleString() : '0',
+          offset: 2
+        }
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    layout: { padding: { top: 24, right: 10 } },
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { color: RC.muted, font: { family: 'DM Sans', size: 11 }, boxWidth: 12, padding: 14 }
+      },
+      tooltip: { ...TIP, callbacks: { label: ctx => ` ${ctx.dataset.label}: OMR ${ctx.raw.toLocaleString()}K` } }
+    },
+    scales: {
+      x: {
+        grid: { display: false },
+        ticks: { color: RC.text, font: { family: 'DM Sans', size: 11, weight: '600' } }
+      },
+      y: {
+        grid: { color: 'rgba(163,165,194,0.15)' },
+        ticks: { color: RC.muted, font: { family: 'IBM Plex Mono', size: 10 }, callback: v => v.toLocaleString() }
+      }
+    }
+  }
+});
+
 </script>
 </main>
 </div>

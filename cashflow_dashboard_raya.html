@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash Flow Dashboard – Nama Dhofar Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root {
+    --primary:#744379;--primary-dark:#5e3360;--primary-light:#8d5a8f;
+    --bg:#e8eaf2;--text:#2d2f45;--text-muted:#7b7f9e;--text-dim:#a0a4be;
+    --success:#059669;--danger:#dc3545;--warning:#8d5a8f;
+    --grad-main:linear-gradient(135deg,#744379 0%,#5e3360 100%);
+    --neu-shadow:8px 8px 20px rgba(163,165,194,.6),-8px -8px 20px rgba(255,255,255,.85);
+    --neu-shadow-sm:5px 5px 12px rgba(163,165,194,.55),-5px -5px 12px rgba(255,255,255,.8);
+    --neu-shadow-inset:inset 4px 4px 10px rgba(163,165,194,.5),inset -4px -4px 10px rgba(255,255,255,.75);
+    --neu-shadow-hover:10px 10px 24px rgba(163,165,194,.65),-10px -10px 24px rgba(255,255,255,.9);
+    --font-head:'Plus Jakarta Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+    --font-body:'DM Sans',sans-serif;
+    --radius:20px;--radius-sm:12px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:13px;min-height:100vh}
+  .page{max-width:1400px;margin:0 auto;padding:24px 20px 40px;display:flex;flex-direction:column;gap:18px}
+
+  .hd{background:var(--bg);border-radius:var(--radius);padding:22px 28px;box-shadow:var(--neu-shadow);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .hd h1{font-family:var(--font-head);font-size:22px;font-weight:700;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+  .hd p{font-size:12px;color:var(--text-muted);margin-top:5px}
+  .hd-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+  .period-badge{font-family:var(--font-mono);font-size:11px;font-weight:600;background:var(--grad-main);color:white;padding:6px 16px;border-radius:50px;letter-spacing:1px;box-shadow:4px 4px 10px rgba(116,67,121,.3),-2px -2px 8px rgba(255,255,255,.7)}
+  .period-label{font-size:10px;color:var(--text-dim);letter-spacing:.5px;text-transform:uppercase}
+
+  .sec{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:12px;margin-top:4px}
+  .sec::before,.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(116,67,121,.25),transparent)}
+  .sec span{white-space:nowrap}
+
+  .panel{background:var(--bg);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--neu-shadow);transition:all .3s ease}
+  .panel:hover{transform:translateY(-2px);box-shadow:var(--neu-shadow-hover)}
+  .pt{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:7px}
+  .pt-dot{width:7px;height:7px;border-radius:50%;background:var(--grad-main);flex-shrink:0}
+  .ps{font-size:11px;color:var(--text-muted);margin-bottom:12px}
+
+  .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .g21{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+  .g31{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+
+  .kpi{background:var(--bg);border-radius:var(--radius);padding:15px 16px;box-shadow:var(--neu-shadow);position:relative;overflow:hidden;transition:all .3s ease}
+  .kpi:hover{transform:translateY(-2px);box-shadow:var(--neu-shadow-hover)}
+  .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
+  .kpi.k-blue::before{background:var(--grad-main)}
+  .kpi.k-green::before{background:linear-gradient(90deg,#744379,#5e3360)}
+  .kpi.k-gold::before{background:linear-gradient(90deg,#8d5a8f,#5e3360)}
+  .kpi.k-red::before{background:linear-gradient(90deg,#dc3545,#f87171)}
+  .kpi.k-teal::before{background:linear-gradient(90deg,#5e3360,#8d5a8f)}
+  .kpi.k-purple::before{background:linear-gradient(90deg,#744379,#8d5a8f)}
+
+  .k-cat{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;display:inline-flex;align-items:center;gap:4px}
+  .k-cat::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%}
+  .k-b{color:#744379}.k-b::before{background:#744379}
+  .k-g{color:#059669}.k-g::before{background:#059669}
+  .k-go{color:#8d5a8f}.k-go::before{background:#8d5a8f}
+  .k-r{color:#dc3545}.k-r::before{background:#dc3545}
+  .k-t{color:#5e3360}.k-t::before{background:#5e3360}
+  .k-p{color:#744379}.k-p::before{background:#744379}
+
+  .k-lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;font-weight:600}
+  .k-val{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--text);line-height:1;margin-bottom:6px;letter-spacing:-.5px}
+  .k-val sup{font-size:11px;font-weight:400;color:var(--text-dim)}
+  .k-row{display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(116,67,121,.1);padding-top:8px;margin-top:4px}
+  .k-prev{font-family:var(--font-mono);font-size:10px;color:var(--text-dim)}
+
+  .pill{font-family:var(--font-mono);font-size:10px;font-weight:700;padding:3px 7px;border-radius:50px;box-shadow:var(--neu-shadow-sm)}
+  .pos{background:var(--bg);color:#059669}
+  .neg{background:var(--bg);color:#dc3545}
+  .neu{background:var(--bg);color:var(--text-muted)}
+  .warn{background:var(--bg);color:#8d5a8f}
+
+  .ch{position:relative;width:100%}
+  .h160{height:160px}.h200{height:200px}.h220{height:220px}.h240{height:240px}.h260{height:260px}.h180{height:180px}
+
+  /* WATERFALL / FLOW ROW */
+  .flow-row{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgba(163,165,194,.15);gap:10px}
+  .flow-row:last-child{border-bottom:none}
+  .flow-lbl{font-size:11px;color:var(--text-muted);width:170px;flex-shrink:0;font-weight:500}
+  .flow-bar-wrap{flex:1;height:10px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden;position:relative}
+  .flow-bar-fill{height:100%;border-radius:50px;position:absolute;top:0;left:0}
+  .flow-val{font-family:var(--font-mono);font-size:10px;color:var(--text);width:60px;text-align:right;flex-shrink:0;font-weight:600}
+
+  /* ASSUMPTIONS BOX */
+  .assume-box{background:var(--bg);border-radius:var(--radius);padding:18px 22px;box-shadow:var(--neu-shadow-inset);border-left:4px solid #744379}
+  .assume-title{font-family:var(--font-head);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+  .assume-item{font-size:11px;color:var(--text-muted);padding:6px 0 6px 16px;position:relative;border-bottom:1px solid rgba(163,165,194,.15);line-height:1.6}
+  .assume-item:last-child{border-bottom:none}
+  .assume-item::before{content:'›';position:absolute;left:0;color:var(--primary);font-weight:bold;font-size:14px;top:4px}
+  .assume-item b{color:var(--text);font-weight:600}
+
+  /* MONTHLY TABLE */
+  .cf-table{width:100%;border-collapse:collapse}
+  .cf-table th{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;padding:10px 12px;border-bottom:2px solid rgba(116,67,121,.15);text-align:right;font-weight:700;font-family:var(--font-head)}
+  .cf-table th:first-child{text-align:left}
+  .cf-table td{font-size:11px;padding:8px 12px;border-bottom:1px solid rgba(163,165,194,.15);text-align:right;font-family:var(--font-mono)}
+  .cf-table td:first-child{text-align:left;color:var(--text-muted);font-family:var(--font-body);font-size:11px;font-weight:500}
+  .cf-table tr.sh td{background:rgba(116,67,121,.06);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--primary);font-family:var(--font-head);padding:6px 12px}
+  .cf-table tr.tot td{font-weight:700;color:var(--text);background:rgba(116,67,121,.04);border-top:1px solid rgba(116,67,121,.15)}
+  .cf-table tr.net td{font-weight:800;color:var(--primary);background:rgba(116,67,121,.08);font-size:12px}
+  .cf-table td.pos-val{color:#059669}
+  .cf-table td.neg-val{color:#dc3545}
+
+  /* INSIGHTS */
+  .ins{background:var(--bg);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--neu-shadow-inset)}
+  .ins-hd{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+  .ins-item{font-size:10.5px;color:var(--text-muted);padding:5px 0 5px 14px;position:relative;border-bottom:1px solid rgba(163,165,194,.12);line-height:1.65}
+  .ins-item:last-child{border-bottom:none}
+  .ins-item::before{content:'›';position:absolute;left:0;color:var(--primary);font-weight:bold;font-size:13px}
+  .ins-item b{color:var(--text);font-weight:600}
+  .g{color:#059669;font-weight:600}.r{color:#dc3545;font-weight:600}
+
+  /* SIDEBAR */
+  body{margin:0}
+  .raya-layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;background:#e8eaf2}
+  .raya-sidebar{background:linear-gradient(135deg,#744379 0%,#5e3360 100%);padding:28px 16px;display:flex;flex-direction:column;min-height:100vh;position:sticky;top:0;height:100vh;overflow-y:auto;box-shadow:6px 0 20px rgba(116,67,121,.2)}
+  .raya-sidebar-brand{display:flex;align-items:center;gap:12px;padding-bottom:20px;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.2)}
+  .raya-brand-icon{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:15px;color:white;flex-shrink:0}
+  .raya-brand-text{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;color:white;letter-spacing:1px;line-height:1.2}
+  .raya-brand-sub{font-size:10px;color:rgba(255,255,255,.6);margin-top:2px}
+  .raya-nav-section{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);padding:0 10px;margin:14px 0 6px}
+  .raya-nav-menu{list-style:none}
+  .raya-nav-item{margin-bottom:3px}
+  .raya-nav-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:rgba(255,255,255,.75);text-decoration:none;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .22s;position:relative}
+  .raya-nav-link:hover{background:rgba(255,255,255,.12);color:white}
+  .raya-nav-link.active{background:rgba(255,255,255,.18);color:white;font-weight:600;border:1px solid rgba(255,255,255,.22)}
+  .raya-nav-link.active::before{content:'';position:absolute;left:0;top:22%;bottom:22%;width:3px;background:white;border-radius:0 3px 3px 0}
+  .raya-nav-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);flex-shrink:0}
+  .raya-nav-link.active .raya-nav-icon,.raya-nav-link:hover .raya-nav-icon{background:rgba(255,255,255,.25)}
+  .raya-nav-icon svg{width:14px;height:14px;stroke:rgba(255,255,255,.8);stroke-width:1.8;fill:none}
+  .raya-nav-link.active .raya-nav-icon svg,.raya-nav-link:hover .raya-nav-icon svg{stroke:white}
+  .raya-sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.18)}
+  .raya-user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18)}
+  .raya-avatar{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:white;flex-shrink:0}
+  .raya-user-name{font-size:12px;font-weight:600;color:white}
+  .raya-user-role{font-size:10px;color:rgba(255,255,255,.6)}
+  .raya-main{min-width:0;overflow-y:auto}
+  @media(max-width:900px){
+    .raya-layout{grid-template-columns:1fr}
+    .raya-sidebar{min-height:auto;height:auto;position:relative;flex-direction:row;flex-wrap:wrap;padding:14px 16px;gap:10px}
+    .raya-sidebar-brand{border-bottom:none;padding-bottom:0;margin-bottom:0}
+    .raya-nav-section,.raya-sidebar-footer{display:none}
+    .raya-nav-menu{display:flex;flex-wrap:wrap;gap:4px}
+    .raya-nav-item{margin-bottom:0}
+    .raya-nav-link{padding:7px 10px;font-size:11px}
+    .raya-nav-icon{display:none}
+    .g5,.g4{grid-template-columns:repeat(2,1fr)}
+    .g3,.g2,.g21,.g31{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="raya-layout">
+<aside class="raya-sidebar">
+  <div class="raya-sidebar-brand">
+    <div class="raya-brand-icon" style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.10) 100%);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 4px 14px rgba(0,0,0,0.18);"><img src="https://i.postimg.cc/DzdBCjRy/image-10.png" alt="Logo" style="width:46px;height:46px;object-fit:contain;border-radius:10px;"></div>
+    <div>
+      <div class="raya-brand-text">Nama Dhofar</div>
+      <div class="raya-brand-sub">Board Dashboard 2026</div>
+    </div>
+  </div>
+  <div class="raya-nav-section">Navigation</div>
+  <ul class="raya-nav-menu">
+    <li class="raya-nav-item"><a class="raya-nav-link" href="index.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview</a></li>
+    <li class="raya-nav-item"><a class="raya-nav-link" href="income_statement_dashboard_raya.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement</a></li>
+    <li class="raya-nav-item"><a class="raya-nav-link" href="balance_sheet_dashboard_raya.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Balance Sheet</a></li>
+    <li class="raya-nav-item"><a class="raya-nav-link" href="receivables_dashboard_raya.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Receivables</a></li>
+    <li class="raya-nav-item"><a class="raya-nav-link" href="capex_vowd_dashboard_raya.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>CAPEX & VOWD</a></li>
+    <li class="raya-nav-item"><a class="raya-nav-link" href="kpi_dso_covenant_raya.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO</a></li>
+    <li class="raya-nav-item"><a class="raya-nav-link active" href="cashflow_dashboard_raya.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
+    <li class="raya-nav-item"><a class="raya-nav-link" href="operations_dashboard_raya.html"><span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations</a></li>
+  </ul>
+  <div class="raya-sidebar-footer">
+    <div class="raya-user-card">
+      <div class="raya-avatar">LB</div>
+      <div>
+        <div class="raya-user-name">Latifa Bait Saleem</div>
+        <div class="raya-user-role">Chief Financial Officer (CFO)</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main class="raya-main" style="padding:24px;overflow-y:auto">
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="hd">
+    <div>
+      <h1>Cash Flow Forecast</h1>
+      <p>Nama Dhofar Services &nbsp;·&nbsp; Cash Flow Forecast Tab &nbsp;·&nbsp; All figures in OMR Thousands</p>
+    </div>
+    <div class="hd-right">
+      <div class="period-badge">Mar 2026 – Dec 2026</div>
+      <div class="period-label">Latifa Bait Saleem · CFO</div>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="g5">
+    <div class="kpi k-blue">
+      <div class="k-cat k-b">Opening Cash</div>
+      <div class="k-lbl">Cash & Banks — Mar 2026</div>
+      <div class="k-val">27,615 <sup>OMR K</sup></div>
+      <div class="k-row"><div class="k-prev">Starting Balance</div><div class="pill neu">Actual</div></div>
+    </div>
+    <div class="kpi k-blue">
+      <div class="k-cat k-b">Total Receipts</div>
+      <div class="k-lbl">Mar – Dec 2026</div>
+      <div class="k-val">399,718 <sup>OMR K</sup></div>
+      <div class="k-row"><div class="k-prev">10-Month Forecast</div><div class="pill neu">Inflows</div></div>
+    </div>
+    <div class="kpi k-purple">
+      <div class="k-cat k-p">Total Outflows</div>
+      <div class="k-lbl">Mar – Dec 2026</div>
+      <div class="k-val">415,667 <sup>OMR K</sup></div>
+      <div class="k-row"><div class="k-prev">10-Month Forecast</div><div class="pill neu">Outflows</div></div>
+    </div>
+    <div class="kpi k-teal">
+      <div class="k-cat k-t">Closing Cash</div>
+      <div class="k-lbl">Net Cash — Dec 2026</div>
+      <div class="k-val">11,664 <sup>OMR K</sup></div>
+      <div class="k-row"><div class="k-prev">End of Year</div><div class="pill warn">−57.8%</div></div>
+    </div>
+    <div class="kpi k-gold">
+      <div class="k-cat k-go">Peak Cash</div>
+      <div class="k-lbl">Highest Month</div>
+      <div class="k-val">140,977 <sup>OMR K</sup></div>
+      <div class="k-row"><div class="k-prev">Sep-2026 (Loan Proc.)</div><div class="pill warn">Sep-26</div></div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: MAIN CHART -->
+  <div class="sec"><span>1 · Cash Position — Monthly Overview</span></div>
+
+  <div class="g31">
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>Net Cash on Hand — Monthly Forecast (Mar – Dec 2026)</div>
+      <div class="ps">Opening balance · Total receipts · Total paid out · Net closing cash — 4 shades of purple (OMR K)</div>
+      <div class="ch h260"><canvas id="mainCfChart"></canvas></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="panel" style="padding:18px 20px">
+        <div class="pt" style="margin-bottom:10px"><div class="pt-dot"></div>Monthly Net Cash Position</div>
+        <div class="ps">Closing balance each month (OMR K)</div>
+        <div class="flow-row"><div class="flow-lbl">Mar-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:10.0%"></div></div><div class="flow-val">14,136</div></div>
+        <div class="flow-row"><div class="flow-lbl">Apr-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:10.1%"></div></div><div class="flow-val">14,234</div></div>
+        <div class="flow-row"><div class="flow-lbl">May-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:27.9%"></div></div><div class="flow-val">39,395</div></div>
+        <div class="flow-row"><div class="flow-lbl">Jun-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:11.6%"></div></div><div class="flow-val">16,421</div></div>
+        <div class="flow-row"><div class="flow-lbl">Jul-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:11.7%"></div></div><div class="flow-val">16,539</div></div>
+        <div class="flow-row"><div class="flow-lbl">Aug-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:17.2%"></div></div><div class="flow-val">24,221</div></div>
+        <div class="flow-row"><div class="flow-lbl">Sep-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#744379);width:13.4%"></div></div><div class="flow-val">18,952</div></div>
+        <div class="flow-row"><div class="flow-lbl">Oct-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:15.4%"></div></div><div class="flow-val">21,740</div></div>
+        <div class="flow-row"><div class="flow-lbl">Nov-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#744379,#8d5a8f);width:14.5%"></div></div><div class="flow-val">20,386</div></div>
+        <div class="flow-row"><div class="flow-lbl">Dec-2026</div><div class="flow-bar-wrap"><div class="flow-bar-fill" style="background:linear-gradient(90deg,#dc3545,#f87171);width:8.3%"></div></div><div class="flow-val" style="color:#5e3360">11,664</div></div>
+      </div>
+      <div class="ins">
+        <div class="ins-hd">Key Observations</div>
+        <div class="ins-item">Cash position drops from <b>27,615</b> to <b style="color:#5e3360;font-weight:600">11,664</b> by Dec-2026 (−57.8%) reflecting net outflows.</div>
+        <div class="ins-item"><b>May-2026</b> peaks at <b style="color:#744379;font-weight:600">39,395 OMR K</b> driven by subsidy receipt of 35,592K.</div>
+        <div class="ins-item"><b>Sep-2026</b> shows 140,977 available cash due to <b style="color:#744379;font-weight:600">90,000 OMR K loan proceeds</b>, with large CAPEX/FD outflows offsetting.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: RECEIPTS & OUTFLOWS -->
+  <div class="sec"><span>2 · Cash Receipts & Outflows Breakdown</span></div>
+
+  <div class="g2">
+    <!-- RECEIPTS -->
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>Cash Receipts — Component Breakdown</div>
+      <div class="ps">Collections · Subsidy · Loan Proceeds · FD Utilization — Monthly trend (OMR K)</div>
+      <div class="ch h220"><canvas id="receiptsChart"></canvas></div>
+    </div>
+    <!-- OUTFLOWS -->
+    <div class="panel">
+      <div class="pt"><div class="pt-dot"></div>Cash Paid Out — Component Breakdown</div>
+      <div class="ps">Bulk Supply · Salaries · OETC · Interest · CAPEX · Other — Monthly trend (OMR K)</div>
+      <div class="ch h220"><canvas id="outflowsChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: DETAIL TABLE -->
+  <div class="sec"><span>3 · Monthly Detail — Cash Flow Statement</span></div>
+
+  <div class="panel" style="padding:22px;overflow-x:auto">
+    <div class="pt" style="margin-bottom:4px"><div class="pt-dot"></div>Cash Flow Detail — Mar to Dec 2026</div>
+    <div class="ps">All figures in OMR Thousands</div>
+    <table class="cf-table">
+      <thead>
+        <tr>
+          <th style="text-align:left">Item</th>
+          <th>Mar-26</th><th>Apr-26</th><th>May-26</th><th>Jun-26</th><th>Jul-26</th>
+          <th>Aug-26</th><th>Sep-26</th><th>Oct-26</th><th>Nov-26</th><th>Dec-26</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sh"><td colspan="11">OPENING BALANCE</td></tr>
+        <tr><td>Cash and Bank Balances</td><td>27,615</td><td>14,136</td><td>14,234</td><td>39,395</td><td>16,421</td><td>16,539</td><td>24,221</td><td>18,952</td><td>21,740</td><td>20,386</td></tr>
+
+        <tr class="sh"><td colspan="11">CASH RECEIPTS</td></tr>
+        <tr><td>Collections on AR</td><td>9,232</td><td>12,766</td><td>13,371</td><td>14,651</td><td>21,072</td><td>20,241</td><td>20,246</td><td>12,248</td><td>12,260</td><td>15,214</td></tr>
+        <tr><td>Subsidy Receivables</td><td>—</td><td>13,175</td><td>35,592</td><td>—</td><td>10,829</td><td>6,900</td><td>—</td><td>10,829</td><td>6,900</td><td>—</td></tr>
+        <tr><td>Loan Proceeds</td><td>—</td><td>15,000</td><td>—</td><td>—</td><td>—</td><td>—</td><td>90,000</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>FD Utilization</td><td>6,873</td><td>6,232</td><td>6,028</td><td>6,729</td><td>4,848</td><td>5,623</td><td>6,510</td><td>5,140</td><td>5,185</td><td>6,026</td></tr>
+        <tr class="tot"><td>Total Cash Receipts</td><td class="">16,105</td><td class="">47,173</td><td class="">54,991</td><td class="">21,380</td><td class="">36,748</td><td class="">32,764</td><td class="">116,756</td><td class="">28,216</td><td class="">24,345</td><td class="">21,240</td></tr>
+        <tr class="tot"><td>Total Cash Available</td><td>43,720</td><td>61,308</td><td>69,225</td><td>60,775</td><td>53,170</td><td>49,303</td><td>140,977</td><td>47,169</td><td>46,085</td><td>41,625</td></tr>
+
+        <tr class="sh"><td colspan="11">CASH PAID OUT</td></tr>
+        <tr><td>Salaries</td><td>1,534</td><td>1,534</td><td>1,534</td><td>1,534</td><td>1,534</td><td>1,534</td><td>1,534</td><td>1,534</td><td>1,534</td><td>1,534</td></tr>
+        <tr><td>Bulk Supply Purchases</td><td>7,146</td><td>34,641</td><td>17,601</td><td>25,317</td><td>25,581</td><td>13,258</td><td>13,207</td><td>14,088</td><td>14,312</td><td>11,628</td></tr>
+        <tr><td>OETC Cost</td><td>1,165</td><td>1,165</td><td>1,165</td><td>1,165</td><td>1,165</td><td>1,165</td><td>1,165</td><td>1,165</td><td>1,165</td><td>1,165</td></tr>
+        <tr><td>Interest Expense</td><td>3,279</td><td>—</td><td>—</td><td>3,279</td><td>—</td><td>—</td><td>3,279</td><td>—</td><td>—</td><td>3,279</td></tr>
+        <tr><td>FD Placement</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>50,000</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>Other Expenses</td><td>6,760</td><td>3,502</td><td>3,502</td><td>3,502</td><td>3,502</td><td>3,502</td><td>3,502</td><td>3,502</td><td>3,502</td><td>3,502</td></tr>
+        <tr class="tot"><td>Subtotal Operating</td><td>19,884</td><td>40,842</td><td>23,802</td><td>34,797</td><td>31,782</td><td>19,459</td><td>72,687</td><td>20,289</td><td>20,513</td><td>21,108</td></tr>
+        <tr><td>Loan Principal Payment</td><td>2,826</td><td>—</td><td>—</td><td>2,826</td><td>—</td><td>—</td><td>42,826</td><td>—</td><td>—</td><td>2,826</td></tr>
+        <tr><td>Capital Expenditure</td><td>6,873</td><td>6,232</td><td>6,028</td><td>6,729</td><td>4,848</td><td>5,623</td><td>6,510</td><td>5,140</td><td>5,185</td><td>6,026</td></tr>
+        <tr class="tot"><td>Total Cash Paid Out</td><td class="">29,583</td><td class="">47,074</td><td class="">29,830</td><td class="">44,352</td><td class="">36,630</td><td class="">25,082</td><td class="">122,023</td><td class="">25,429</td><td class="">25,698</td><td class="">29,960</td></tr>
+
+        <tr class="net"><td>Net Cash on Hand (End of Month)</td><td>14,136</td><td>14,234</td><td>39,395</td><td>16,421</td><td>16,539</td><td>24,221</td><td>18,952</td><td>21,740</td><td>20,386</td><td>11,664</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 4: ASSUMPTIONS -->
+  <div class="sec"><span>4 · Assumptions</span></div>
+
+  <div class="g2">
+    <div class="assume-box">
+      <div class="assume-title">Forecast Assumptions</div>
+      <div class="assume-item"><b>Subsidy Collection:</b> Subsidy received on time by the beginning of each subsequent quarter — figures as approved per APSR during 2024.</div>
+      <div class="assume-item"><b>Working Capital Loan:</b> R.O. 22 MN to be received by Q2-2024 (reflected in Sep-2026 loan proceeds of OMR 90,000K).</div>
+      <div class="assume-item"><b>Interest Payments:</b> Quarterly interest expense of OMR 3,279K applied in Mar, Jun, Sep, and Dec 2026.</div>
+      <div class="assume-item"><b>FD Placement:</b> Fixed Deposit placement of OMR 50,000K scheduled in Sep-2026 offset by corresponding FD Utilization receipts each month.</div>
+      <div class="assume-item"><b>CAPEX:</b> Monthly capital expenditure aligned with FD utilization — averaging OMR 5,961K per month across the forecast period.</div>
+    </div>
+    <div class="ins">
+      <div class="ins-hd">Cash Flow Insights</div>
+      <div class="ins-item">Collections on AR remain the primary <b style="color:#744379;font-weight:600">recurring inflow</b>, averaging OMR 15,419K per month, rising from 9,232K in Mar to 21,072K in Jul.</div>
+      <div class="ins-item"><b>Subsidy receipts</b> of OMR 10,829–35,592K are lumpy and quarterly — driving the May and Jun-Jul spikes.</div>
+      <div class="ins-item"><b>Bulk Supply Purchases</b> are the dominant outflow at an average of OMR 17,688K/month, representing ~59% of total operating cash paid out.</div>
+      <div class="ins-item">Sep-2026 is a critical month with <b style="color:#5e3360;font-weight:600">OMR 122,023K outflows</b> (including 42,826K loan repayment + 50,000K FD placement) requiring careful liquidity management.</div>
+      <div class="ins-item">Year-end closing cash of <b style="color:#5e3360;font-weight:600">OMR 11,664K</b> is tight — below the <b>OMR 14,000K</b> range maintained through most of the year.</div>
+    </div>
+  </div>
+
+</div>
+</main>
+</div>
+
+<script>
+const RC={primary:'#744379',bg:'#e8eaf2',muted:'#a0a4be',text:'#2d2f45',danger:'#dc3545',success:'#059669',warning:'#8d5a8f',teal:'#5e3360'};
+const TIP={backgroundColor:'rgba(232,234,242,.97)',borderColor:'rgba(116,67,121,.2)',borderWidth:1,titleColor:RC.primary,bodyColor:RC.text,titleFont:{family:'IBM Plex Mono',size:10},bodyFont:{family:'IBM Plex Mono',size:10},padding:12};
+const MONTHS=['Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26'];
+const LEGEND={display:true,position:'bottom',align:'center',labels:{color:RC.text,font:{family:'DM Sans',size:11,weight:'600'},boxWidth:28,boxHeight:2,padding:14,usePointStyle:true,pointStyle:'line'}};
+const SCALES={x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.text,font:{family:'DM Sans',size:10,weight:'600'}}},y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:9},callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}};
+
+// MAIN CASH FLOW CHART — GROUPED BAR (PURPLE PALETTE)
+new Chart(document.getElementById('mainCfChart'),{
+  type:'bar',
+  plugins:[ChartDataLabels],
+  data:{
+    labels:MONTHS,
+    datasets:[
+      {
+        label:'Opening Balance',
+        data:[27615,14136,14234,39395,16421,16539,24221,18952,21740,20386],
+        backgroundColor:'rgba(163,165,194,.45)',
+        borderColor:'rgba(163,165,194,.7)',
+        borderWidth:1.5,borderRadius:5,
+        barPercentage:.75,categoryPercentage:.85,
+        datalabels:{display:false}
+      },
+      {
+        label:'Total Cash Receipts',
+        data:[16105,47173,54991,21380,36748,32764,116756,28216,24345,21240],
+        backgroundColor:'rgba(141,90,143,.65)',
+        borderColor:'#8d5a8f',
+        borderWidth:1.5,borderRadius:5,
+        barPercentage:.75,categoryPercentage:.85,
+        datalabels:{display:false}
+      },
+      {
+        label:'Total Cash Paid Out',
+        data:[29583,47074,29830,44352,36630,25082,122023,25429,25698,29960],
+        backgroundColor:'rgba(94,51,96,.65)',
+        borderColor:'#5e3360',
+        borderWidth:1.5,borderRadius:5,
+        barPercentage:.75,categoryPercentage:.85,
+        datalabels:{display:false}
+      },
+      {
+        label:'Net Cash (Closing)',
+        data:[14136,14234,39395,16421,16539,24221,18952,21740,20386,11664],
+        backgroundColor:'rgba(116,67,121,.85)',
+        borderColor:'#744379',
+        borderWidth:1.5,borderRadius:5,
+        barPercentage:.75,categoryPercentage:.85,
+        datalabels:{
+          anchor:'end',align:'top',offset:3,
+          color:'#744379',
+          font:{family:'IBM Plex Mono',size:9,weight:'700'},
+          formatter:v=>(v/1000).toFixed(1)+'K'
+        }
+      }
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:28,right:10,bottom:4,left:4}},
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      datalabels:{display:true},
+      legend:{
+        display:true,position:'bottom',align:'center',
+        labels:{
+          color:RC.text,
+          font:{family:'DM Sans',size:11,weight:'600'},
+          boxWidth:16,boxHeight:12,padding:16,
+          usePointStyle:false
+        }
+      },
+      tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}K`}}
+    },
+    scales:{
+      x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.text,font:{family:'DM Sans',size:10,weight:'600'}}},
+      y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:9},callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}
+    }
+  }
+});
+
+// RECEIPTS LINE CHART — SIMPLIFIED
+new Chart(document.getElementById('receiptsChart'),{
+  type:'line',
+  plugins:[ChartDataLabels],
+  data:{
+    labels:MONTHS,
+    datasets:[
+      {
+        label:'Total Cash Receipts',
+        data:[16105,47173,54991,21380,36748,32764,116756,28216,24345,21240],
+        borderColor:'#744379',backgroundColor:'rgba(116,67,121,.08)',
+        fill:true,tension:.35,pointBackgroundColor:'#744379',pointBorderColor:RC.bg,
+        pointBorderWidth:2.5,pointRadius:6,borderWidth:2.5,
+        datalabels:{align:'top',offset:5,color:'#744379',font:{family:'IBM Plex Mono',size:9,weight:'700'},formatter:v=>(v/1000).toFixed(0)+'K'}
+      },
+      {
+        label:'Collections on AR',
+        data:[9232,12766,13371,14651,21072,20241,20246,12248,12260,15214],
+        borderColor:'#8d5a8f',backgroundColor:'transparent',
+        fill:false,tension:.35,pointBackgroundColor:'#8d5a8f',pointBorderColor:RC.bg,
+        pointBorderWidth:2,pointRadius:5,borderWidth:2,borderDash:[5,3],
+        datalabels:{align:'bottom',offset:4,color:'#8d5a8f',font:{family:'IBM Plex Mono',size:8,weight:'600'},formatter:v=>(v/1000).toFixed(0)+'K'}
+      },
+      {
+        label:'Subsidy Receivables',
+        data:[0,13175,35592,0,10829,6900,0,10829,6900,0],
+        borderColor:'rgba(163,165,194,.85)',backgroundColor:'transparent',
+        fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.85)',pointBorderColor:RC.bg,
+        pointBorderWidth:2,pointRadius:5,borderWidth:1.8,borderDash:[3,3],
+        datalabels:{align:'top',offset:4,color:'#a0a4be',font:{family:'IBM Plex Mono',size:8},formatter:v=>v===0?'':(v/1000).toFixed(0)+'K'}
+      }
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:26,right:16,bottom:4,left:4}},
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      datalabels:{display:true},
+      legend:{display:true,position:'bottom',align:'center',labels:{color:RC.text,font:{family:'DM Sans',size:11,weight:'600'},boxWidth:24,boxHeight:2,padding:14,usePointStyle:true,pointStyle:'line'}},
+      tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}K`}}
+    },
+    scales:SCALES
+  }
+});
+
+// OUTFLOWS LINE CHART — SIMPLIFIED
+new Chart(document.getElementById('outflowsChart'),{
+  type:'line',
+  plugins:[ChartDataLabels],
+  data:{
+    labels:MONTHS,
+    datasets:[
+      {
+        label:'Total Cash Paid Out',
+        data:[29583,47074,29830,44352,36630,25082,122023,25429,25698,29960],
+        borderColor:'#5e3360',backgroundColor:'rgba(94,51,96,.08)',
+        fill:true,tension:.35,pointBackgroundColor:'#5e3360',pointBorderColor:RC.bg,
+        pointBorderWidth:2.5,pointRadius:6,borderWidth:2.5,
+        datalabels:{align:'top',offset:5,color:'#5e3360',font:{family:'IBM Plex Mono',size:9,weight:'700'},formatter:v=>(v/1000).toFixed(0)+'K'}
+      },
+      {
+        label:'Bulk Supply Purchases',
+        data:[7146,34641,17601,25317,25581,13258,13207,14088,14312,11628],
+        borderColor:'#8d5a8f',backgroundColor:'transparent',
+        fill:false,tension:.35,pointBackgroundColor:'#8d5a8f',pointBorderColor:RC.bg,
+        pointBorderWidth:2,pointRadius:5,borderWidth:2,borderDash:[5,3],
+        datalabels:{align:'bottom',offset:4,color:'#8d5a8f',font:{family:'IBM Plex Mono',size:8,weight:'600'},formatter:v=>(v/1000).toFixed(0)+'K'}
+      },
+      {
+        label:'CAPEX + Other Expenses',
+        data:[13633,9734,9530,10231,8350,9125,10012,8642,8687,9528],
+        borderColor:'rgba(163,165,194,.85)',backgroundColor:'transparent',
+        fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.85)',pointBorderColor:RC.bg,
+        pointBorderWidth:2,pointRadius:4,borderWidth:1.8,borderDash:[3,3],
+        datalabels:{align:'top',offset:4,color:'#a0a4be',font:{family:'IBM Plex Mono',size:8},formatter:v=>(v/1000).toFixed(0)+'K'}
+      }
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    layout:{padding:{top:26,right:16,bottom:4,left:4}},
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      datalabels:{display:true},
+      legend:{display:true,position:'bottom',align:'center',labels:{color:RC.text,font:{family:'DM Sans',size:11,weight:'600'},boxWidth:24,boxHeight:2,padding:14,usePointStyle:true,pointStyle:'line'}},
+      tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}K`}}
+    },
+    scales:SCALES
+  }
+});
+
+</script>
+</main>
+</div>
+</body>
+</html>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KPI — DSO & Covenant</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
 <style>
   :root {
     --primary:#744379; --primary-dark:#5e3360; --primary-light:#8d5a8f;
@@ -215,54 +215,52 @@ body { margin: 0; }
 <div class="raya-layout">
 <aside class="raya-sidebar">
   <div class="raya-sidebar-brand">
-    <div class="raya-brand-icon">LB</div>
+    <div class="raya-brand-icon" style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.10) 100%);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 4px 14px rgba(0,0,0,0.18);"><img src="https://i.postimg.cc/DzdBCjRy/image-10.png" alt="Logo" style="width:46px;height:46px;object-fit:contain;border-radius:10px;"></div>
     <div>
-      <div class="raya-brand-text">Nama Dhofar</div>
+      <div class="raya-brand-text">Nama Dhofar Services</div>
       <div class="raya-brand-sub">Board Dashboard 2026</div>
     </div>
   </div>
   <div class="raya-nav-section">Navigation</div>
   <ul class="raya-nav-menu">
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="index.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="3.5"/><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span>
-        Overview
+      <a class="raya-nav-link" href="index.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="income_statement_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
-        Income Statement
+      <a class="raya-nav-link" href="income_statement_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="balance_sheet_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
-        Balance Sheet
+      <a class="raya-nav-link" href="balance_sheet_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="receivables_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-        Receivables
+      <a class="raya-nav-link" href="receivables_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Receivables
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="capex_vowd_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-        CAPEX & VOWD
+      <a class="raya-nav-link" href="capex_vowd_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>CAPEX & VOWD
       </a>
     </li>
     <li class="raya-nav-item">
       <a class="raya-nav-link active" href="kpi_dso_covenant_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
-        KPI — DSO
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
+      </a>
+    </li>
+       <li class="raya-nav-item">
+      <a class="raya-nav-link" href="cashflow_dashboard_raya.html">
+      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="operations_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>
-        Operations
+      <a class="raya-nav-link" href="operations_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations
       </a>
     </li>
   </ul>
@@ -282,228 +280,77 @@ body { margin: 0; }
 
   <div class="header">
     <div>
-      <h1>KPI — DSO &amp; Covenant Analysis</h1>
-      <p>Nama Dhofar Services &nbsp;·&nbsp; FS + Covenant Sheet + Details-Tech &nbsp;·&nbsp; Figures in OMR '000 unless noted</p>
+      <h1>Board KPI Dashboard</h1>
+      <p>Nama Dhofar Services &nbsp;·&nbsp; Q1-2026 vs Q1-2025 &nbsp;·&nbsp; OMR '000</p>
     </div>
     <div class="header-right">
-      <div class="period-badge">Mar-2026 Actual</div>
+      <div class="period-badge">Q1-2026 Actual</div>
       <div class="period-label">Latifa Bait Saleem · CFO</div>
     </div>
   </div>
 
-  <div class="kpi4">
-    <div class="kpi dso">
-      <div class="kpi-accent-dot"></div>
-      <div class="kpi-cat b">DSO</div>
-      <div class="kpi-lbl">Days Sales Outstanding</div>
-      <div class="kpi-big">101<span style="font-size:16px;color:var(--text-dim);font-weight:400"> days</span></div>
-      <div class="kpi-unit">(AR ÷ Total Revenue) × 90 days</div>
-      <div class="kpi-vars">
-        <div class="var-row"><span class="var-lbl">vs Budget (64 days)</span><div class="pill neg">+57.1%</div></div>
-        <div class="var-row"><span class="var-lbl">vs Dec-25 (96 days)</span><div class="pill neg">+5.2%</div></div>
-      </div>
-    </div>
-    <div class="kpi cov">
-      <div class="kpi-accent-dot"></div>
-      <div class="kpi-cat g">Covenant</div>
-      <div class="kpi-lbl">EBITDA (Mar-26 + Mar-25) − VOWD</div>
-      <div class="kpi-big" style="color:#8d5a8f">4,397<span style="font-size:14px;color:var(--text-dim);font-weight:400"> OMR K</span></div>
-      <div class="kpi-unit">Partial: EBITDA Mar-26 − VOWD only</div>
-      <div class="kpi-vars">
-        <div class="var-row"><span class="var-lbl">EBITDA Mar-26</span><div class="pill neu">13,153 K</div></div>
-        <div class="var-row"><span class="var-lbl">EBITDA Mar-25</span><div class="pill neg">#DIV/0! in source</div></div>
-        <div class="var-row"><span class="var-lbl">VOWD Mar-26</span><div class="pill neg">8,756 K</div></div>
-      </div>
-    </div>
+  <!-- ===== SECTION 3: COVENANT COMPLIANCE ===== -->
+  <div class="divider">الالتزام بالعهود — Covenant Compliance</div>
+  <div class="kpi4" style="grid-template-columns:repeat(2,1fr)">
+
     <div class="kpi dscr">
       <div class="kpi-accent-dot"></div>
-      <div class="kpi-cat gr">Debt Service Cover</div>
-      <div class="kpi-lbl">DSCR — Covenant Sheet</div>
-      <div class="kpi-big" style="color:#059669">161.23<span style="font-size:14px;color:var(--text-dim);font-weight:400">x</span></div>
-      <div class="kpi-unit">Net Op. Income ÷ Debt Service</div>
-      <div class="thr-block">
-        <div class="thr-label"><span>Min. Threshold</span><span style="color:#059669">✓ Compliant</span></div>
-        <div class="thr-track">
-          <div class="thr-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:100%"></div>
-          <div class="thr-line" style="left:.7%"><div class="thr-line-lbl">1.10x min</div></div>
-        </div>
+      <div class="kpi-cat gr">Debt Service Cover Ratio — DSCR</div>
+      <div class="kpi-lbl">Net Op. Income ÷ Debt Service</div>
+      <div class="kpi-big" style="color:#059669">1.23<span style="font-size:14px;color:var(--text-dim);font-weight:400">x</span></div>
+      <div class="kpi-vars" style="margin-top:14px">
+        <div class="var-row"><span class="var-lbl">vs Q1-2025 (1.46x)</span><div class="pill neg">−15.4%</div></div>
+        <div class="var-row"><span class="var-lbl">Net Op. Income</span><div class="pill ok">13,153 K</div></div>
+        <div class="var-row"><span class="var-lbl">Debt Service</span><div class="pill ok">10,654 K</div></div>
       </div>
     </div>
-    <div class="kpi ni">
+
+    <div class="kpi dscr">
       <div class="kpi-accent-dot"></div>
-      <div class="kpi-cat p">Net Indebtedness / Equity</div>
+      <div class="kpi-cat gr">Net Indebtedness / Equity</div>
       <div class="kpi-lbl">Total Net Indebtedness ÷ Equity</div>
-      <div class="kpi-big" style="color:#059669">−0.08<span style="font-size:14px;color:var(--text-dim);font-weight:400">x</span></div>
-      <div class="kpi-unit">Negative = net cash position</div>
-      <div class="thr-block">
-        <div class="thr-label"><span>Max. Threshold 2.33x</span><span style="color:#059669">✓ Compliant</span></div>
-        <div class="thr-track">
-          <div class="thr-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:3%"></div>
-          <div class="thr-line" style="left:100%"><div class="thr-line-lbl">2.33x max</div></div>
-        </div>
+      <div class="kpi-big" style="color:#059669">1.02<span style="font-size:14px;color:var(--text-dim);font-weight:400">x</span></div>
+      <div class="kpi-vars" style="margin-top:14px">
+        <div class="var-row"><span class="var-lbl">vs Q1-2025 (0.99x)</span><div class="pill neg">+3.5%</div></div>
+        <div class="var-row"><span class="var-lbl">Net Indebtedness</span><div class="pill ok">207,339 K</div></div>
+        <div class="var-row"><span class="var-lbl">Total Equity</span><div class="pill ok">202,437 K</div></div>
       </div>
     </div>
+
   </div>
 
-  <div class="divider">DSO Analysis</div>
+  <!-- ===== SECTION 4: RISK INDICATORS ===== -->
+  <div class="divider">مؤشرات المخاطر — Risk Indicators <span style="font-size:9px;font-weight:400;letter-spacing:0;color:var(--text-dim)">(Q1-2025 غير متوفر)</span></div>
+  <div class="kpi4" style="grid-template-columns:repeat(2,1fr)">
 
-  <div class="g21">
-    <div class="panel">
-      <div class="panel-title"><div class="panel-title-dot"></div>DSO — Mar-2026 vs Budget vs Dec-2025</div>
-      <div class="panel-sub">Days Sales Outstanding = (Account Receivables ÷ Total Revenue) × 90 days</div>
-      <div class="ch ch230"><canvas id="dsoChart"></canvas></div>
-    </div>
-    <div class="panel">
-      <div class="panel-title"><div class="panel-title-dot"></div>DSO Components</div>
-      <div class="panel-sub">Receivables and Revenue inputs (OMR K)</div>
-      <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:14px">
-        <div>
-          <div class="dso-section-label">Account Receivables</div>
-          <div class="dso-row" style="border:none;padding-top:0">
-            <div class="dso-seg">Mar-2026 Actual</div>
-            <div class="dso-bar-wrap"><div class="dso-bar" style="background:linear-gradient(90deg,#744379,#5e3360);width:100%"></div></div>
-            <div class="dso-val">56,107</div>
-            <div style="flex-shrink:0"><div class="pill neg">+25.4%</div></div>
-          </div>
-          <div class="dso-row" style="border:none;padding:4px 0">
-            <div class="dso-seg">Budget</div>
-            <div class="dso-bar-wrap"><div class="dso-bar" style="background:rgba(116,67,121,.35);width:79.7%"></div></div>
-            <div class="dso-val">44,743</div>
-            <div style="flex-shrink:0"></div>
-          </div>
-          <div class="dso-row">
-            <div class="dso-seg">Dec-2025 Actual</div>
-            <div class="dso-bar-wrap"><div class="dso-bar" style="background:rgba(116,67,121,.55);width:94.9%"></div></div>
-            <div class="dso-val">53,267</div>
-            <div style="flex-shrink:0"></div>
-          </div>
-        </div>
-        <div>
-          <div class="dso-section-label">Total Revenue</div>
-          <div class="dso-row" style="border:none;padding-top:0">
-            <div class="dso-seg">Mar-2026 Actual</div>
-            <div class="dso-bar-wrap"><div class="dso-bar" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:79.7%"></div></div>
-            <div class="dso-val">49,952</div>
-            <div style="flex-shrink:0"></div>
-          </div>
-          <div class="dso-row">
-            <div class="dso-seg">Budget</div>
-            <div class="dso-bar-wrap"><div class="dso-bar" style="background:rgba(141,90,143,.35);width:100%"></div></div>
-            <div class="dso-val">62,656</div>
-            <div style="flex-shrink:0"></div>
-          </div>
-        </div>
-      </div>
-      <div class="formula-box">
-        <div class="formula-box-label">DSO Formula</div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text)">Mar-26: (56,107 ÷ 49,952) × 90 = <span style="color:#dc3545;font-weight:700">101.1 days</span></div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:5px">Budget: (44,743 ÷ 62,656) × 90 = <span style="color:#059669;font-weight:600">64.3 days</span></div>
-        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:5px">Dec-25: (53,267 ÷ 49,952) × 90 = <span style="color:#8d5a8f;font-weight:600">96.0 days</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider">Covenant = EBITDA (Mar-26 + Mar-25) − VOWD</div>
-
-  <div class="g2">
-    <div class="panel">
-      <div class="panel-title"><div class="panel-title-dot"></div>Covenant Calculation Breakdown</div>
-      <div class="panel-sub">Formula: EBITDA Mar-26 + EBITDA Mar-25 − VOWD Mar-26 (OMR K)</div>
-      <div class="cov-eq">
-        <div class="cov-term"><div class="val">13,153</div><div class="lbl">EBITDA Mar-26</div></div>
-        <div class="cov-op">+</div>
-        <div class="cov-term"><div class="unavail">#DIV/0!</div><div class="lbl" style="color:#dc3545">EBITDA Mar-25</div></div>
-        <div class="cov-op">−</div>
-        <div class="cov-term"><div class="val">8,756</div><div class="lbl">VOWD Mar-26</div></div>
-        <div style="flex:1;text-align:right"><div style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim)">=</div></div>
-        <div class="cov-result"><div class="val">4,397</div><div class="lbl">Partial Result</div></div>
-      </div>
-      <div class="note-box"><b>Source Note:</b> EBITDA Mar-25 shows <span class="r">#DIV/0!</span> in FS sheet (row 24, col 5) due to a formula error in the Subsidy line for the Mar-2025 period. The partial covenant result of <b>OMR 4,397K</b> reflects only <b>EBITDA Mar-26 (13,153) − VOWD (8,756)</b>. Full covenant value requires a corrected Mar-25 EBITDA.</div>
-      <div style="margin-top:16px">
-        <table class="cov-table">
-          <thead><tr><th style="text-align:left">Component</th><th>Value (OMR K)</th><th>Source</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>EBITDA Mar-2026</td><td class="n">13,152.826</td><td class="nc">FS Row 24 · Col 2</td><td class="ok">✓ Available</td></tr>
-            <tr><td>EBITDA Mar-2025</td><td class="n" style="color:#dc3545">#DIV/0!</td><td class="nc">FS Row 24 · Col 5</td><td class="breach">✗ Formula Error</td></tr>
-            <tr><td>VOWD Mar-2026 (DISC Total)</td><td class="n">8,756.026</td><td class="nc">Details-Tech Row 17</td><td class="ok">✓ Available</td></tr>
-            <tr class="total-row"><td style="font-weight:700">Covenant (Partial)</td><td class="n" style="color:#8d5a8f">4,396.800</td><td class="nc">Mar-26 only</td><td><div class="pill warn">Incomplete</div></td></tr>
-          </tbody>
-        </table>
+    <div class="kpi dso">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-cat b" style="color:#dc3545">⚠ DSO — Collection Risk</div>
+      <div class="kpi-lbl">Days Sales Outstanding</div>
+      <div class="kpi-big" style="color:#dc3545">101<span style="font-size:16px;color:var(--text-dim);font-weight:400"> days</span></div>
+      <div class="kpi-unit">(56,107 ÷ 49,952) × 90 days</div>
+      <div class="kpi-vars">
+        <div class="var-row"><span class="var-lbl">vs Budget (64 days)</span><div class="pill neg">+57.1%</div></div>
+        <div class="var-row"><span class="var-lbl">Account Receivables</span><div class="pill neg">56,107 K (+25.4% vs Bud)</div></div>
       </div>
     </div>
 
-    <div class="panel">
-      <div class="panel-title"><div class="panel-title-dot"></div>Covenant Compliance — Mar-2026</div>
-      <div class="panel-sub">Covenant sheet — all ratios and thresholds</div>
-      <table class="cov-table" style="margin-bottom:16px">
-        <thead><tr><th style="text-align:left">Covenant</th><th>Actual</th><th>Threshold</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>Gross Operating Revenue</td><td class="n">49,952</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td>Op. &amp; Maintenance Expenses</td><td class="n">36,799</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td>Net Operating Income (EBITDA)</td><td class="n" style="color:#059669">13,153</td><td class="nc">—</td><td class="ok">OMR K</td></tr>
-          <tr><td>Debt Repayment</td><td class="n">81.578</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td>Accrued Interest on Debt</td><td class="n">0</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td>Debt Service (i + ii)</td><td class="n">81.578</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td style="color:#059669;font-weight:500">Debt Service Cover Ratio</td><td class="n" style="color:#059669">161.23x</td><td class="nc">Min 1.10x</td><td class="ok">✓ Compliant</td></tr>
-          <tr><td>Long Term Loan</td><td class="n">10,829</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td>Finance Lease</td><td class="n">58,378</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td>Less: Cash &amp; Equivalents</td><td class="n">(86,140)</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td>Total Net Indebtedness</td><td class="n" style="color:#059669">(16,933)</td><td class="nc">—</td><td class="ok">Net Cash</td></tr>
-          <tr><td>Total Equity</td><td class="n">202,437</td><td class="nc">—</td><td class="nc">OMR K</td></tr>
-          <tr><td style="color:#059669;font-weight:500">Net Indebtedness / Equity</td><td class="n" style="color:#059669">−0.084x</td><td class="nc">Max 2.33x</td><td class="ok">✓ Compliant</td></tr>
-        </tbody>
-      </table>
-      <div class="compliance-grid">
-        <div class="compliance-card">
-          <div class="compliance-card-label">DSCR Covenant</div>
-          <div class="compliance-card-val">161.23x</div>
-          <div class="compliance-card-sub">Min threshold: 1.10x</div>
-          <div class="compliance-card-ok">Headroom: 160.13x ✓</div>
-        </div>
-        <div class="compliance-card">
-          <div class="compliance-card-label">Net Debt / Equity</div>
-          <div class="compliance-card-val">−0.08x</div>
-          <div class="compliance-card-sub">Max threshold: 2.33x</div>
-          <div class="compliance-card-ok">Net cash position ✓</div>
-        </div>
+    <div class="kpi cov">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-cat g" style="color:#8d5a8f">⚠ Intercompany Payables</div>
+      <div class="kpi-lbl">Due to Related Parties</div>
+      <div class="kpi-big" style="color:#8d5a8f">87,080<span style="font-size:13px;color:var(--text-dim);font-weight:400"> K</span></div>
+      <div class="kpi-unit">OPWP 88% · OETC 11% · Other 1%</div>
+      <div class="kpi-vars">
+        <div class="var-row"><span class="var-lbl">vs Budget (79,745 K)</span><div class="pill neg">+9.2%</div></div>
+        <div class="var-row"><span class="var-lbl">vs Dec-2025 (91,245 K)</span><div class="pill pos">−4.6%</div></div>
       </div>
     </div>
-  </div>
 
-  <div class="exec">
-    <div class="exec-top">Key Observations</div>
-    <div class="exec-cols">
-      <div class="exec-item">
-        <div class="exec-ttl">DSO — Collection Risk</div>
-        <div class="exec-txt">DSO stands at <b>101 days</b>, <span class="r">57% above budget (64 days)</span> and rising from 96 days in Dec-2025. AR of OMR 56,107K has grown faster than revenue, signalling a collection lag that requires management intervention.</div>
-      </div>
-      <div class="exec-item">
-        <div class="exec-ttl">Covenant Formula</div>
-        <div class="exec-txt">Covenant = EBITDA (Mar-26 + Mar-25) − VOWD. With EBITDA Mar-26 at <b>OMR 13,153K</b> and VOWD at <b>OMR 8,756K</b>, the partial result is <span class="w">OMR 4,397K</span>. EBITDA Mar-25 is <span class="r">unavailable</span> in source data (formula error in FS Row 24).</div>
-      </div>
-      <div class="exec-item">
-        <div class="exec-ttl">Covenant Compliance</div>
-        <div class="exec-txt">Both financial covenants are met: DSCR at <b>161.23x</b> (min 1.10x) and Net Debt/Equity at <b>−0.08x</b> (max 2.33x). The company is in a <span class="g">net cash position</span>, with cash and deposits exceeding total indebtedness by <b>OMR 16,933K</b>.</div>
-      </div>
-    </div>
   </div>
 
 </div>
-<script>
-const RC={primary:'#744379',bg:'#e8eaf2',muted:'#a0a4be',text:'#2d2f45',danger:'#dc3545',success:'#059669',warning:'#8d5a8f',orange:'#8d5a8f'};
-const TIP={backgroundColor:'rgba(232,234,242,.97)',borderColor:'rgba(116,67,121,.2)',borderWidth:1,titleColor:RC.primary,bodyColor:RC.text,titleFont:{family:'IBM Plex Mono',size:10},bodyFont:{family:'IBM Plex Mono',size:10},padding:12};
-new Chart(document.getElementById('dsoChart'),{
-  type:'bar',
-  data:{labels:['DSO (days)'],datasets:[
-    {label:'Mar-2026 Actual',data:[101.1],backgroundColor:'rgba(220,53,69,.7)',borderColor:'#dc3545',borderWidth:1.5,borderRadius:8,barPercentage:.5,categoryPercentage:.7},
-    {label:'Budget',data:[64.3],backgroundColor:'rgba(5,150,105,.55)',borderColor:'#059669',borderWidth:1.5,borderRadius:8,barPercentage:.5,categoryPercentage:.7},
-    {label:'Dec-2025 Actual',data:[96.0],backgroundColor:'rgba(141,90,143,.6)',borderColor:'#8d5a8f',borderWidth:1.5,borderRadius:8,barPercentage:.5,categoryPercentage:.7}
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:14}},tooltip:{...TIP,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.raw.toFixed(1)} days`}}},
-    scales:{x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'DM Sans',size:10}}},y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:10},callback:v=>v+' d'},max:130,min:0}}}
-});
-</script>
+
 </main>
 </div>
 </body>

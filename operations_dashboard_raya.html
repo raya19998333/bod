@@ -6,6 +6,7 @@
 <title>Operations Dashboard – Nama Dhofar Services</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root {
     --primary:#744379;--primary-dark:#5e3360;--primary-light:#8d5a8f;
@@ -187,60 +188,84 @@ body { margin: 0; }
   .raya-nav-icon { display: none; }
 }
 
+  /* ===== CUSTOM LEGEND ===== */
+  .cleg {
+    display: flex; flex-wrap: wrap; gap: 10px 18px;
+    padding: 10px 4px 4px;
+    border-top: 1px solid rgba(116,67,121,0.1);
+    margin-top: 10px;
+  }
+  .cleg-item {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 600;
+    color: #2d2f45;
+  }
+  .cleg-line {
+    display: flex; align-items: center;
+    width: 32px; height: 14px; position: relative; flex-shrink: 0;
+  }
+  .cleg-line svg { width: 32px; height: 14px; overflow: visible; }
+  .cleg-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0; border: 2px solid #e8eaf2;
+  }
+  .cleg-desc {
+    font-size: 9.5px; color: #7b7f9e;
+    font-weight: 400; display: block; margin-top: 1px;
+  }
 </style>
 </head>
 <body>
 <div class="raya-layout">
 <aside class="raya-sidebar">
   <div class="raya-sidebar-brand">
-    <div class="raya-brand-icon">LB</div>
+    <div class="raya-brand-icon" style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.10) 100%);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 4px 14px rgba(0,0,0,0.18);"><img src="https://i.postimg.cc/DzdBCjRy/image-10.png" alt="Logo" style="width:46px;height:46px;object-fit:contain;border-radius:10px;"></div>
     <div>
-      <div class="raya-brand-text">Nama Dhofar</div>
+      <div class="raya-brand-text">Nama Dhofar Services</div>
       <div class="raya-brand-sub">Board Dashboard 2026</div>
     </div>
   </div>
   <div class="raya-nav-section">Navigation</div>
   <ul class="raya-nav-menu">
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="index.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="3.5"/><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span>
-        Overview
+      <a class="raya-nav-link" href="index.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="income_statement_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
-        Income Statement
+      <a class="raya-nav-link" href="income_statement_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="balance_sheet_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
-        Balance Sheet
+      <a class="raya-nav-link" href="balance_sheet_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="receivables_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-        Receivables
+      <a class="raya-nav-link" href="receivables_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Receivables
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="capex_vowd_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
-        CAPEX & VOWD
+      <a class="raya-nav-link" href="capex_vowd_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>CAPEX & VOWD
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link " href="kpi_dso_covenant_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
-        KPI — DSO
+      <a class="raya-nav-link" href="kpi_dso_covenant_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
+      </a>
+    </li>
+       <li class="raya-nav-item">
+      <a class="raya-nav-link" href="cashflow_dashboard_raya.html">
+      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
       </a>
     </li>
     <li class="raya-nav-item">
       <a class="raya-nav-link active" href="operations_dashboard_raya.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>
-        Operations
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations
       </a>
     </li>
   </ul>
@@ -273,19 +298,7 @@ body { margin: 0; }
   <!-- SECTION 1 — OPEX -->
   <div class="sec"><span>1 · OPEX — Operating Expenses &nbsp;|&nbsp; FS Rows 14–23 &nbsp;(OMR K)</span></div>
 
-  <div class="g21">
-    <div class="panel">
-      <div class="pt"><div class="pt-dot"></div>OPEX Components — Actual vs Budget</div>
-      <div class="ps">FS rows 14–23 · All components (OMR K)</div>
-      <div class="ch h220"><canvas id="opexChart"></canvas></div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="kpi k-blue">
-        <div class="k-cat k-b">OPEX</div>
-        <div class="k-lbl">Total OPEX — Mar-2026</div>
-        <div class="k-val">36,799 <sup>OMR K</sup></div>
-        <div class="k-row"><div class="k-prev">Budget: 47,637 K</div><div class="pill pos">−22.8%</div></div>
-      </div>
+  <div style="display:flex;flex-direction:column;gap:14px">
       <div class="panel" style="padding:16px 18px">
         <div class="pt" style="margin-bottom:10px"><div class="pt-dot"></div>Component Breakdown (OMR K)</div>
         <div class="mb-row"><div class="mb-lbl">Pass through Cost</div><div class="mb-wrap"><div class="mb-act" style="background:linear-gradient(90deg,#744379,#5e3360);width:71.7%"></div><div class="mb-bud-line" style="left:81.2%"></div></div><div class="mb-val">23,332</div><div class="mb-pct" style="color:#059669">−28.3%</div></div>
@@ -302,11 +315,10 @@ body { margin: 0; }
         <div class="ins-item">Bad Debt Provision is <b class="r">OMR 1,970K above budget</b> at OMR 2,070K vs. OMR 100K budgeted — the main cost overrun.</div>
         <div class="ins-item">Electricity Expenses and G&amp;A together <b>saved OMR 1,628K</b> vs. budget.</div>
       </div>
-    </div>
   </div>
 
   <!-- SECTION 2 — STAFF -->
-  <div class="sec"><span>2 · No. Staff — عدد الموظفين &nbsp;|&nbsp; Details-Tech Rows 42–58</span></div>
+  <div class="sec"><span>2 · No. Staff &nbsp;|&nbsp; Details-Tech Rows 42–58</span></div>
 
   <div class="g2">
     <div class="panel">
@@ -339,7 +351,7 @@ body { margin: 0; }
   </div>
 
   <!-- SECTION 3 — CUSTOMERS -->
-  <div class="sec"><span>3 · No. Customer — عدد العملاء &nbsp;|&nbsp; Details-Tech Rows 61–89</span></div>
+  <div class="sec"><span>3 · No. Customer &nbsp;|&nbsp; Details-Tech Rows 61–89</span></div>
 
   <div class="g4" style="margin-bottom:4px">
     <div class="kpi k-blue"><div class="k-cat k-b">Electricity Urban (WP 21)</div><div class="k-lbl">Total Customers</div><div class="k-val">149,886</div><div class="k-row"><div class="k-prev">Bud: 150,358</div><div class="pill pos">−0.3%</div></div></div>
@@ -379,17 +391,27 @@ body { margin: 0; }
 
   <div class="g2">
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="kpi k-orange"><div class="k-cat k-o">MWH — Electricity Consumption</div><div class="k-lbl">Total MWH — DISC (Mar-2026)</div><div class="k-val">486,668 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 495,030</div><div class="pill pos">−1.7%</div></div></div>
+      <div class="kpi k-orange"><div class="k-cat k-o">MWH — Electricity Consumption</div><div class="k-lbl">Total MWH — DISC (PTD Q1-2026)</div><div class="k-val">1,294,884 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 1,414,371</div><div class="pill pos">−8.4%</div></div></div>
       <div class="panel">
         <div class="pt"><div class="pt-dot"></div>Electricity Consumption (MWH) — Actual vs Budget</div>
         <div class="ps">Details-Tech rows 92–130 · Jan/Feb/Mar-2026 · DISC Total</div>
         <div class="ch h200"><canvas id="mwhChart"></canvas></div>
+        <div class="cleg">
+          <div class="cleg-item">
+            <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="#8d5a8f" stroke-width="2.5"/><circle cx="16" cy="7" r="4" fill="#8d5a8f" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+            <div><span>MWH Actual (DISC)</span></div>
+          </div>
+          <div class="cleg-item">
+            <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="rgba(163,165,194,.9)" stroke-width="2" stroke-dasharray="5,3"/><circle cx="16" cy="7" r="3.5" fill="rgba(163,165,194,.9)" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+            <div><span>MWH Budget (DISC)</span></div>
+          </div>
+        </div>
       </div>
       <div class="ins" style="margin-top:0">
         <div class="ins-hd">Insights</div>
-        <div class="ins-item">Mar-26 MWH of <b>486,668</b> is <b class="g">1.7% below budget (495,030)</b> — efficient consumption.</div>
+        <div class="ins-item">PTD Q1-2026 MWH of <b>1,294,884</b> is <b class="g">8.4% below budget (1,414,371)</b> — efficient consumption across the quarter.</div>
         <div class="ins-item">WP 24-PVT consumption at <b class="r">19,563 MWH vs budget 32,443</b> — significant underuse (−39.7%).</div>
-        <div class="ins-item">Jan-Mar trend: <b>408,654 → 399,562 → 486,668 MWH</b> — March spike mainly WP 21.</div>
+        <div class="ins-item">PTD Q1-2026: <b>408,654 + 399,562 + 486,668 = 1,294,884 MWH</b> — March spike mainly WP 21.</div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
@@ -398,6 +420,16 @@ body { margin: 0; }
         <div class="pt"><div class="pt-dot"></div>Water Consumption (M3) — Actual vs Budget</div>
         <div class="ps">Details-Tech rows 110–133 · Jan/Feb/Mar-2026 · DISC Total</div>
         <div class="ch h200"><canvas id="m3Chart"></canvas></div>
+        <div class="cleg">
+          <div class="cleg-item">
+            <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="#5e3360" stroke-width="2.5"/><circle cx="16" cy="7" r="4" fill="#5e3360" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+            <div><span>M3 Actual (DISC)</span></div>
+          </div>
+          <div class="cleg-item">
+            <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="rgba(163,165,194,.9)" stroke-width="2" stroke-dasharray="5,3"/><circle cx="16" cy="7" r="3.5" fill="rgba(163,165,194,.9)" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+            <div><span>M3 Budget (DISC)</span></div>
+          </div>
+        </div>
       </div>
       <div class="ins" style="margin-top:0">
         <div class="ins-hd">Insights</div>
@@ -412,8 +444,8 @@ body { margin: 0; }
   <div class="sec"><span>5 · Bulk Supply &nbsp;|&nbsp; Details-Tech Rows 136–143</span></div>
 
   <div class="g3">
-    <div class="kpi k-blue"><div class="k-cat k-b">Bulk Supply MWH — WP 21</div><div class="k-lbl">Electricity Bulk Supply (Mar-2026)</div><div class="k-val">587,520 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 670,862</div><div class="pill pos">−12.4%</div></div></div>
-    <div class="kpi k-gold"><div class="k-cat k-go">Bulk Supply MWH — WP 24</div><div class="k-lbl">Rural Electricity Bulk Supply</div><div class="k-val">17,799 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 12,943</div><div class="pill neg">+37.5%</div></div></div>
+    <div class="kpi k-blue"><div class="k-cat k-b">Bulk Supply MWH — WP 21</div><div class="k-lbl">Electricity Bulk Supply (PTD Q1-2026)</div><div class="k-val">1,376,233 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 1,862,034</div><div class="pill pos">−26.1%</div></div></div>
+    <div class="kpi k-gold"><div class="k-cat k-go">Bulk Supply MWH — WP 24</div><div class="k-lbl">Rural Electricity Bulk Supply (PTD Q1-2026)</div><div class="k-val">51,500 <sup>MWH</sup></div><div class="k-row"><div class="k-prev">Budget: 38,829</div><div class="pill neg">+32.6%</div></div></div>
     <div class="kpi k-teal"><div class="k-cat k-t">Bulk Supply M3 — WP 28</div><div class="k-lbl">Water Bulk Supply (Mar-2026)</div><div class="k-val">4.08M <sup>M3</sup></div><div class="k-row"><div class="k-prev">Budget: 4.22M M3</div><div class="pill pos">−3.4%</div></div></div>
   </div>
 
@@ -422,67 +454,57 @@ body { margin: 0; }
       <div class="pt"><div class="pt-dot"></div>Bulk Supply MWH — Actual vs Budget (Jan–Mar 2026)</div>
       <div class="ps">Details-Tech rows 136–140 · WP 21 &amp; WP 24</div>
       <div class="ch h200"><canvas id="bulkMwhChart"></canvas></div>
+      <div class="cleg">
+        <div class="cleg-item">
+          <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="#744379" stroke-width="2.5"/><circle cx="16" cy="7" r="4" fill="#744379" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+          <div><span style="color:#744379">WP21 Actual</span></div>
+        </div>
+        <div class="cleg-item">
+          <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="rgba(116,67,121,.6)" stroke-width="2" stroke-dasharray="5,3"/><circle cx="16" cy="7" r="3.5" fill="rgba(116,67,121,.6)" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+          <div><span style="color:rgba(116,67,121,.8)">WP21 Budget</span></div>
+        </div>
+        <div class="cleg-item">
+          <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="#8d5a8f" stroke-width="2"/><circle cx="16" cy="7" r="4" fill="#8d5a8f" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+          <div><span style="color:#8d5a8f">WP24 Actual</span></div>
+        </div>
+        <div class="cleg-item">
+          <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="rgba(141,90,143,.6)" stroke-width="2" stroke-dasharray="3,3"/><circle cx="16" cy="7" r="3.5" fill="rgba(141,90,143,.6)" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+          <div><span style="color:rgba(141,90,143,.85)">WP24 Budget</span></div>
+        </div>
+      </div>
     </div>
     <div class="panel">
       <div class="pt"><div class="pt-dot"></div>Bulk Supply M3 — Actual vs Budget (Jan–Mar 2026)</div>
       <div class="ps">Details-Tech rows 142–143 · WP 28</div>
       <div class="ch h200"><canvas id="bulkM3Chart"></canvas></div>
+      <div class="cleg">
+        <div class="cleg-item">
+          <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="#5e3360" stroke-width="2.5"/><circle cx="16" cy="7" r="4" fill="#5e3360" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+          <div><span style="color:#5e3360">WP28 M3 Actual</span></div>
+        </div>
+        <div class="cleg-item">
+          <div class="cleg-line"><svg><line x1="0" y1="7" x2="32" y2="7" stroke="rgba(94,51,96,.65)" stroke-width="2" stroke-dasharray="5,3"/><circle cx="16" cy="7" r="3.5" fill="rgba(94,51,96,.65)" stroke="#e8eaf2" stroke-width="2"/></svg></div>
+          <div><span style="color:rgba(94,51,96,.85)">WP28 M3 Budget</span></div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="ins" style="margin-bottom:4px">
     <div class="ins-hd">Bulk Supply Insights</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-      <div class="ins-item" style="padding-left:12px">WP 21 MWH at <b>587,520</b> is <b class="g">−12.4% below budget</b>, consistent with lower consumption in Electricity Urban.</div>
-      <div class="ins-item" style="padding-left:12px">WP 24 Rural bulk supply at <b class="r">17,799 MWH is +37.5% above budget</b>, indicating higher-than-planned rural demand.</div>
+      <div class="ins-item" style="padding-left:12px">PTD Q1-2026 WP21 MWH at <b>1,376,233</b> is <b class="g">−26.1% below budget (1,862,034)</b>, consistent with lower consumption in Electricity Urban.</div>
+      <div class="ins-item" style="padding-left:12px">PTD Q1-2026 WP24 Rural bulk supply at <b class="r">51,500 MWH is +32.6% above budget (38,829)</b>, indicating higher-than-planned rural demand.</div>
       <div class="ins-item" style="padding-left:12px">WP 28 M3 water bulk at <b>4.08M</b> is broadly on track at <b class="g">−3.4% vs budget</b>.</div>
     </div>
   </div>
 
   <!-- SECTION 6 — SYSTEM LOSS -->
-  <div class="sec"><span>6 · System Loss — فاقد النظام &nbsp;|&nbsp; Details-Tech Rows 189–209</span></div>
+  <div class="sec"><span>6 · System Loss &nbsp;|&nbsp; Details-Tech Rows 189–209</span></div>
 
   <div class="g2">
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="kpi k-red"><div class="k-cat k-r">Electricity Loss % — WP 21</div><div class="k-lbl">Monthly Loss % (Jan-26, Feb-26)</div><div class="k-val">6.64 <sup>% Jan &nbsp;·&nbsp; 6.55% Feb</sup></div><div class="k-row"><div class="k-prev">APSR Target: 8.37%</div><div class="pill pos">Below Target ✓</div></div></div>
-      <div class="panel">
-        <div class="pt"><div class="pt-dot"></div>Electricity Loss % — Actual vs APSR Target</div>
-        <div class="ps">Details-Tech rows 191–195 · Jan &amp; Feb-2026 (Mar = #DIV/0! in source)</div>
-        <div style="margin-bottom:8px;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600">Monthly Loss — WP 21 (MWH)</div>
-        <div class="gauge-row"><div class="gauge-mo">Jan-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:79.3%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">18,276</div><div class="gauge-pill"><div class="pill pos">6.64%</div></div></div>
-        <div class="gauge-row"><div class="gauge-mo">Feb-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:78.3%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">18,368</div><div class="gauge-pill"><div class="pill pos">6.55%</div></div></div>
-        <div class="gauge-row"><div class="gauge-mo">Mar-26</div><div class="gauge-track"><div class="gauge-fill" style="background:var(--text-dim);width:0%"></div></div><div class="gauge-val" style="color:var(--text-dim)">N/A</div><div class="gauge-pill"><div class="pill neu">#DIV/0!</div></div></div>
-        <div class="target-note">
-          <div class="target-note-dot" style="background:#8d5a8f"></div>
-          <div style="font-size:10px;color:var(--text-muted)">APSR Target: <b style="color:var(--text)">8.37%</b> &nbsp;·&nbsp; Cumulative Actual (Jan+Feb): <b style="color:#059669">6.59%</b></div>
-        </div>
-      </div>
-      <div class="ins" style="margin-top:0">
-        <div class="ins-hd">Insights</div>
-        <div class="ins-item">Electricity Loss % for Jan-Feb is <b class="g">well below APSR target (8.37%)</b> at 6.64% and 6.55% respectively.</div>
-        <div class="ins-item">Cumulative loss of <b>36,644 MWH</b> over Jan–Feb with total bulk supply of ~788,000 MWH.</div>
-        <div class="ins-item">Mar-2026 loss data shows <b class="r">#DIV/0!</b> in source file — requires correction.</div>
-      </div>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="kpi k-teal"><div class="k-cat k-t">Water Loss — WP 28</div><div class="k-lbl">Lost Volume M3 (Mar-2026)</div><div class="k-val">1.69M <sup>M3</sup></div><div class="k-row"><div class="k-prev">Budget: 4.22M M3</div><div class="pill pos">−59.9%</div></div></div>
-      <div class="panel">
-        <div class="pt"><div class="pt-dot"></div>Water Loss M3/Day — Actual vs APSR Target</div>
-        <div class="ps">Details-Tech rows 206–209 · WP 28 · Target = 58,403 M3/Day</div>
-        <div style="margin-bottom:8px;font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;font-weight:600">M3/Day — WP 28</div>
-        <div class="gauge-row"><div class="gauge-mo">Jan-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#5e3360,#8d5a8f);width:99.4%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">58,074</div><div class="gauge-pill"><div class="pill pos">−0.6%</div></div></div>
-        <div class="gauge-row"><div class="gauge-mo">Feb-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#dc3545,#f87171);width:100%"></div><div class="gauge-target" style="left:89.9%"></div></div><div class="gauge-val">64,985</div><div class="gauge-pill"><div class="pill neg">+11.3%</div></div></div>
-        <div class="gauge-row"><div class="gauge-mo">Mar-26</div><div class="gauge-track"><div class="gauge-fill" style="background:linear-gradient(90deg,#5e3360,#8d5a8f);width:93.5%"></div><div class="gauge-target" style="left:100%"></div></div><div class="gauge-val">54,600</div><div class="gauge-pill"><div class="pill pos">−6.5%</div></div></div>
-        <div class="target-note">
-          <div class="target-note-dot" style="background:#8d5a8f"></div>
-          <div style="font-size:10px;color:var(--text-muted)">APSR Target: <b style="color:var(--text)">58,403 M3/Day</b></div>
-        </div>
-        <div style="margin-top:14px">
-          <div class="ps" style="margin-bottom:8px">Water Loss Volume M3 (WP 28) — Monthly</div>
-          <div class="ch h160"><canvas id="waterLossChart"></canvas></div>
-        </div>
-      </div>
+      <div class="kpi k-teal"><div class="k-cat k-t">Water Loss — WP 28</div><div class="k-lbl">Lost Volume M3 (Mar-2026)</div><div class="k-val">54,600 <sup>M3</sup></div><div class="k-row"><div class="k-prev">APSR Target: 58,403 M3/Day</div><div class="pill pos">−6.5%</div></div></div>
       <div class="ins" style="margin-top:0">
         <div class="ins-hd">Insights</div>
         <div class="ins-item">Jan and Mar water loss M3/Day are <b class="g">below APSR target</b> (58,074 and 54,600 vs 58,403).</div>
@@ -500,26 +522,26 @@ const TIP={backgroundColor:'rgba(232,234,242,.97)',borderColor:'rgba(116,67,121,
 const MONTHS=['Jan-2026','Feb-2026','Mar-2026'];
 function mkChart(id,cfg){new Chart(document.getElementById(id),cfg)}
 
-const scaleOpts={x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'DM Sans',size:9}}},y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:9}}}};
+const scaleOpts={x:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.text,font:{family:'DM Sans',size:11,weight:'600'}}},y:{grid:{color:'rgba(163,165,194,.15)'},ticks:{color:RC.muted,font:{family:'IBM Plex Mono',size:10}}}};
 const scaleOptsK={...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}};
 
-mkChart('opexChart',{type:'bar',data:{labels:['Pass Through','Operating Cost','Salaries','Bad Debt','G&A','Electricity','Early Exit'],datasets:[{label:'Actual',data:[23332,5595,4552,2070,800,404,46],backgroundColor:'rgba(116,67,121,.7)',borderColor:'#744379',borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[32529,7574,4603,100,1852,980,0],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: OMR ${c.raw.toLocaleString()}K`}}},scales:{...scaleOpts,x:{...scaleOpts.x,ticks:{...scaleOpts.x.ticks,font:{family:'DM Sans',size:8},maxRotation:25}},y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
+const LEGEND_CLEAR={display:true,position:'bottom',align:'center',labels:{color:RC.text,font:{family:'DM Sans',size:11,weight:'600'},boxWidth:28,boxHeight:3,padding:16,usePointStyle:false}};
+const LEGEND_LINE={display:true,position:'bottom',align:'center',labels:{color:RC.text,font:{family:'DM Sans',size:11,weight:'600'},boxWidth:28,boxHeight:2,padding:16,usePointStyle:true,pointStyle:'line'}};
 
-mkChart('staffChart',{type:'bar',data:{labels:['WP 21','WP 24','WP 27','WP 28','DISC Total'],datasets:[{label:'Actual Mar-2026',data:[174,46,246,142,608],backgroundColor:'rgba(94,51,96,.7)',borderColor:RC.teal,borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[179,47,258,119,603],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:10}},tooltip:{...TIP}},scales:scaleOpts}});
+mkChart('staffChart',{type:'bar',data:{labels:['WP 21','WP 24','WP 27','WP 28','DISC Total'],datasets:[{label:'Actual Mar-2026',data:[174,46,246,142,608],backgroundColor:'rgba(94,51,96,.7)',borderColor:RC.teal,borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[179,47,258,119,603],backgroundColor:'rgba(163,165,194,.35)',borderColor:'rgba(163,165,194,.6)',borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:LEGEND_CLEAR,tooltip:{...TIP}},scales:scaleOpts}});
 
-mkChart('custChart',{type:'bar',data:{labels:['21-PVT','21-GOV','24-PVT','24-GOV','27-PVT','27-GOV','28-PVT','28-GOV'],datasets:[{label:'Actual Mar-2026',data:[145889,3997,9177,1306,62759,969,91393,1790],backgroundColor:'rgba(116,67,121,.7)',borderColor:'#744379',borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[146030,4328,9234,1368,62385,948,91302,1771],backgroundColor:'rgba(163,165,194,.18)',borderColor:'rgba(163,165,194,.4)',borderWidth:1,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:10,padding:10}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()}`}}},scales:{...scaleOpts,x:{...scaleOpts.x,ticks:{...scaleOpts.x.ticks,font:{family:'DM Sans',size:8},maxRotation:30}},y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
+mkChart('custChart',{type:'bar',data:{labels:['21-PVT','21-GOV','24-PVT','24-GOV','27-PVT','27-GOV','28-PVT','28-GOV'],datasets:[{label:'Actual Mar-2026',data:[145889,3997,9177,1306,62759,969,91393,1790],backgroundColor:'rgba(116,67,121,.7)',borderColor:'#744379',borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8},{label:'Budget',data:[146030,4328,9234,1368,62385,948,91302,1771],backgroundColor:'rgba(163,165,194,.35)',borderColor:'rgba(163,165,194,.6)',borderWidth:1.5,borderRadius:6,barPercentage:.45,categoryPercentage:.8}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:LEGEND_CLEAR,tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()}`}}},scales:{...scaleOpts,x:{...scaleOpts.x,ticks:{...scaleOpts.x.ticks,font:{family:'DM Sans',size:9},maxRotation:30}},y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
 
-const lineOpts=(yLabel)=>({responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:10},boxWidth:12,padding:10,usePointStyle:true,pointStyle:'line'}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} ${yLabel}`}}},scales:{...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000000?(v/1000000).toFixed(2)+'M':v>=1000?(v/1000).toFixed(0)+'K':v}}}});
+const lineOpts=(yLabel)=>({responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} ${yLabel}`}}},scales:{...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000000?(v/1000000).toFixed(2)+'M':v>=1000?(v/1000).toFixed(0)+'K':v}}}});
 
-mkChart('mwhChart',{type:'line',data:{labels:MONTHS,datasets:[{label:'MWH Actual (DISC)',data:[408654,399562,486668],borderColor:RC.orange,backgroundColor:'rgba(141,90,143,.07)',fill:true,tension:.35,pointBackgroundColor:RC.orange,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'MWH Budget (DISC)',data:[459670,459670,495030],borderColor:'rgba(163,165,194,.55)',backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.55)',pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:4,borderWidth:1.5,borderDash:[5,3]}]},options:lineOpts('MWH')});
+mkChart('mwhChart',{type:'line',data:{labels:MONTHS,datasets:[{label:'MWH Actual (DISC)',data:[408654,399562,486668],borderColor:RC.orange,backgroundColor:'rgba(141,90,143,.07)',fill:true,tension:.35,pointBackgroundColor:RC.orange,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'MWH Budget (DISC)',data:[459670,459670,495030],borderColor:'rgba(163,165,194,.7)',backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.7)',pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:4,borderWidth:2,borderDash:[5,3]}]},options:lineOpts('MWH')});
 
-mkChart('m3Chart',{type:'line',data:{labels:MONTHS,datasets:[{label:'M3 Actual (DISC)',data:[3883364,3751496,3335495],borderColor:RC.teal,backgroundColor:'rgba(94,51,96,.07)',fill:true,tension:.35,pointBackgroundColor:RC.teal,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'M3 Budget (DISC)',data:[4232372,4202330,4227312],borderColor:'rgba(163,165,194,.55)',backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.55)',pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:4,borderWidth:1.5,borderDash:[5,3]}]},options:lineOpts('M3')});
+mkChart('m3Chart',{type:'line',data:{labels:MONTHS,datasets:[{label:'M3 Actual (DISC)',data:[3883364,3751496,3335495],borderColor:RC.teal,backgroundColor:'rgba(94,51,96,.07)',fill:true,tension:.35,pointBackgroundColor:RC.teal,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'M3 Budget (DISC)',data:[4232372,4202330,4227312],borderColor:'rgba(163,165,194,.7)',backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:'rgba(163,165,194,.7)',pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:4,borderWidth:2,borderDash:[5,3]}]},options:lineOpts('M3')});
 
-mkChart('bulkMwhChart',{type:'line',data:{labels:MONTHS,datasets:[{label:'WP21 Actual',data:[396877,391836,587520],borderColor:RC.primary,backgroundColor:'rgba(116,67,121,.07)',fill:true,tension:.35,pointBackgroundColor:RC.primary,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'WP21 Budget',data:[623714,567458,670862],borderColor:'rgba(116,67,121,.4)',backgroundColor:'transparent',fill:false,tension:.35,pointRadius:4,borderWidth:1.5,borderDash:[5,3]},{label:'WP24 Actual',data:[16826,16876,17799],borderColor:RC.warning,backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:RC.warning,pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:5,borderWidth:2},{label:'WP24 Budget',data:[12943,12943,12943],borderColor:'rgba(141,90,143,.4)',backgroundColor:'transparent',fill:false,tension:0,pointRadius:3,borderWidth:1.5,borderDash:[3,3]}]},options:lineOpts('MWH')});
+mkChart('bulkMwhChart',{type:'line',plugins:[ChartDataLabels],data:{labels:['Jan-2026','Feb-2026','Mar-2026'],datasets:[{label:'WP21 Actual',data:[396877,391836,587520],borderColor:RC.primary,backgroundColor:'rgba(116,67,121,.07)',fill:true,tension:.35,pointBackgroundColor:RC.primary,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:7,borderWidth:2.5,datalabels:{align:'top',offset:6,color:RC.primary,font:{family:'IBM Plex Mono',size:10,weight:'700'},formatter:v=>(v/1000).toFixed(0)+'K'}},{label:'WP21 Budget',data:[623714,567458,670862],borderColor:'rgba(116,67,121,.55)',backgroundColor:'transparent',fill:false,tension:.35,pointRadius:5,pointBackgroundColor:'rgba(116,67,121,.55)',borderWidth:2,borderDash:[5,3],datalabels:{align:'bottom',offset:6,color:'rgba(116,67,121,.7)',font:{family:'IBM Plex Mono',size:9,weight:'600'},formatter:v=>(v/1000).toFixed(0)+'K'}},{label:'WP24 Actual',data:[16826,16876,17799],borderColor:RC.warning,backgroundColor:'transparent',fill:false,tension:.35,pointBackgroundColor:RC.warning,pointBorderColor:RC.bg,pointBorderWidth:2,pointRadius:6,borderWidth:2,datalabels:{align:'top',offset:6,color:RC.warning,font:{family:'IBM Plex Mono',size:9,weight:'700'},formatter:v=>v.toLocaleString()}},{label:'WP24 Budget',data:[12943,12943,12943],borderColor:'rgba(141,90,143,.55)',backgroundColor:'transparent',fill:false,tension:0,pointRadius:4,pointBackgroundColor:'rgba(141,90,143,.55)',borderWidth:2,borderDash:[3,3],datalabels:{align:'bottom',offset:6,color:'rgba(141,90,143,.75)',font:{family:'IBM Plex Mono',size:9},formatter:v=>v.toLocaleString()}}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:28,right:20,bottom:8,left:8}},interaction:{mode:'index',intersect:false},plugins:{datalabels:{display:true},legend:{display:false},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} MWH`}}},scales:{...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
 
-mkChart('bulkM3Chart',{type:'line',data:{labels:MONTHS,datasets:[{label:'WP28 M3 Actual',data:[3929996,3551652,4076708],borderColor:RC.teal,backgroundColor:'rgba(94,51,96,.07)',fill:true,tension:.35,pointBackgroundColor:RC.teal,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:5,borderWidth:2.5},{label:'WP28 M3 Budget',data:[3756733,3666048,4222032],borderColor:'rgba(94,51,96,.4)',backgroundColor:'transparent',fill:false,tension:.35,pointRadius:4,borderWidth:1.5,borderDash:[5,3]}]},options:lineOpts('M3')});
+mkChart('bulkM3Chart',{type:'line',plugins:[ChartDataLabels],data:{labels:['Jan-2026','Feb-2026','Mar-2026'],datasets:[{label:'WP28 M3 Actual',data:[3929996,3551652,4076708],borderColor:RC.teal,backgroundColor:'rgba(94,51,96,.07)',fill:true,tension:.35,pointBackgroundColor:RC.teal,pointBorderColor:RC.bg,pointBorderWidth:2.5,pointRadius:7,borderWidth:2.5,datalabels:{align:'top',offset:6,color:RC.teal,font:{family:'IBM Plex Mono',size:10,weight:'700'},formatter:v=>(v/1000000).toFixed(2)+'M'}},{label:'WP28 M3 Budget',data:[3756733,3666048,4222032],borderColor:'rgba(94,51,96,.55)',backgroundColor:'transparent',fill:false,tension:.35,pointRadius:5,pointBackgroundColor:'rgba(94,51,96,.55)',borderWidth:2,borderDash:[5,3],datalabels:{align:'bottom',offset:6,color:'rgba(94,51,96,.75)',font:{family:'IBM Plex Mono',size:9,weight:'600'},formatter:v=>(v/1000000).toFixed(2)+'M'}}]},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:28,right:20,bottom:8,left:8}},interaction:{mode:'index',intersect:false},plugins:{datalabels:{display:true},legend:{display:false},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} M3`}}},scales:{...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000000?(v/1000000).toFixed(2)+'M':v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
 
-mkChart('waterLossChart',{type:'bar',data:{labels:MONTHS,datasets:[{label:'Water Loss M3 (WP28)',data:[1800284,1819585,1692591],backgroundColor:['rgba(94,51,96,.7)','rgba(220,53,69,.7)','rgba(94,51,96,.7)'],borderColor:['#5e3360','#dc3545','#5e3360'],borderWidth:1.5,borderRadius:6,barPercentage:.55,categoryPercentage:.8},{label:'APSR Target M3/Day × Days',data:[1810493,1635284,1810493],backgroundColor:'transparent',borderColor:'rgba(141,90,143,.65)',borderWidth:2,borderRadius:6,barPercentage:.55,categoryPercentage:.8,type:'line',tension:0,pointBackgroundColor:'rgba(141,90,143,.65)',pointRadius:5,borderDash:[4,2]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:RC.muted,font:{family:'DM Sans',size:9},boxWidth:10,padding:8}},tooltip:{...TIP,callbacks:{label:c=>` ${c.dataset.label}: ${c.raw.toLocaleString()} M3`}}},scales:{...scaleOpts,y:{...scaleOpts.y,ticks:{...scaleOpts.y.ticks,callback:v=>v>=1000000?(v/1000000).toFixed(2)+'M':v>=1000?(v/1000).toFixed(0)+'K':v}}}}});
 </script>
 </main>
 </div>
