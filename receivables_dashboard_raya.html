@@ -170,6 +170,164 @@
   }
   .panel-sub { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; }
 
+  /* ===== IMPROVED TABLE STYLES ===== */
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--neu-shadow-sm);
+  }
+
+  .recv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+
+  .recv-table thead {
+    background: linear-gradient(135deg, rgba(116,67,121,0.08) 0%, rgba(94,51,96,0.06) 100%);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .recv-header-main {
+    height: 40px;
+  }
+
+  .recv-header-main th {
+    padding: 12px 10px;
+    border-bottom: 2px solid rgba(116,67,121,0.2);
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    font-family: var(--font-head);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .recv-header-sub th {
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(116,67,121,0.15);
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    background: rgba(116,67,121,0.04);
+  }
+
+  .recv-col-code {
+    text-align: left;
+    width: 80px;
+  }
+
+  .recv-col-desc {
+    text-align: left;
+    min-width: 200px;
+  }
+
+  .recv-col-type {
+    text-align: left;
+    min-width: 140px;
+  }
+
+  .recv-table tbody tr {
+    border-bottom: 1px solid rgba(163,165,194,0.12);
+    transition: all 0.2s ease;
+  }
+
+  .recv-table tbody tr:hover {
+    background: rgba(116,67,121,0.04);
+  }
+
+  .recv-table tbody tr.section-header {
+    background: linear-gradient(90deg, rgba(116,67,121,0.1) 0%, transparent 100%);
+    border-bottom: 2px solid rgba(116,67,121,0.2);
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  .recv-table tbody tr.section-header td {
+    padding: 12px 10px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 2px solid rgba(116,67,121,0.2);
+  }
+
+  .recv-table tbody tr.total-row {
+    background: linear-gradient(90deg, rgba(116,67,121,0.08) 0%, transparent 100%);
+    border-top: 2px solid rgba(116,67,121,0.25);
+    border-bottom: 2px solid rgba(116,67,121,0.25);
+    font-weight: 700;
+  }
+
+  .recv-table tbody tr.total-row td {
+    padding: 12px 10px;
+    color: var(--primary);
+    font-family: var(--font-head);
+  }
+
+  .recv-table td {
+    padding: 9px 8px;
+    text-align: right;
+    font-family: var(--font-mono);
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .recv-table td:first-child {
+    text-align: left;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-weight: 500;
+    padding-left: 12px;
+  }
+
+  .recv-table td:nth-child(2) {
+    text-align: left;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 500;
+    padding-left: 12px;
+  }
+
+  .recv-table td:nth-child(3) {
+    text-align: left;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 10px;
+    padding-left: 12px;
+  }
+
+  .recv-table .num {
+    color: var(--text);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .recv-table .num:after {
+    content: '';
+  }
+
+  /* Alternating row colors for better readability */
+  .recv-table tbody tr:nth-child(4n+2) {
+    background: rgba(116,67,121,0.02);
+  }
+
+  /* Divider between Dec and Mar columns */
+  .recv-table td:nth-child(9) {
+    border-left: 2px solid rgba(116,67,121,0.2);
+  }
+
+  .recv-table th:nth-child(9) {
+    border-left: 2px solid rgba(116,67,121,0.2);
+  }
+
   /* ===== GRIDS ===== */
   .g2  { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .g31 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 18px; }
@@ -319,46 +477,6 @@
     margin-bottom: 8px; padding: 0 2px;
   }
 
-  /* ===== DETAIL TABLE ===== */
-  .dt { width: 100%; border-collapse: collapse; }
-  .dt th {
-    font-size: 10px; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 0.8px;
-    padding: 10px 18px 10px 10px;
-    border-bottom: 2px solid rgba(116,67,121,0.15);
-    text-align: right; font-weight: 700;
-    font-family: var(--font-head);
-  }
-  .dt th:first-child { text-align: left; padding-left: 10px; }
-  .dt td { font-size: 11px; padding: 9px 10px; border-bottom: 1px solid rgba(163,165,194,0.18); }
-  .dt td:first-child { color: var(--text-muted); }
-  .dt td.n  { font-family: var(--font-mono); font-size: 11px; color: var(--text); text-align: right; font-weight: 500; padding-right: 18px; letter-spacing: 0.3px; }
-  .dt td.ng { font-family: var(--font-mono); font-size: 10px; color: #dc3545; text-align: right; font-weight: 600; }
-  .dt td.np { font-family: var(--font-mono); font-size: 10px; color: #059669; text-align: right; font-weight: 600; }
-  .dt td.nd { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-align: right; }
-  .dt tr.sh { background: rgba(116,67,121,0.06); }
-  .dt tr.sh td {
-    font-size: 10px; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.6px;
-    padding: 6px 10px; border-bottom: none;
-    background: var(--grad-main);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .dt tr.tot td { border-top: 2px solid rgba(116,67,121,0.2); font-weight: 700; }
-  .dt tr.tot .n {
-    font-size: 12px;
-    background: var(--grad-main);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* ===== LEGEND DOTS ===== */
-  .leg-dot-sm {
-    width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0;
-    box-shadow: var(--neu-shadow-sm);
-  }
-
   /* ===== EXEC ===== */
   .exec {
     background: var(--bg);
@@ -410,6 +528,8 @@
     .g31 { grid-template-columns: 1fr; }
     .g2  { grid-template-columns: 1fr; }
     .exec-cols { grid-template-columns: repeat(2, 1fr); }
+    .recv-table { font-size: 10px; }
+    .recv-table td { padding: 8px 6px; }
   }
   @media (max-width: 700px) {
     .page { padding: 16px 14px 28px; gap: 16px; }
@@ -420,6 +540,10 @@
     .mov-label { width: 110px; font-size: 10px; }
     .sub-seg { width: 100px; font-size: 10px; }
     .sub-bar-wrap { display: none; }
+    .recv-table { font-size: 9px; }
+    .recv-table td { padding: 6px 4px; }
+    .recv-col-code { width: 60px; }
+    .recv-col-desc { min-width: 140px; }
   }
   @media (max-width: 440px) {
     .kpi-row { grid-template-columns: 1fr 1fr; }
@@ -595,52 +719,250 @@ body { margin: 0; }
     </div>
   </div>
 
-  <!-- ===== ROW 1: LINE CHART + MOVEMENT ===== -->
-   
-    <!-- RECEIVABLE DETAIL TABLE -->
-    <div class="panel" style="padding:22px">
-      <div class="panel-title"><div class="panel-title-dot"></div>Receivable Detail</div>
-      <div class="panel-sub">By segment &amp; type — Dec 2025 vs Mar 2026 (OMR K)</div>
-      <div style="overflow-x:auto">
-        <table class="dt">
-          <thead>
-            <tr>
-              <th style="text-align:left">Segment / Type</th>
-              <th>Dec 2025</th>
-              <th>Mar 2026</th>
-              <th>Movement (OMR K)</th>
-              <th>Variance %</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="sh"><td colspan="5">GOVERNMENT RECEIVABLES</td></tr>
-            <tr><td>Electricity Urban</td><td class="n">6,094</td><td class="n">2,596</td><td class="n np">−3,498</td><td class="np">−57.4%</td></tr>
-            <tr><td>Electricity Rural</td><td class="n">4,964</td><td class="n">2,787</td><td class="n np">−2,177</td><td class="np">−43.8%</td></tr>
-            <tr><td>Wastewater</td><td class="n">139</td><td class="n">320</td><td class="n ng">+181</td><td class="ng">+130.5%</td></tr>
-            <tr><td>Water</td><td class="n">8,391</td><td class="n">7,060</td><td class="n np">−1,331</td><td class="np">−15.9%</td></tr>
-            <tr class="tot"><td style="font-weight:700">Total Govt AR</td><td class="n">19,588</td><td class="n">12,764</td><td class="n np">−6,824</td><td class="np">−34.8%</td></tr>
+  <!-- ===== RECEIVABLE DETAIL TABLE ===== -->
+  <div class="panel" style="padding:22px">
+    <div class="panel-title"><div class="panel-title-dot"></div>Receivable Detail</div>
+    <div class="panel-sub">By segment & type — Dec 2025 vs Mar 2026 (OMR K)</div>
+    
+    <div class="table-wrapper">
+      <table class="recv-table">
+        <thead>
+          <tr class="recv-header-main">
+            <th colspan="3">Account Details</th>
+            <th colspan="6" style="text-align:center">Mar 2026</th>
+            <th colspan="6" style="text-align:center">Dec 2025</th>
+          </tr>
+          <tr class="recv-header-sub">
+            <th class="recv-col-desc">Description</th>
+            <th class="recv-col-type">Classification</th>
+            <th>DPC</th>
+            <th>TANWEER</th>
+            <th>DWW-SSDC</th>
+            <th>DGW</th>
+            <th>DFW</th>
+            <th>DISC</th>
+            <th>DPC</th>
+            <th>TANWEER</th>
+            <th>DWW-SSDC</th>
+            <th>DGW</th>
+            <th>DFW</th>
+            <th>DISC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-header">
+            <td colspan="15">ELECTRICITY RECEIVABLES</td>
+          </tr>
+          <tr>
+            <td>Government Electricity Receivable</td>
+            <td>Government Receivables</td>
+            <td class="num">684,505</td>
+            <td class="num">1,372,259</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">2,056,764</td>
+            <td class="num">807,445</td>
+            <td class="num">1,233,220</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">2,040,665</td>
+          </tr>
+          <tr>
+            <td>Private Electricity Receivable</td>
+            <td>Private Receivables</td>
+            <td class="num">5,941,247</td>
+            <td class="num">10,397,948</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">16,339,196</td>
+            <td class="num">8,236,672</td>
+            <td class="num">9,816,645</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">18,053,317</td>
+          </tr>
+          <tr>
+            <td>Unapplied Account</td>
+            <td>Government Receivables</td>
+            <td class="num negative"  style="color:#dc3545">(28)</td>
+            <td class="num">-</td>
+            <td class="num negative"  style="color:#dc3545">(843)</td>
+            <td class="num negative"  style="color:#dc3545">(324)</td>
+            <td class="num">-</td>
+            <td class="num negative"  style="color:#dc3545">(1,195)</td>
+            <td class="num negative"  style="color:#dc3545">(338)</td>
+            <td class="num">-</td>
+            <td class="num negative"  style="color:#dc3545">(843)</td>
+            <td class="num negative"  style="color:#dc3545">(324)</td>
+            <td class="num">-</td>
+            <td class="num negative"  style="color:#dc3545">(1,505)</td>
+          </tr>
+          <tr>
 
-            <tr class="sh"><td colspan="5">PRIVATE RECEIVABLES</td></tr>
-            <tr><td>Electricity Urban</td><td class="n">15,215</td><td class="n">27,619</td><td class="n ng">+12,404</td><td class="ng">+81.5%</td></tr>
-            <tr><td>Electricity Rural</td><td class="n">10,465</td><td class="n">11,452</td><td class="n ng">+987</td><td class="ng">+9.4%</td></tr>
-            <tr><td>Wastewater</td><td class="n">1,307</td><td class="n">698</td><td class="n np">−609</td><td class="np">−46.6%</td></tr>
-            <tr><td>Water</td><td class="n">3,596</td><td class="n">3,574</td><td class="n np">−22</td><td class="np">−0.6%</td></tr>
-            <tr class="tot"><td style="font-weight:700">Total Private AR</td><td class="n">30,584</td><td class="n">43,343</td><td class="n ng">+12,759</td><td class="ng">+41.7%</td></tr>
+          <tr>
+            <td>CRT Receivable - Private</td>
+            <td>Private Receivables</td>
+            <td class="num">21,320,466</td>
+            <td class="num">1,054,121</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">22,374,587</td>
+            <td class="num">18,796,941</td>
+            <td class="num">916,018</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">19,712,959</td>
+          </tr>
+          <tr>
+            <td>CRT Receivable - Government</td>
+            <td>Government Receivables</td>
+            <td class="num">1,883,892</td>
+            <td class="num">1,415,076</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">3,298,968</td>
+            <td class="num">2,115,476</td>
+            <td class="num">1,545,373</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">3,660,849</td>
+          </tr>
+ 
+          <tr class="section-header">
+            <td colspan="15">WATER RECEIVABLES</td>
+          </tr>
+          <tr>
+            <td>Government Water Receivable</td>
+            <td>Government Receivables</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">7,060,688</td>
+            <td class="num">-</td>
+            <td class="num">7,060,688</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">6,172,358</td>
+            <td class="num">-</td>
+            <td class="num">6,172,358</td>
+          </tr>
+          <tr>
+            <td>Private Water Receivable</td>
+            <td>Private Receivables</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">3,573,779</td>
+            <td class="num">-</td>
+            <td class="num">3,573,779</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">2,575,889</td>
+            <td class="num">-</td>
+            <td class="num">2,575,889</td>
+          </tr>
+ 
+          <tr class="section-header">
+            <td colspan="15">OTHER RECEIVABLES </td>
+          </tr>
+          <tr>
+            <td>Electricity Billing Receivable</td>
+            <td>Private Receivables</td>
+            <td class="num">357,636</td>
+            <td class="num">-</td>
+            <td class="num negative"  style="color:#dc3545">(80,405)</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">277,231</td>
+            <td class="num">408,712</td>
+            <td class="num">-</td>
+            <td class="num negative"  style="color:#dc3545">(36,536)</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">372,176</td>
+          </tr>
+          <tr>
+            <td>Protected Customers Recoverable</td>
+            <td>Government Receivables</td>
+            <td class="num">27,883</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">27,883</td>
+            <td class="num">27,883</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">27,883</td>
+          </tr>
+          <tr>
 
-            <tr class="sh"><td colspan="5">TOTAL TRADE AR</td></tr>
-            <tr class="tot"><td style="font-weight:700">Grand Total AR</td><td class="n" style="font-size:13px">50,172</td><td class="n" style="font-size:13px">56,107</td><td class="n ng" style="font-size:13px">+5,935</td><td class="ng">+11.8%</td></tr>
+            <td>SSDC Receivable Government</td>
+            <td>Government Receivables</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">320,914</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">320,914</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">77,102</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">77,102</td>
+          </tr>
+          <tr>
 
-            <tr class="sh"><td colspan="5">SUBSIDY RECEIVABLE</td></tr>
-            <tr><td>Electricity Urban</td><td class="n" style="color:var(--text-dim)">(12,741)</td><td class="n" style="color:#dc3545">(29,656)</td><td class="n np">−16,915</td><td class="ng">−132.8%</td></tr>
-            <tr><td>Electricity Rural</td><td class="n">41,223</td><td class="n">58,864</td><td class="n ng">+17,641</td><td class="ng">+42.8%</td></tr>
-            <tr><td>Wastewater</td><td class="n">4,820</td><td class="n">1,243</td><td class="n np">−3,577</td><td class="np">−74.2%</td></tr>
-            <tr><td>Water</td><td class="n">2,510</td><td class="n" style="color:#dc3545">(1,912)</td><td class="n np">−4,422</td><td class="ng">−176.2%</td></tr>
-            <tr class="tot"><td style="font-weight:700;color:#8d5a8f">Total Subsidy AR</td><td class="n" style="color:#8d5a8f">35,812</td><td class="n" style="color:#8d5a8f">28,539</td><td class="n np" style="color:#8d5a8f">−7,273</td><td class="np">−20.3%</td></tr>
-          </tbody>
-        </table>
-      </div>
+            <td>SSDC Receivable Private</td>
+            <td>Private Receivables</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">778,626</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">778,626</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">575,013</td>
+            <td class="num">-</td>
+            <td class="num">-</td>
+            <td class="num">575,013</td>
+          </tr>
+ 
+          <tr class="total-row">
+            <td colspan="3">TOTAL RECEIVABLES</td>
+            <td class="num">30,216,001</td>
+            <td class="num">14,239,404</td>
+            <td class="num">1,018,292</td>
+            <td class="num">10,634,143</td>
+            <td class="num">-</td>
+            <td class="num">56,107,840</td>
+            <td class="num">30,392,129</td>
+            <td class="num">13,711,256</td>
+            <td class="num">615,736</td>
+            <td class="num">8,748,247</td>
+            <td class="num">-</td>
+            <td class="num">53,467,368</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+  <!-- ===== ROW 1: LINE CHART + MOVEMENT ===== -->
   <div class="g31">
     <div class="panel">
       <div class="panel-title"><div class="panel-title-dot"></div>AR Movement — Dec 2025 vs Mar 2026</div>
@@ -649,7 +971,7 @@ body { margin: 0; }
     </div>
 
     <div class="panel">
-      <div class="panel-title"><div class="panel-title-dot"></div>Receivables Movement Dec 25</div>
+      <div class="panel-title"><div class="panel-title-dot"></div>Receivables Movement</div>
       <div class="panel-sub">Dec 2025 → Mar 2026 (OMR K)</div>
 
       <div class="col-hdr" style="justify-content:flex-end">
@@ -702,52 +1024,55 @@ body { margin: 0; }
     </div>
   </div>
 
+  <br>
+
   <!-- ===== SEGMENT BREAKDOWN ===== -->
   <div class="div-lbl">Segment Breakdown — Trade AR (Mar 2026)</div>
+  <br>
 
   <div class="panel">
       <div class="panel-title"><div class="panel-title-dot"></div>AR by Segment — Govt vs Private</div>
       <div class="panel-sub">Mar 2026 (OMR K) — stacked by customer type</div>
 
-<div class="seg-row">
-  <div class="seg-hd">
-    <span class="seg-name">Electricity Urban</span>
-    <span class="seg-total">30,215 K &nbsp;
-      <span style="font-size:10px;color:var(--text-dim)">(8.6%)</span>
-    </span>
-  </div>
+      <div class="seg-row">
+        <div class="seg-hd">
+          <span class="seg-name">Electricity Urban</span>
+          <span class="seg-total">30,215 K &nbsp;
+            <span style="font-size:10px;color:var(--text-dim)">(8.6%)</span>
+          </span>
+        </div>
 
-  <div class="seg-track">
-    <div class="seg-fill" 
-         style="background:linear-gradient(90deg,#744379,#5e3360);width:8.59%">
-      2,596
-    </div>
+        <div class="seg-track">
+          <div class="seg-fill" 
+               style="background:linear-gradient(90deg,#744379,#5e3360);width:8.59%">
+            2,596
+          </div>
 
-    <div class="seg-fill" 
-         style="background:linear-gradient(90deg,#b18cb5,#b18cb5);width:58.95%">
-      17,814
-    </div>
+          <div class="seg-fill" 
+               style="background:linear-gradient(90deg,#b18cb5,#b18cb5);width:58.95%">
+            17,814
+          </div>
 
-    <div class="seg-fill" 
-         style="background:linear-gradient(90deg,#d9c2db,#d9c2db);width:32.45%">
-      9,805
-    </div>
-  </div>
+          <div class="seg-fill" 
+               style="background:linear-gradient(90deg,#d9c2db,#d9c2db);width:32.45%">
+            9,805
+          </div>
+        </div>
 
-  <div class="seg-leg">
-    <div class="seg-leg-item">
-      <span style="color:#744379">■</span> Govt <span>2,596</span>
-    </div>
+        <div class="seg-leg">
+          <div class="seg-leg-item">
+            <span style="color:#744379">■</span> Govt <span>2,596</span>
+          </div>
 
-    <div class="seg-leg-item">
-      <span style="color:#b18cb5">■</span> Private <span>17,814</span>
-    </div>
+          <div class="seg-leg-item">
+            <span style="color:#b18cb5">■</span> Private <span>17,814</span>
+          </div>
 
-    <div class="seg-leg-item">
-      <span style="color:#d9c2db">■</span> Dispute <span>9,805</span>
-    </div>
-  </div>
-</div>
+          <div class="seg-leg-item">
+            <span style="color:#d9c2db">■</span> Dispute <span>9,805</span>
+          </div>
+        </div>
+      </div>
 
       <div class="seg-row">
         <div class="seg-hd">
@@ -795,11 +1120,13 @@ body { margin: 0; }
       </div>
   </div>
 
-  <!-- ===== SUBSIDY + DETAIL TABLE ===== -->
+  <br>
+
+  <!-- ===== SUBSIDY SECTION ===== -->
   <div class="div-lbl">Government Subsidy Receivable — Details FS (Rows 10–12)</div>
+  <br>
 
   <div class="g2">
-    <!-- SUBSIDY SECTION -->
     <div class="panel">
       <div class="panel-title"><div class="panel-title-dot"></div>Subsidy Receivable by Segment</div>
       <div class="panel-sub">Dec 2025 vs Mar 2026 — movement per segment (OMR K)</div>
@@ -815,7 +1142,7 @@ body { margin: 0; }
       <div class="sub-row">
         <div class="sub-dot" style="background:#744379"></div>
         <div class="sub-seg">Electricity Urban</div>
-        <div class="sub-bar-wrap"><div class="sub-bar-fill" style="background:linear-gradient(90deg,#dc3545,#f87171);width:40%"></div></div>
+        <div class="sub-bar-wrap"><div class="sub-bar-fill" style="background:linear-gradient(90deg,#744379,#f87171);width:40%"></div></div>
         <div class="sub-prev">(12,741)</div>
         <div class="sub-act" style="color:#dc3545">(29,656)</div>
         <div class="sub-chg up">−132.8%</div>
@@ -837,9 +1164,9 @@ body { margin: 0; }
         <div class="sub-chg dn">−74.2%</div>
       </div>
       <div class="sub-row">
-        <div class="sub-dot" style="background:#059669"></div>
+        <div class="sub-dot" style="background:#20d2f1"></div>
         <div class="sub-seg">Water</div>
-        <div class="sub-bar-wrap"><div class="sub-bar-fill" style="background:linear-gradient(90deg,#dc3545,#f87171);width:3.4%"></div></div>
+        <div class="sub-bar-wrap"><div class="sub-bar-fill" style="background:linear-gradient(90deg,#744379,#f87171);width:3.4%"></div></div>
         <div class="sub-prev">2,510</div>
         <div class="sub-act" style="color:#dc3545">(1,912)</div>
         <div class="sub-chg dn">−176.2%</div>
@@ -853,30 +1180,28 @@ body { margin: 0; }
           <div class="pill pos">−20.3%</div>
         </div>
       </div>
-
-
     </div>
 
-
-  <!-- ===== EXEC SUMMARY ===== -->
-  <div class="exec">
-    <div class="exec-top">Receivables Analysis — Key Observations</div>
-    <div class="exec-cols">
-      <div class="exec-item">
-        <div class="exec-ttl">Trade AR Growth</div>
-        <div class="exec-txt">Total Trade AR reached <b>OMR 56,107K</b> — <span class="r">25.4% above budget (OMR 44,743K)</span> and up OMR 5,935K from Dec 2025. Elevated AR signals collection shortfalls against billed revenue.</div>
-      </div>
-      <div class="exec-item">
-        <div class="exec-ttl">Private AR Risk</div>
-        <div class="exec-txt">Private AR surged <b>+OMR 12,759K (+41.7%)</b> in one quarter, now at <b>OMR 43,343K</b>. Elec. Urban private customers drive <span class="r">OMR 27,619K (63.7%)</span> of total private AR — requires urgent collection action.</div>
-      </div>
-      <div class="exec-item">
-        <div class="exec-ttl">Subsidy Collection</div>
-        <div class="exec-txt">Subsidy Receivable improved to <b>OMR 28,539K</b> <span class="g">(−20.3% vs Dec 2025)</span>. Elec. Rural subsidy increased to OMR 58,864K while Elec. Urban shows a <span class="r">credit balance (−29,656K)</span> suggesting advance receipt or netting.</div>
-      </div>
-      <div class="exec-item">
-        <div class="exec-ttl">Total Exposure</div>
-        <div class="exec-txt">Combined trade AR and subsidy exposure stands at <b>OMR 84,646K</b>, a marginal decrease of <span class="g">OMR 1,338K (−1.6%)</span> from Dec 2025. Despite subsidy improvement, private trade AR remains the primary risk concentration.</div>
+    <!-- ===== EXEC SUMMARY ===== -->
+    <div class="exec">
+      <div class="exec-top">Receivables Analysis — Key Observations</div>
+      <div class="exec-cols">
+        <div class="exec-item">
+          <div class="exec-ttl">Trade AR Growth</div>
+          <div class="exec-txt">Total Trade AR reached <b>OMR 56,107K</b> — <span class="r">25.4% above budget (OMR 44,743K)</span> and up OMR 5,935K from Dec 2025. Elevated AR signals collection shortfalls against billed revenue.</div>
+        </div>
+        <div class="exec-item">
+          <div class="exec-ttl">Private AR Risk</div>
+          <div class="exec-txt">Private AR surged <b>+OMR 12,759K (+41.7%)</b> in one quarter, now at <b>OMR 43,343K</b>. Elec. Urban private customers drive <span class="r">OMR 27,619K (63.7%)</span> of total private AR — requires urgent collection action.</div>
+        </div>
+        <div class="exec-item">
+          <div class="exec-ttl">Subsidy Collection</div>
+          <div class="exec-txt">Subsidy Receivable improved to <b>OMR 28,539K</b> <span class="g">(−20.3% vs Dec 2025)</span>. Elec. Rural subsidy increased to OMR 58,864K while Elec. Urban shows a <span class="r">credit balance (−29,656K)</span> suggesting advance receipt or netting.</div>
+        </div>
+        <div class="exec-item">
+          <div class="exec-ttl">Total Exposure</div>
+          <div class="exec-txt">Combined trade AR and subsidy exposure stands at <b>OMR 84,646K</b>, a marginal decrease of <span class="g">OMR 1,338K (−1.6%)</span> from Dec 2025. Despite subsidy improvement, private trade AR remains the primary risk concentration.</div>
+        </div>
       </div>
     </div>
   </div>

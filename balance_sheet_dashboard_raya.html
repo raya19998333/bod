@@ -705,7 +705,7 @@ body { margin: 0; }
 
 </div>
   <!-- ===== INTERCOMPANY ===== -->
-  <div class="divider">Intercompany Balances — Details FS (Rows 14–21)</div>
+  <div class="divider">Intercompany Balances </div>
 
   <div class="ic-section">
     <div class="ic-title-row">
@@ -856,7 +856,7 @@ const TIP = {
   backgroundColor: 'rgba(232,234,242,0.97)',
   borderColor: 'rgba(116,67,121,0.2)',
   borderWidth: 1,
-  titleColor: RC.primary,
+  titleColor: '#744379',
   bodyColor: RC.text,
   titleFont: { family: 'IBM Plex Mono', size: 10 },
   bodyFont: { family: 'IBM Plex Mono', size: 10 },
@@ -874,7 +874,7 @@ new Chart(document.getElementById('movementChart'), {
       {
         label: 'Actual (Mar 2026)',
         data: [446886, 56107, 71187, 202437, 87080, 39036],
-        borderColor: RC.primary,
+        borderColor: '#744379',
         backgroundColor: (ctx) => {
           const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 240);
           g.addColorStop(0, 'rgba(116,67,121,0.14)');
@@ -882,12 +882,12 @@ new Chart(document.getElementById('movementChart'), {
           return g;
         },
         fill: true, tension: 0.38,
-        pointBackgroundColor: RC.primary,
+        pointBackgroundColor: '#744379',
         pointBorderColor: RC.bg, pointBorderWidth: 2.5,
         pointRadius: 7, pointHoverRadius: 9, borderWidth: 2.5,
         datalabels: {
           align: 'top', anchor: 'end',
-          color: RC.primary,
+          color: '#744379',
           font: { family: 'IBM Plex Mono', size: 9, weight: '700' },
           formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v,
           offset: 4
@@ -896,16 +896,16 @@ new Chart(document.getElementById('movementChart'), {
       {
         label: 'Budget (Mar 2026)',
         data: [442956, 44743, 61555, 216213, 79745, 36408],
-        borderColor: 'rgba(160,164,190,0.7)',
+        borderColor: '#B9BCBF',
         backgroundColor: 'transparent',
         fill: false, tension: 0.38,
-        pointBackgroundColor: 'rgba(160,164,190,0.7)',
+        pointBackgroundColor: '#B9BCBF',
         pointBorderColor: RC.bg, pointBorderWidth: 2,
         pointRadius: 5, pointHoverRadius: 7,
         borderWidth: 1.5, borderDash: [5,3],
         datalabels: {
           align: 'bottom', anchor: 'start',
-          color: 'rgba(120,124,150,0.85)',
+          color: '#B9BCBF',
           font: { family: 'IBM Plex Mono', size: 8.5, weight: '600' },
           formatter: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v,
           offset: 4
@@ -914,10 +914,10 @@ new Chart(document.getElementById('movementChart'), {
       {
         label: 'Prev. Actual (Dec 2025)',
         data: [431671, 53267, 82073, 220140, 91245, 29464],
-        borderColor: 'rgba(141,90,143,0.65)',
+        borderColor: '#99CCFF',
         backgroundColor: 'transparent',
         fill: false, tension: 0.38,
-        pointBackgroundColor: 'rgba(141,90,143,0.65)',
+        pointBackgroundColor: '#99CCFF',
         pointBorderColor: RC.bg, pointBorderWidth: 2,
         pointRadius: 5, pointHoverRadius: 7,
         borderWidth: 1.5, borderDash: [3,3],

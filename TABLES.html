@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>General and Administrative Cost - Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #1a1a1a;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .chart-header {
+    margin-bottom: 30px;
+  }
+
+  .chart-header h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #ffffff;
+  }
+
+  .chart-header p {
+    font-size: 12px;
+    color: #a0a4be;
+  }
+
+  .chart-wrapper {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #333333;
+  }
+
+  canvas { display: block; }
+
+  .data-table {
+    margin-top: 30px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    color: #a0a4be;
+  }
+
+  table th {
+    background: #2a2a2a;
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid #333333;
+    color: #ffffff;
+  }
+
+  table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #333333;
+  }
+
+  table tr:hover {
+    background: #252525;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="chart-header">
+    <h1>General and Administrative Cost - Details</h1>
+    <p>PTD 2026 vs PTD 2025 vs Budget (OMR Thousands)</p>
+  </div>
+
+  <div class="chart-wrapper">
+    <canvas id="gaChart" width="400" height="150"></canvas>
+  </div>
+
+  <div class="data-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Cost Category</th>
+          <th>PTD 2026</th>
+          <th>PTD 2025</th>
+          <th>PTD Budget 26</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Building Rent and Maintenance</td>
+          <td>54</td>
+          <td>66</td>
+          <td>95</td>
+        </tr>
+        <tr>
+          <td>Travel and Business Trip</td>
+          <td>9</td>
+          <td>5</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>Road Remuneration</td>
+          <td>(3)</td>
+          <td>16</td>
+          <td>38</td>
+        </tr>
+        <tr>
+          <td>Vehicle Cost</td>
+          <td>153</td>
+          <td>241</td>
+          <td>245</td>
+        </tr>
+        <tr>
+          <td>License Fees</td>
+          <td>349</td>
+          <td>162</td>
+          <td>150</td>
+        </tr>
+        <tr>
+          <td>Audit and Consultancy</td>
+          <td>(59)</td>
+          <td>70</td>
+          <td>75</td>
+        </tr>
+        <tr>
+          <td>Software and Hardware</td>
+          <td>(156)</td>
+          <td>206</td>
+          <td>295</td>
+        </tr>
+        <tr>
+          <td>Utilities Expenses</td>
+          <td>59</td>
+          <td>77</td>
+          <td>105</td>
+        </tr>
+        <tr>
+          <td>Building Rent and Maintenance</td>
+          <td>31</td>
+          <td>41</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>Office Expenses</td>
+          <td>103</td>
+          <td>180</td>
+          <td>150</td>
+        </tr>
+        <tr>
+          <td>QHSSE and Security Cost</td>
+          <td>273</td>
+          <td>265</td>
+          <td>245</td>
+        </tr>
+        <tr>
+          <td>Customer Service Cost</td>
+          <td>7</td>
+          <td>16</td>
+          <td>30</td>
+        </tr>
+        <tr>
+          <td>Insurance</td>
+          <td>77</td>
+          <td>80</td>
+          <td>124</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ===== DARK MODE G&A CHART =====
+(function() {
+  Chart.defaults.color = '#a0a4be';
+  Chart.defaults.borderColor = '#333333';
+
+  const ctx = document.getElementById('gaChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: [
+        'Building Rent\nand Maintenance',
+        'Travel and\nBusiness Trip',
+        'Road\nRemuneration',
+        'Vehicle\nCost',
+        'License\nFees',
+        'Audit and\nConsultancy',
+        'Software and\nHardware',
+        'Utilities\nExpenses',
+        'Building Rent\nand Maintenance',
+        'Office\nExpenses',
+        'QHSSE and\nSecurity Cost',
+        'Customer\nService Cost',
+        'Insurance'
+      ],
+      datasets: [
+        {
+          label: 'PTD 2026',
+          data: [54, 9, -3, 153, 349, -59, -156, 59, 31, 103, 273, 7, 77],
+          backgroundColor: [
+            'rgba(200, 140, 200, 0.6)',
+            'rgba(180, 120, 200, 0.6)',
+            'rgba(180, 100, 200, 0.8)',
+            'rgba(200, 140, 200, 0.6)',
+            'rgba(220, 160, 220, 0.7)',
+            'rgba(180, 100, 200, 0.8)',
+            'rgba(180, 100, 200, 0.95)',
+            'rgba(180, 120, 200, 0.5)',
+            'rgba(160, 100, 180, 0.5)',
+            'rgba(180, 120, 200, 0.6)',
+            'rgba(220, 160, 220, 0.7)',
+            'rgba(140, 80, 160, 0.4)',
+            'rgba(180, 120, 200, 0.6)'
+          ],
+          borderColor: '#c48cc8',
+          borderWidth: 0,
+          borderRadius: 0,
+          barPercentage: 0.8,
+          categoryPercentage: 0.9
+        },
+        {
+          label: 'PTD 2025',
+          data: [66, 5, 16, 241, 162, 70, 206, 77, 41, 180, 265, 16, 80],
+          backgroundColor: [
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(180, 120, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)',
+            'rgba(200, 140, 200, 0.45)'
+          ],
+          borderColor: '#c48cc8',
+          borderWidth: 0,
+          borderRadius: 0,
+          barPercentage: 0.8,
+          categoryPercentage: 0.9
+        },
+        {
+          label: 'PTD Budget 26',
+          data: [95, 20, 38, 245, 150, 75, 295, 105, 40, 150, 245, 30, 124],
+          backgroundColor: [
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(180, 120, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)',
+            'rgba(200, 140, 200, 0.3)'
+          ],
+          borderColor: '#c48cc8',
+          borderWidth: 0,
+          borderRadius: 0,
+          barPercentage: 0.8,
+          categoryPercentage: 0.9
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      layout: { padding: { top: 50, right: 20, bottom: 20, left: 50 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            color: '#a0a4be',
+            font: { family: 'DM Sans', size: 13, weight: '500' },
+            boxWidth: 12,
+            boxHeight: 6,
+            padding: 16,
+            usePointStyle: true,
+            pointStyle: 'rect'
+          }
+        },
+        datalabels: {
+          display: true,
+          anchor: 'end',
+          align: 'top',
+          color: '#d8b8d8',
+          font: { family: 'IBM Plex Mono', size: 9, weight: '600' },
+          offset: 6,
+          formatter: function(value) {
+            if (value === 0) return '';
+            if (value < 0) return '(' + Math.abs(value) + ')';
+            return value;
+          }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(42, 42, 42, 0.95)',
+          borderColor: '#555555',
+          borderWidth: 1,
+          titleColor: '#d8b8d8',
+          bodyColor: '#a0a4be',
+          titleFont: { family: 'IBM Plex Mono', size: 11, weight: '600' },
+          bodyFont: { family: 'IBM Plex Mono', size: 10 },
+          padding: 10,
+          displayColors: false,
+          callbacks: {
+            label: ctx => {
+              let val = ctx.raw;
+              return ` ${ctx.dataset.label}: ${val < 0 ? '(' + Math.abs(val) + ')' : val}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: false,
+          grid: { display: false, drawBorder: false },
+          ticks: {
+            color: '#a0a4be',
+            font: { family: 'DM Sans', size: 9, weight: '500' },
+            maxRotation: 0,
+            minRotation: 0
+          }
+        },
+        y: {
+          stacked: false,
+          min: -200,
+          max: 400,
+          grid: {
+            color: '#333333',
+            drawBorder: true,
+            lineWidth: 0.5
+          },
+          ticks: {
+            color: '#a0a4be',
+            font: { family: 'IBM Plex Mono', size: 9, weight: '500' },
+            stepSize: 100,
+            padding: 10,
+            callback: function(value) {
+              if (value === 0) return '0';
+              if (value === -100) return '(100)';
+              if (value === -200) return '(200)';
+              return value;
+            }
+          }
+        }
+      }
+    }
+  });
+})();
+
+</script>
+
+</body>
+</html>
