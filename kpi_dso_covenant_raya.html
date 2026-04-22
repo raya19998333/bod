@@ -39,7 +39,7 @@
   .kpi{background:var(--bg);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--neu-shadow);position:relative;overflow:hidden;transition:all .3s ease}
   .kpi:hover{transform:translateY(-3px);box-shadow:var(--neu-shadow-hover)}
   .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0}
-  .kpi.dso::before{background:var(--grad-main)}
+  .kpi.dso::before{background:linear-gradient(90deg,#744379,#8d5a8f)}
   .kpi.cov::before{background:linear-gradient(90deg,#8d5a8f,#5e3360)}
   .kpi.dscr::before{background:linear-gradient(90deg,#059669,#34d399)}
   .kpi.ni::before{background:linear-gradient(90deg,#744379,#8d5a8f)}
@@ -72,100 +72,14 @@
   .pill.warn{background:var(--bg);color:#8d5a8f}
   .pill.ok{background:var(--bg);color:#059669}
 
-  /* THRESHOLD BAR */
-  .thr-block{margin-top:12px;padding-top:10px;border-top:1px solid rgba(116,67,121,.1)}
-  .thr-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;display:flex;justify-content:space-between;font-weight:600}
-  .thr-track{width:100%;height:8px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:visible;position:relative}
-  .thr-fill{height:100%;border-radius:50px;position:absolute;top:0;left:0}
-  .thr-line{position:absolute;top:-4px;height:16px;width:2.5px;border-radius:1px;background:var(--text-dim)}
-  .thr-line-lbl{position:absolute;top:18px;font-size:8px;color:var(--text-dim);transform:translateX(-50%);white-space:nowrap}
-
-  /* GRIDS */
-  .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  .g21{display:grid;grid-template-columns:1.3fr 1fr;gap:18px}
-
-  /* PANELS */
-  .panel{background:var(--bg);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--neu-shadow);transition:all .3s ease}
-  .panel:hover{transform:translateY(-2px);box-shadow:var(--neu-shadow-hover)}
-  .panel-title{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:8px}
-  .panel-title-dot{width:8px;height:8px;border-radius:50%;background:var(--grad-main);flex-shrink:0}
-  .panel-sub{font-size:11px;color:var(--text-muted);margin-bottom:16px}
-
-  /* CHART BOX */
-  .ch{position:relative;width:100%}
-  .ch230{height:230px}.ch180{height:180px}
-
   /* DIVIDER */
   .divider{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:12px}
   .divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(116,67,121,.25),transparent)}
 
-  /* DSO ROWS */
-  .dso-section-label{font-size:10px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
-  .dso-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(163,165,194,.18)}
-  .dso-row:last-child{border-bottom:none}
-  .dso-seg{font-size:11px;color:var(--text);width:150px;flex-shrink:0;font-weight:500}
-  .dso-bar-wrap{flex:1;height:8px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden}
-  .dso-bar{height:100%;border-radius:50px}
-  .dso-val{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--text);width:50px;text-align:right;flex-shrink:0}
-
-  /* DSO FORMULA BOX */
-  .formula-box{background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm);padding:12px 14px;margin-top:14px}
-  .formula-box-label{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-weight:700}
-
-  /* COVENANT EQUATION */
-  .cov-eq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:14px 16px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm)}
-  .cov-term{text-align:center}
-  .cov-term .val{font-family:var(--font-mono);font-size:17px;font-weight:700;color:var(--text)}
-  .cov-term .lbl{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
-  .cov-op{font-family:var(--font-mono);font-size:18px;color:var(--text-dim);font-weight:600;padding:0 4px}
-  .cov-result{text-align:center;padding:10px 16px;background:var(--bg);box-shadow:var(--neu-shadow-sm);border-radius:var(--radius-sm)}
-  .cov-result .val{font-family:var(--font-head);font-size:18px;font-weight:800;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .cov-result .lbl{font-size:9px;color:var(--primary);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
-  .unavail{font-family:var(--font-mono);font-size:17px;color:#dc3545;font-weight:700}
-
-  /* COVENANT TABLE */
-  .cov-table{width:100%;border-collapse:collapse}
-  .cov-table th{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;padding:8px 10px;border-bottom:2px solid rgba(116,67,121,.15);text-align:right;font-weight:700;font-family:var(--font-head)}
-  .cov-table th:first-child{text-align:left}
-  .cov-table td{font-size:11px;padding:8px 10px;border-bottom:1px solid rgba(163,165,194,.18);vertical-align:middle}
-  .cov-table td:first-child{color:var(--text-muted)}
-  .cov-table td.n{font-family:var(--font-mono);font-size:12px;color:var(--text);text-align:right;font-weight:600}
-  .cov-table td.nc{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right}
-  .cov-table td.ok{font-family:var(--font-mono);font-size:10px;color:#059669;text-align:right;font-weight:700}
-  .cov-table td.breach{font-family:var(--font-mono);font-size:10px;color:#dc3545;text-align:right;font-weight:700}
-  .cov-table tr.total-row td{border-top:2px solid rgba(116,67,121,.2);font-weight:700}
-  .cov-table tr.total-row td.n{font-size:13px;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-
-  /* NOTE BOX */
-  .note-box{padding:12px 14px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm);border-left:3px solid #8d5a8f;font-size:10.5px;color:var(--text-muted);line-height:1.65;margin-top:14px}
-  .note-box b{color:var(--text);font-weight:600}
-  .note-box .r{color:#dc3545;font-weight:600}
-
-  /* COMPLIANCE CARDS */
-  .compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-  .compliance-card{padding:14px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm);border-top:3px solid #059669;transition:all .25s ease}
-  .compliance-card:hover{box-shadow:var(--neu-shadow-sm)}
-  .compliance-card-label{font-size:9px;color:#059669;text-transform:uppercase;letter-spacing:.8px;font-weight:700;margin-bottom:8px}
-  .compliance-card-val{font-family:var(--font-head);font-size:22px;font-weight:800;color:#059669}
-  .compliance-card-sub{font-size:10px;color:var(--text-muted);margin-top:4px}
-  .compliance-card-ok{font-size:10px;color:#059669;margin-top:3px;font-weight:600}
-
-  /* EXEC */
-  .exec{background:var(--bg);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--neu-shadow);position:relative;overflow:hidden}
-  .exec::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad-main);border-radius:var(--radius) 0 0 var(--radius)}
-  .exec-top{font-family:var(--font-head);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
-  .exec-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-  .exec-item{padding:12px 14px;border-radius:var(--radius-sm);background:var(--bg);box-shadow:var(--neu-shadow-inset);transition:all .25s ease}
-  .exec-item:hover{box-shadow:var(--neu-shadow-sm)}
-  .exec-ttl{font-size:10px;font-weight:700;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
-  .exec-txt{font-size:11px;color:var(--text-muted);line-height:1.65}
-  .exec-txt b{color:var(--text);font-weight:600}
-  .exec-txt .g{color:#059669;font-weight:600}.exec-txt .r{color:#dc3545;font-weight:600}.exec-txt .w{color:#8d5a8f;font-weight:600}
-
   canvas{display:block}
 
-  @media(max-width:1100px){.kpi4{grid-template-columns:repeat(2,1fr)}.g2,.g21{grid-template-columns:1fr}.exec-cols{grid-template-columns:1fr 1fr}}
-  @media(max-width:700px){.page{padding:16px 14px 28px;gap:16px}.kpi4{grid-template-columns:1fr 1fr}.exec-cols{grid-template-columns:1fr}}
+  @media(max-width:1100px){.kpi4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:700px){.page{padding:16px 14px 28px;gap:16px}.kpi4{grid-template-columns:1fr 1fr}}
 
 /* ===== RAYA SIDEBAR LAYOUT ===== */
 body { margin: 0; }
@@ -223,18 +137,14 @@ body { margin: 0; }
   </div>
   <div class="raya-nav-section">Navigation</div>
   <ul class="raya-nav-menu">
-    <li class="raya-nav-item">
-      <a class="raya-nav-link" href="index.html">
-        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview
-      </a>
-    </li>
+
     <li class="raya-nav-item">
       <a class="raya-nav-link" href="income_statement_dashboard_raya.html">
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link active" href="balance_sheet_dashboard_raya.html">
+      <a class="raya-nav-link" href="balance_sheet_dashboard_raya.html">
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
       </a>
     </li>
@@ -254,7 +164,7 @@ body { margin: 0; }
       </a>
     </li>
     <li class="raya-nav-item">
-      <a class="raya-nav-link" href="kpi_dso_covenant_raya.html">
+      <a class="raya-nav-link active" href="kpi_dso_covenant_raya.html">
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
       </a>
     </li>
@@ -326,13 +236,43 @@ body { margin: 0; }
 
     <div class="kpi dso">
       <div class="kpi-accent-dot"></div>
-      <div class="kpi-cat b" style="color:#dc3545">⚠ DSO — Collection Risk</div>
+      <div class="kpi-cat b" style="color:#744379">⚠ DSO — Collection Risk</div>
       <div class="kpi-lbl">Days Sales Outstanding</div>
-      <div class="kpi-big" style="color:#dc3545"> Electricity 87 <br>  Water & wastewater 120<span style="font-size:16px;color:var(--text-dim);font-weight:400"> days</span></div>
+      <div style="margin-top:14px">
+        <div style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:11px;color:var(--text);font-weight:600">Electricity</span>
+            <span style="font-family:var(--font-mono);font-size:20px;font-weight:800;color:#744379">87</span>
+          </div>
+          <div style="width:100%;height:12px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden">
+            <div style="height:100%;width:72.5%;background:linear-gradient(90deg,#744379,#8d5a8f);border-radius:50px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--text-dim);margin-top:4px">120 days benchmark</div>
+        </div>
+        
+        <div style="margin-top:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:11px;color:var(--text);font-weight:600">Water & Wastewater</span>
+            <span style="font-family:var(--font-mono);font-size:20px;font-weight:800;color:#8d5a8f">120</span>
+          </div>
+          <div style="width:100%;height:12px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:50px;overflow:hidden">
+            <div style="height:100%;width:100%;background:linear-gradient(90deg,#8d5a8f,#b18cb5);border-radius:50px"></div>
+          </div>
+          <div style="font-size:9px;color:var(--text-dim);margin-top:4px">At benchmark</div>
+        </div>
+      </div>
       
-      <div class="kpi-vars">
-        <div class="var-row"><span class="var-lbl">vs Budget (64 days)</span><div class="pill neg">+57.1%</div></div>
-        <div class="var-row"><span class="var-lbl">Account Receivables</span><div class="pill neg">56,107 K (+25.4% vs Bud)</div></div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(116,67,121,.1)">
+        <div style="display:flex;gap:8px">
+          <div style="flex:1;text-align:center;padding:8px 6px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm)">
+            <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px">Q1 Avg</div>
+            <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:#744379">103.5d</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:8px 6px;background:var(--bg);box-shadow:var(--neu-shadow-inset);border-radius:var(--radius-sm)">
+            <div style="font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px">Trend</div>
+            <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:#8d5a8f">↑ 12d</div>
+          </div>
+        </div>
       </div>
     </div>
 
