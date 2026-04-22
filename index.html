@@ -1,0 +1,1656 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Income Statement Dashboard – Nama Dhofar Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root {
+    --primary: #744379;
+    --primary-dark: #5e3360;
+    --primary-light: #8d5a8f;
+    --bg: #e8eaf2;
+    --border: rgba(116,67,121,0.12);
+    --text: #2d2f45;
+    --text-muted: #7b7f9e;
+    --text-dim: #a0a4be;
+    --success: #059669;
+    --danger: #dc3545;
+    --warning: #8d5a8f;
+    --grad-main: linear-gradient(135deg, #744379 0%, #5e3360 100%);
+    --grad-soft: linear-gradient(135deg, rgba(116,67,121,0.12) 0%, rgba(94,51,96,0.07) 100%);
+    --neu-shadow: 8px 8px 20px rgba(163,165,194,0.6), -8px -8px 20px rgba(255,255,255,0.85);
+    --neu-shadow-sm: 5px 5px 12px rgba(163,165,194,0.55), -5px -5px 12px rgba(255,255,255,0.8);
+    --neu-shadow-inset: inset 4px 4px 10px rgba(163,165,194,0.5), inset -4px -4px 10px rgba(255,255,255,0.75);
+    --neu-shadow-hover: 10px 10px 24px rgba(163,165,194,0.65), -10px -10px 24px rgba(255,255,255,0.9);
+    --font-head: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    min-height: 100vh;
+  }
+
+  /* ===== PAGE WRAPPER ===== */
+  .page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 20px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  /* ===== CARD BASE ===== */
+  .card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    box-shadow: var(--neu-shadow);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--neu-shadow-hover);
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 22px 28px;
+    box-shadow: var(--neu-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .header-left h1 {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 700;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+  }
+  .header-left p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 5px;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .period-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--grad-main);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 50px;
+    letter-spacing: 1px;
+    box-shadow: 4px 4px 10px rgba(116,67,121,0.3), -2px -2px 8px rgba(255,255,255,0.7);
+  }
+  .period-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ===== KPI ROW ===== */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+  }
+  .kpi-card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 18px 16px 16px;
+    box-shadow: var(--neu-shadow);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--neu-shadow-hover);
+  }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .kpi-card.gold::before { background: linear-gradient(90deg, #8d5a8f, #744379); }
+  .kpi-card.green::before { background: linear-gradient(90deg, #059669, #34d399); }
+  .kpi-card.blue::before { background: var(--grad-main); }
+  .kpi-card.red::before { background: linear-gradient(90deg, #dc3545, #f87171); }
+
+  .kpi-accent-dot {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .gold .kpi-accent-dot { background: #8d5a8f; box-shadow: 0 0 8px rgba(141,90,143,0.5); }
+  .green .kpi-accent-dot { background: #059669; box-shadow: 0 0 8px rgba(5,150,105,0.5); }
+  .blue .kpi-accent-dot { background: #744379; box-shadow: 0 0 8px rgba(116,67,121,0.5); }
+  .red .kpi-accent-dot { background: #dc3545; box-shadow: 0 0 8px rgba(220,53,69,0.5); }
+
+  .kpi-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .kpi-actual {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .kpi-actual span {
+    font-size: 10px;
+    color: var(--text-dim);
+    font-weight: 400;
+    font-family: var(--font-body);
+  }
+  .kpi-row-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .kpi-budget-val {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: var(--text-dim);
+  }
+  .kpi-var {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 50px;
+    box-shadow: var(--neu-shadow-sm);
+  }
+  .kpi-var.pos { background: var(--bg); color: #059669; }
+  .kpi-var.neg { background: var(--bg); color: #dc3545; }
+
+  /* ===== PANEL TITLE ===== */
+  .panel-title {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-title-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--grad-main);
+    flex-shrink: 0;
+  }
+  .panel-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* ===== MID SECTION ===== */
+  .mid-section {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 18px;
+  }
+  .panel {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    box-shadow: var(--neu-shadow);
+  }
+
+  /* ===== LEGEND ===== */
+  .legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .leg-dot {
+    width: 8px; height: 8px; border-radius: 2px;
+  }
+  .leg-line {
+    width: 16px; height: 2px; border-radius: 1px;
+  }
+
+  /* ===== REVENUE BRIDGE ===== */
+  .bridge-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+  }
+  .bridge-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    width: 120px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+  }
+  .bridge-bar-wrap {
+    flex: 1;
+    position: relative;
+    height: 22px;
+  }
+  .bridge-bar-bg {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    height: 7px;
+    background: var(--bg);
+    box-shadow: var(--neu-shadow-inset);
+    border-radius: 50px;
+    width: 100%;
+  }
+  .bridge-bar-act {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    height: 7px;
+    border-radius: 50px;
+  }
+  .bridge-bar-bud {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    height: 2px;
+    border-radius: 1px;
+    background: var(--text-dim);
+    opacity: 0.5;
+  }
+  .bridge-vals {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    width: 66px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bridge-var {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    width: 46px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .bridge-total-box {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    box-shadow: var(--neu-shadow-inset);
+  }
+  .bridge-total-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .bridge-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .bridge-total-val {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 800;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ===== DIVIDER LABEL ===== */
+  .divider-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .divider-label::before, .divider-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(116,67,121,0.25), transparent);
+  }
+
+  /* ===== COST SECTION ===== */
+  .cost-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .cost-panel {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    box-shadow: var(--neu-shadow);
+    transition: all 0.3s ease;
+  }
+  .cost-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--neu-shadow-hover);
+  }
+  .cost-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(116,67,121,0.1);
+  }
+  .cost-title {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cost-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--grad-main);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font-head);
+    -webkit-text-fill-color: white;
+    flex-shrink: 0;
+  }
+  .cost-totals { text-align: right; }
+  .cost-act-val {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .cost-bud-val {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 3px;
+  }
+  .cost-var-pill {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 50px;
+    margin-top: 5px;
+    box-shadow: var(--neu-shadow-sm);
+  }
+  .cost-var-pill.pos { background: var(--bg); color: #059669; }
+  .cost-var-pill.neg { background: var(--bg); color: #dc3545; }
+
+  .cost-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 9px;
+    gap: 8px;
+  }
+  .cost-row-label {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    width: 128px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mini-bar-wrap {
+    flex: 1;
+    height: 10px;
+    background: var(--bg);
+    box-shadow: var(--neu-shadow-inset);
+    border-radius: 50px;
+    overflow: hidden;
+    position: relative;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 50px;
+    position: absolute;
+    top: 0; left: 0;
+  }
+  .mini-bud-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: rgba(116,67,121,0.5);
+  }
+  .cost-row-val {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text);
+    width: 50px;
+    text-align: right;
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+
+  .cost-insight {
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    box-shadow: var(--neu-shadow-inset);
+  }
+  .insight-bullet {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .insight-bullet::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 13px;
+  }
+  .insight-bullet b { color: var(--text); font-weight: 600; }
+  .insight-bullet .highlight-pos { color: #059669; font-weight: 600; }
+  .insight-bullet .highlight-neg { color: #dc3545; font-weight: 600; }
+
+  /* ===== EXEC SUMMARY ===== */
+  .exec-summary {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    box-shadow: var(--neu-shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .exec-summary::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--grad-main);
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+  .exec-title {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .exec-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+  .exec-item {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    box-shadow: var(--neu-shadow-inset);
+    transition: all 0.25s ease;
+  }
+  .exec-item:hover {
+    box-shadow: var(--neu-shadow-sm);
+  }
+  .exec-item-title {
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--grad-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .exec-item-text {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .exec-item-text b { color: var(--text); font-weight: 600; }
+  .exec-item-text .g { color: #059669; font-weight: 600; }
+  .exec-item-text .r { color: #dc3545; font-weight: 600; }
+
+  canvas { display: block; }
+
+  .pl-row-highlight { background: rgba(116,67,121,0.05); border-bottom: 1px solid rgba(163,165,194,0.12); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1200px) {
+    .kpi-row { grid-template-columns: repeat(3, 1fr); }
+    .exec-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .cost-section { grid-template-columns: 1fr 1fr; }
+    .exec-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 650px) {
+    .page { padding: 16px 14px 28px; gap: 16px; }
+    .header { padding: 18px 20px; }
+    .header-left h1 { font-size: 18px; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .cost-section { grid-template-columns: 1fr; }
+    .exec-grid { grid-template-columns: 1fr 1fr; }
+    .mid-section { grid-template-columns: 1fr; }
+    .bridge-label { width: 90px; font-size: 10px; }
+  }
+
+  @media (max-width: 420px) {
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+    .exec-grid { grid-template-columns: 1fr; }
+    .header-right { align-items: flex-start; }
+  }
+
+/* ===== RAYA SIDEBAR LAYOUT ===== */
+body { margin: 0; }
+.raya-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; background: #e8eaf2; }
+.raya-sidebar {
+  background: linear-gradient(135deg, #744379 0%, #5e3360 100%);
+  padding: 28px 16px; display: flex; flex-direction: column;
+  min-height: 100vh; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  box-shadow: 6px 0 20px rgba(116,67,121,0.2);
+}
+.raya-sidebar-brand { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.2); }
+.raya-brand-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 800; font-size: 15px; color: white; flex-shrink: 0; }
+.raya-brand-text { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 15px; font-weight: 800; color: white; letter-spacing: 1px; line-height: 1.2; }
+.raya-brand-sub { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.raya-nav-section { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.45); padding: 0 10px; margin: 14px 0 6px; }
+.raya-nav-menu { list-style: none; }
+.raya-nav-item { margin-bottom: 3px; }
+.raya-nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; color: rgba(255,255,255,0.75); text-decoration: none; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.22s; position: relative; }
+.raya-nav-link:hover { background: rgba(255,255,255,0.12); color: white; }
+.raya-nav-link.active { background: rgba(255,255,255,0.18); color: white; font-weight: 600; border: 1px solid rgba(255,255,255,0.22); }
+.raya-nav-link.active::before { content: ''; position: absolute; left: 0; top: 22%; bottom: 22%; width: 3px; background: white; border-radius: 0 3px 3px 0; }
+.raya-nav-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+.raya-nav-link.active .raya-nav-icon, .raya-nav-link:hover .raya-nav-icon { background: rgba(255,255,255,0.25); }
+.raya-nav-icon svg { width: 14px; height: 14px; stroke: rgba(255,255,255,0.8); stroke-width: 1.8; fill: none; }
+.raya-nav-link.active .raya-nav-icon svg, .raya-nav-link:hover .raya-nav-icon svg { stroke: white; }
+.raya-sidebar-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.18); }
+.raya-user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); }
+.raya-avatar { width: 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: white; flex-shrink: 0; }
+.raya-user-name { font-size: 12px; font-weight: 600; color: white; }
+.raya-user-role { font-size: 10px; color: rgba(255,255,255,0.6); }
+.raya-main { min-width: 0; overflow-y: auto; }
+.page { min-width: 0 !important; }
+@media (max-width: 900px) {
+  .raya-layout { grid-template-columns: 1fr; }
+  .raya-sidebar { min-height: auto; height: auto; position: relative; flex-direction: row; flex-wrap: wrap; padding: 14px 16px; gap: 10px; }
+  .raya-sidebar-brand { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+  .raya-nav-section, .raya-sidebar-footer { display: none; }
+  .raya-nav-menu { display: flex; flex-wrap: wrap; gap: 4px; }
+  .raya-nav-item { margin-bottom: 0; }
+  .raya-nav-link { padding: 7px 10px; font-size: 11px; }
+  .raya-nav-icon { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div class="raya-layout">
+<aside class="raya-sidebar">
+  <div class="raya-sidebar-brand">
+    <div class="raya-brand-icon" style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.10) 100%);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 4px 14px rgba(0,0,0,0.18);"><img src="https://i.postimg.cc/DzdBCjRy/image-10.png" alt="Logo" style="width:46px;height:46px;object-fit:contain;border-radius:10px;"></div>
+    <div>
+      <div class="raya-brand-text">Nama Dhofar Services</div>
+      <div class="raya-brand-sub">Board Dashboard 2026</div>
+    </div>
+  </div>
+  <div class="raya-nav-section">Navigation</div>
+  <ul class="raya-nav-menu">
+   
+    <li class="raya-nav-item">
+      <a class="raya-nav-link active" href="index.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="balance_sheet_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
+      </a>
+    </li>
+       <li class="raya-nav-item">
+      <a class="raya-nav-link" href="cashflow_dashboard_raya.html">
+      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="receivables_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Receivables
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="capex_vowd_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>CAPEX & VOWD
+      </a>
+    </li>
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="kpi_dso_covenant_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
+      </a>
+    </li>
+    
+    <li class="raya-nav-item">
+      <a class="raya-nav-link" href="operations_dashboard_raya.html">
+        <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations
+      </a>
+    </li>
+  </ul>
+  <div class="raya-sidebar-footer">
+    <div class="raya-user-card">
+      <div class="raya-avatar">LB</div>
+      <div>
+        <div class="raya-user-name">Latifa Bait Saleem</div>
+        <div class="raya-user-role">Chief Financial Officer (CFO)</div>
+      </div>
+    </div>
+  </div>
+</aside>
+<main class="raya-main" style="padding:24px;overflow-y:auto">
+
+<div class="page">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <div class="header-left">
+      <h1>Income Statement Dashboard</h1>
+      <p>Nama Dhofar Services &nbsp;·&nbsp; Financial Statements (FS + Details FS) &nbsp;·&nbsp; All figures in OMR Thousands</p>
+    </div>
+    <div class="header-right">
+      <div class="period-badge">PTD: MAR 2025 – MAR 2026</div>
+      <div class="period-label">Latifa Bait Saleem · CFO</div>
+    </div>
+  </div>
+
+  <!-- ===== KPI CARDS ===== -->
+  <div class="kpi-row">
+    <div class="kpi-card gold">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-label">Sales Revenue</div>
+      <div class="kpi-actual">30,860 <span>OMR K</span></div>
+      <div class="kpi-row-meta">
+        <div class="kpi-budget-val">Budget: 39,159</div>
+        <div class="kpi-var neg">-21.2%</div>
+      </div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-label">Operating Subsidy</div>
+      <div class="kpi-actual">20,125 <span>OMR K</span></div>
+      <div class="kpi-row-meta">
+        <div class="kpi-budget-val">Budget: 23,209</div>
+        <div class="kpi-var neg">-13.3%</div>
+      </div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-label">EBITDA</div>
+      <div class="kpi-actual">13,153 <span>OMR K</span></div>
+      <div class="kpi-row-meta">
+        <div class="kpi-budget-val">Budget: 15,019</div>
+        <div class="kpi-var neg">-12.4%</div>
+      </div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-label">EBIT</div>
+      <div class="kpi-actual">5,280 <span>OMR K</span></div>
+      <div class="kpi-row-meta">
+        <div class="kpi-budget-val">Budget: 5,767</div>
+        <div class="kpi-var neg">-8.4%</div>
+      </div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-accent-dot"></div>
+      <div class="kpi-label">Net Income / Loss</div>
+      <div class="kpi-actual">1,796 <span>OMR K</span></div>
+      <div class="kpi-row-meta">
+        <div class="kpi-budget-val">Budget: 899</div>
+        <div class="kpi-var pos">+99.7%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== P&L FULL DETAIL TABLE ===== -->
+  <div class="panel" style="padding:0;overflow:hidden">
+    <div style="padding:16px 20px 14px;border-bottom:1px solid rgba(116,67,121,0.15)">
+      <div class="panel-title"><div class="panel-title-dot"></div>Income Statement — DISC Full Detail</div>
+      <div class="panel-sub" style="margin-bottom:0">Mar-26 Actual vs Budget vs Mar-25 Actual vs Annual Budget (OMR K)</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:11px">
+        <thead>
+          <tr style="background:rgba(116,67,121,0.12)">
+            <th style="text-align:left;padding:10px 20px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);min-width:220px">DISC</th>
+            <th style="padding:10px 14px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);text-align:right">Mar-26<br><span style="font-size:8.5px;font-weight:400;color:var(--text-muted)">Actual</span></th>
+            <th style="padding:10px 14px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);text-align:right">Mar-26<br><span style="font-size:8.5px;font-weight:400">Budget</span></th>
+            <th style="padding:10px 10px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);text-align:right">Var</th>
+            <th style="padding:10px 14px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);text-align:right">Mar-25<br><span style="font-size:8.5px;font-weight:400">Actual</span></th>
+            <th style="padding:10px 10px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);text-align:right">Var</th>
+            <th style="padding:10px 14px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);text-align:right">Annual<br><span style="font-size:8.5px;font-weight:400">Budget</span></th>
+            <th style="padding:10px 14px;font-family:var(--font-head);font-size:9.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;border-bottom:2px solid rgba(116,67,121,0.2);text-align:left;min-width:260px">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="8" style="padding:5px 20px;background:rgba(116,67,121,0.06);font-family:var(--font-head);font-size:9px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.2px"></td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Sales Revenue</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">30,860</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">39,159</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−21%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">27,567</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">+12%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">184,541</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Green Data City reached 85% of planned capacity and Exahertz reached 27%</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Subsidy</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">20,125</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">23,209</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−13%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">28,191</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−29%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">110,340</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">As per approved Subsidy Letter</td></tr>
+         
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">K Factor</td><td style="padding:9px 14px;font-family:var(--font-mono);color:#dc3545;text-align:right">(2,422)</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">—</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right">0%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:#dc3545;text-align:right">(8,610)</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−72%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">—</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Correction Factor to adjust subsidy as per Q1 actuals</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Other Revenue</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">1,389</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">288</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+381%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">1,159</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+20%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">1,154</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Budgeted figures align to previous year trend</td></tr>
+         
+          <tr class="pl-row-highlight"><td style="padding:10px 20px;font-weight:700;color:var(--text)">Total Revenue</td><td style="padding:10px 14px;font-family:var(--font-mono);font-weight:700;color:var(--primary);text-align:right">49,952</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">62,656</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−20%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">48,306</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right">(1)</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">296,035</td><td style="padding:10px 14px;font-size:10px;color:var(--text-dim)">—</td></tr>
+
+          <tr><td colspan="8" style="padding:5px 20px;background:rgba(116,67,121,0.06);font-family:var(--font-head);font-size:9px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.2px"></td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Pass through Cost</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">23,332</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">32,529</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−28%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">21,768</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+7%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">175,484</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Green Data City reached 85% of planned capacity and Exahertz reached 27%</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Operating Cost</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">5,595</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">7,571</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−26%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">5,734</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−2%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">30,284</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Temporary Saving in addition to actual saving from Tanker contract</td></tr>
+          <tr class="pl-row-highlight"><td style="padding:10px 20px;font-weight:700;color:var(--text)">Total Operating Cost</td><td style="padding:10px 14px;font-family:var(--font-mono);font-weight:700;color:var(--primary);text-align:right">28,927</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">40,100</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−28%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">27,502</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−28%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">205,768</td><td style="padding:10px 14px;font-size:10px;color:var(--text-dim)">—</td></tr>
+
+          <tr><td colspan="8" style="padding:5px 20px;background:rgba(116,67,121,0.06);font-family:var(--font-head);font-size:9px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.2px"></td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Salaries and Wages</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">4,597</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">4,603</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right">0%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">3,857</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+19%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">18,411</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">No recruitment during Q1-2026</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Bad Debt Provision</td><td style="padding:9px 14px;font-family:var(--font-mono);color:#dc3545;text-align:right">2,070</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">100</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+1971%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">314</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+560%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">400</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Due to Green Data and Exahertz disputed balance</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">General and Administration</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">801</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">1,855</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−57%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">1,383</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−42%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">7,421</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Travelling, Vehicles lease and Software invoice not fully booked</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Electricity Expenses</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">404</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">980</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−59%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">511</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−21%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">3,919</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Utilities Cost have not been booked as per actual</td></tr>
+          <tr class="pl-row-highlight"><td style="padding:10px 20px;font-weight:700;color:var(--text)">Total G&amp;A</td><td style="padding:10px 14px;font-family:var(--font-mono);font-weight:700;color:var(--primary);text-align:right">7,872</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">7,538</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+4%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">6,065</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right">5</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">30,150</td><td style="padding:10px 14px;font-size:10px;color:var(--text-dim)">—</td></tr>
+          <tr class="pl-row-highlight"><td style="padding:10px 20px;font-weight:700;color:var(--text)">EBITDA</td><td style="padding:10px 14px;font-family:var(--font-mono);font-weight:700;color:var(--primary);text-align:right">13,153</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">15,019</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−12%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">14,739</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−12%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">60,117</td><td style="padding:10px 14px;font-size:10px;color:var(--text-dim)">—</td></tr>
+
+          <tr><td colspan="8" style="padding:5px 20px;background:rgba(116,67,121,0.06);font-family:var(--font-head);font-size:9px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.2px"></td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Depreciation</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">4,427</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">5,830</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−24%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">4,237</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+5%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">23,321</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Budget Opening Balance based on forecast — permanent variance</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Depreciation IFRS 16</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">3,445</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">3,422</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right">+1%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">3,452</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-align:right">0%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">13,688</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">As per IFRS 16 Calculation</td></tr>
+          <tr class="pl-row-highlight"><td style="padding:10px 20px;font-weight:700;color:var(--text)">Earning Before Interest and Tax (EBIT)</td><td style="padding:10px 14px;font-family:var(--font-mono);font-weight:700;color:var(--primary);text-align:right">5,280</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">5,767</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−8%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">7,050</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">−8%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">23,108</td><td style="padding:10px 14px;font-size:10px;color:var(--text-dim)">—</td></tr>
+
+          <tr><td colspan="8" style="padding:5px 20px;background:rgba(116,67,121,0.06);font-family:var(--font-head);font-size:9px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.2px"></td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Finance Cost</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">3,157</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">3,279</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−4%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">2,364</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+34%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">13,117</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Loan repricing effect on 2026 compare to PCR</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Finance Income</td><td style="padding:9px 14px;font-family:var(--font-mono);color:#059669;text-align:right">(921)</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">(842)</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+9%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">(109)</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+746%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">(3,367)</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Income related to company Fixed Deposit</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Finance Cost-BOT</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">371</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">365</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+2%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">393</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−6%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">1,460</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">As per Contract with ONEIC</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Finance Cost IFRS 16</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text);text-align:right">1,083</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">1,024</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+6%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">1,316</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−18%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">4,097</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">As per IFRS 16 Calculation</td></tr>
+          <tr class="pl-row-highlight"><td style="padding:10px 20px;font-weight:700;color:var(--text)">Total Finance Cost</td><td style="padding:10px 14px;font-family:var(--font-mono);font-weight:700;color:var(--primary);text-align:right">3,690</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">3,827</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−4%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">3,963</td><td style="padding:10px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−4%</td><td style="padding:10px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">15,307</td><td style="padding:10px 14px;font-size:10px;color:var(--text-dim)">—</td></tr>
+          <tr style="border-bottom:1px solid rgba(163,165,194,0.1)"><td style="padding:9px 20px 9px 28px;color:var(--text-muted)">Tax</td><td style="padding:9px 14px;font-family:var(--font-mono);color:#059669;text-align:right">(206)</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">1,041</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#059669;text-align:right">−120%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-muted);text-align:right">523</td><td style="padding:9px 10px;font-family:var(--font-mono);font-size:10px;font-weight:700;color:#dc3545;text-align:right">+79%</td><td style="padding:9px 14px;font-family:var(--font-mono);color:var(--text-dim);text-align:right">4,163</td><td style="padding:9px 14px;font-size:10px;color:var(--text-muted)">Deferred Tax under consultant revision</td></tr>
+          <tr style="background:linear-gradient(90deg,rgba(116,67,121,0.15),rgba(94,51,96,0.08));border-top:2px solid rgba(116,67,121,0.3)">
+            <td style="padding:13px 20px;font-family:var(--font-head);font-size:13px;font-weight:800;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Net Income / Loss</td>
+            <td style="padding:13px 14px;font-family:var(--font-mono);font-size:13px;font-weight:800;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:right">1,796</td>
+            <td style="padding:13px 14px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);text-align:right">899</td>
+            <td style="padding:13px 10px;font-family:var(--font-mono);font-size:11px;font-weight:700;color:#059669;text-align:right">+100%</td>
+            <td style="padding:13px 14px;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);text-align:right">2,563</td>
+            <td style="padding:13px 10px;font-family:var(--font-mono);font-size:11px;font-weight:700;color:#059669;text-align:right">+100%</td>
+            <td style="padding:13px 14px;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);text-align:right">3,638</td>
+            <td style="padding:13px 14px;font-size:10px;color:var(--text-dim)">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CHART + REVENUE BRIDGE ===== -->
+  <div class="mid-section">
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>Revenue vs. Total Operating Cost vs. Net Income/Loss</div>
+      <div class="panel-sub">Actual vs. Budget — Combined Overview</div>
+      <div class="legend-row">
+        <div class="leg-item"><div class="leg-dot" style="background:#744379"></div>Mar-26 Actual</div>
+        <div class="leg-item"><div class="leg-line" style="background:#a0a4be;border-top:2px dashed #a0a4be;height:0"></div>Budget Mar-26</div>
+        <div class="leg-item"><div class="leg-line" style="background:#059669;border-top:2px dashed #059669;height:0"></div>Mar-25 Actual</div>
+      </div>
+      <canvas id="mainChart" height="120"></canvas>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title"><div class="panel-title-dot"></div>Revenue Components</div>
+      <div class="panel-sub">Actual vs. Budget — Period to Date</div>
+      <div id="revBridge"></div>
+      <div class="bridge-total-box">
+        <div class="bridge-total-label">Total Revenue</div>
+        <div class="bridge-total-row">
+          <div class="bridge-total-val">49,952</div>
+          <div style="text-align:right">
+            <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-dim)">Budget 62,656</div>
+            <div class="kpi-var neg" style="display:inline-block;margin-top:4px">-20.3%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DIVIDER ===== -->
+  <div class="divider-label">Cost Breakdown Analysis</div>
+
+  <!-- ===== COST PANELS ===== -->
+  <div class="cost-section">
+
+    <!-- DIRECT COST -->
+    <div class="cost-panel">
+      <div class="cost-header">
+        <div>
+          <div class="cost-title">
+            <span class="cost-num-badge">1</span> Direct Cost
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Pass Through + Operating Cost</div>
+        </div>
+        <div class="cost-totals">
+          <div class="cost-act-val">28,928</div>
+          <div class="cost-bud-val">Budget: 40,103</div>
+          <div class="cost-var-pill pos">-27.9% vs Budget</div>
+        </div>
+      </div>
+      <canvas id="directChart" height="200"></canvas>
+      <div style="margin-top:14px">
+        <div class="cost-row">
+          <div class="cost-row-label">Pass Through Cost</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:71.8%"></div><div class="mini-bud-line" style="left:81.1%"></div></div>
+          <div class="cost-row-val">23,332</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Operating Cost</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#8d5a8f);width:17.2%"></div><div class="mini-bud-line" style="left:23.2%"></div></div>
+          <div class="cost-row-val">5,595</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">System Loss</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:0%"></div></div>
+          <div class="cost-row-val">—</div>
+        </div>
+      </div>
+      <div class="cost-insight">
+        <div class="insight-bullet">Overall Direct Cost spending are <b class="highlight-pos">within the approved budget</b>.</div>
+        <div class="insight-bullet">Based on the efficient plan from <b>water Tankers utilization</b>, there is a noticeable <b class="highlight-pos">saving on the Direct Cost</b>.</div>
+        <div class="insight-bullet">Cost related to <b>Collection channel and Bill delivery</b> <b class="highlight-neg">not fully booked</b>.</div>
+      </div>
+    </div>
+
+    <!-- ADMIN COST -->
+    <div class="cost-panel">
+      <div class="cost-header">
+        <div>
+          <div class="cost-title">
+            <span class="cost-num-badge">2</span> Admin Cost
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">G&amp;A, Salaries, Bad Debt, Electricity</div>
+        </div>
+        <div class="cost-totals">
+          <div class="cost-act-val">7,871</div>
+          <div class="cost-bud-val">Budget: 7,534</div>
+          <div class="cost-var-pill neg">+4.5% vs Budget</div>
+        </div>
+      </div>
+      <canvas id="adminChart" height="200"></canvas>
+      <div style="margin-top:14px">
+        <div class="cost-row">
+          <div class="cost-row-label">Salaries &amp; Wages</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#8d5a8f);width:57.8%"></div><div class="mini-bud-line" style="left:58.5%"></div></div>
+          <div class="cost-row-val">4,552</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Bad Debt Provision</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#dc3545,#f87171);width:26.3%"></div><div class="mini-bud-line" style="left:1.3%"></div></div>
+          <div class="cost-row-val" style="color:#dc3545">2,070</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">G&amp;A Expenses</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#8d5a8f);width:10.2%"></div><div class="mini-bud-line" style="left:23.5%"></div></div>
+          <div class="cost-row-val">800</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Electricity Expenses</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#8d5a8f);width:5.1%"></div><div class="mini-bud-line" style="left:12.5%"></div></div>
+          <div class="cost-row-val">404</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Early Exit Scheme</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#8d5a8f);width:0.6%"></div></div>
+          <div class="cost-row-val">46</div>
+        </div>
+      </div>
+      <div class="cost-insight">
+        <div class="insight-bullet">Bad Debt Provision is <b class="highlight-neg">OMR 1,970K above budget</b> (OMR 2,070K vs. OMR 100K budget) — dne to disputed value.</div>
+        <div class="insight-bullet">G&amp;A and Electricity together <b class="highlight-pos">saved OMR 1,628K</b> vs. budget.</div>
+        <div class="insight-bullet">Salaries broadly on track with only <b>OMR 51K</b> favorable variance (-1.1%).</div>
+      </div>
+    </div>
+
+    <!-- FINANCE COST -->
+    <div class="cost-panel">
+      <div class="cost-header">
+        <div>
+          <div class="cost-title">
+            <span class="cost-num-badge">3</span> Finance Cost
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);margin-top:4px;">Debt Structure</div>
+        </div>
+        <div class="cost-totals">
+          <div class="cost-act-val">3,690</div>
+          <div class="cost-bud-val">Budget: 3,827</div>
+          <div class="cost-var-pill pos">-3.6% vs Budget</div>
+        </div>
+      </div>
+      <canvas id="financeChart" height="200"></canvas>
+      <div style="margin-top:14px">
+        <div class="cost-row">
+          <div class="cost-row-label">Finance Cost (LTL)</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:82.6%"></div><div class="mini-bud-line" style="left:86.0%"></div></div>
+          <div class="cost-row-val">3,157</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Finance Cost IFRS 16</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#8d5a8f);width:28.4%"></div><div class="mini-bud-line" style="left:26.9%"></div></div>
+          <div class="cost-row-val">1,083</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Finance Cost-BOT</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#744379,#8d5a8f);width:9.7%"></div><div class="mini-bud-line" style="left:9.6%"></div></div>
+          <div class="cost-row-val">371</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Finance Income</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:24.1%"></div><div class="mini-bud-line" style="left:22.1%"></div></div>
+          <div class="cost-row-val" style="color:#059669">(921)</div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-row-label">Loan Restructuring</div>
+          <div class="mini-bar-wrap"><div class="mini-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:0.1%"></div></div>
+          <div class="cost-row-val">(0)</div>
+        </div>
+      </div>
+      <div class="cost-insight">
+        <div class="insight-bullet">Company approached the market seeking quote for <b>R.O. 15 Mn working capital</b>.</div>
+        <div class="insight-bullet">Company is <b class="highlight-pos">in compliance with covenant</b> as of Q1-2026.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EXEC SUMMARY ===== -->
+  <div class="exec-summary">
+    <div class="exec-title">Executive Summary — Key Observations</div>
+    <div class="exec-grid">
+      <div class="exec-item">
+        <div class="exec-item-title">Revenue Movement</div>
+        <div class="exec-item-text">Total Revenue of <b>OMR 49,952K</b> is <span class="r">20.3% (OMR 12,704K) below budget</span>, driven by lower Sales Revenue (<span class="r">-21.2%</span>) and Subsidy receipt shortfall (<span class="r">-13.3%</span>).</div>
+      </div>
+      <div class="exec-item">
+        <div class="exec-item-title">Cost Pressures</div>
+        <div class="exec-item-text">Direct costs underran budget by <span class="g">OMR 11,175K (-27.9%)</span>, mirroring lower revenue. Admin costs marginally exceeded budget by <b>OMR 337K (+4.5%)</b>, with Bad Debt Provision the primary driver.</div>
+      </div>
+      <div class="exec-item">
+        <div class="exec-item-title">Finance Cost Impact</div>
+        <div class="exec-item-text">Total Finance Cost of <b>OMR 3,690K</b> was <span class="g">OMR 137K (-3.6%) below budget</span>. Finance Income of <b>OMR 921K</b> exceeded budget by <span class="g">OMR 79K</span>, partially offset by IFRS 16 overrun.</div>
+      </div>
+      <div class="exec-item">
+        <div class="exec-item-title">Subsidy Dependency</div>
+        <div class="exec-item-text">Subsidy receipts of <b>OMR 20,125K</b> represent <span class="r">40.3%</span> of total revenue, below the budgeted 37.0%. Subsidy dependency remains structurally significant across all segments.</div>
+      </div>
+      <div class="exec-item">
+        <div class="exec-item-title">Profitability Direction</div>
+        <div class="exec-item-text">Net Income of <b>OMR 1,796K</b> is <span class="g">99.7% above budget (OMR 899K)</span>. Despite revenue shortfall, proportionate cost reductions delivered positive budget outperformance at net level.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===== CHART DEFAULTS =====
+const RAYA_COLORS = {
+  primary: '#744379',
+  secondary: '#5e3360',
+  light: '#8d5a8f',
+  muted: '#a0a4be',
+  text: '#2d2f45',
+  danger: '#dc3545',
+  success: '#059669',
+  warning: '#8d5a8f',
+  bg: '#e8eaf2',
+  border: 'rgba(163,165,194,0.3)',
+};
+
+const defaultOpts = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      labels: {
+        color: RAYA_COLORS.muted,
+        font: { family: 'DM Sans', size: 10 },
+        boxWidth: 12, boxHeight: 2, padding: 16,
+        usePointStyle: true, pointStyle: 'line'
+      }
+    },
+    tooltip: {
+      backgroundColor: 'rgba(232,234,242,0.95)',
+      borderColor: 'rgba(116,67,121,0.2)',
+      borderWidth: 1,
+      titleColor: RAYA_COLORS.primary,
+      bodyColor: RAYA_COLORS.text,
+      titleFont: { family: 'IBM Plex Mono', size: 11 },
+      bodyFont: { family: 'IBM Plex Mono', size: 10 },
+      padding: 12,
+      boxShadow: '0 4px 20px rgba(163,165,194,0.4)',
+      callbacks: {
+        label: ctx => ` ${ctx.dataset.label}: OMR ${ctx.raw.toLocaleString()}K`
+      }
+    }
+  },
+  scales: {
+    x: {
+      grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+      ticks: { color: RAYA_COLORS.muted, font: { family: 'DM Sans', size: 10 } }
+    },
+    y: {
+      grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+      ticks: {
+        color: RAYA_COLORS.muted,
+        font: { family: 'IBM Plex Mono', size: 9 },
+        callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v
+      }
+    }
+  }
+};
+
+// ===== MAIN CHART =====
+const mainCtx = document.getElementById('mainChart').getContext('2d');
+new Chart(mainCtx, {
+  type: 'line',
+  plugins: [ChartDataLabels],
+  data: {
+    labels: ['Total Revenue', 'Total\nOp. Cost', 'Total G&A', 'Total\nFinance Cost', 'Net Income\n/ Loss'],
+    datasets: [
+      {
+        label: 'Mar-26 Actual',
+        data: [49952, 28928, 7871, 3690, 1796],
+        borderColor: RAYA_COLORS.primary,
+        backgroundColor: (ctx) => {
+          const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 220);
+          g.addColorStop(0, 'rgba(116,67,121,0.15)');
+          g.addColorStop(1, 'rgba(116,67,121,0.0)');
+          return g;
+        },
+        pointBackgroundColor: RAYA_COLORS.primary,
+        pointBorderColor: RAYA_COLORS.bg,
+        pointBorderWidth: 2.5,
+        pointRadius: 7,
+        pointHoverRadius: 9,
+        borderWidth: 2.5,
+        tension: 0.38,
+        fill: true,
+        order: 1,
+        datalabels: {
+          align: 'top',
+          offset: 6,
+          color: RAYA_COLORS.primary,
+          font: { family: 'IBM Plex Mono', size: 10, weight: '700' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v
+        }
+      },
+      {
+        label: 'Budget Mar-26',
+        data: [62656, 40100, 7534, 3827, 899],
+        borderColor: 'rgba(160,164,190,0.75)',
+        backgroundColor: 'rgba(160,164,190,0.03)',
+        pointBackgroundColor: 'rgba(160,164,190,0.75)',
+        pointBorderColor: RAYA_COLORS.bg,
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        borderWidth: 1.8,
+        borderDash: [6, 3],
+        tension: 0.38,
+        fill: false,
+        order: 2,
+        datalabels: {
+          align: 'bottom',
+          offset: 6,
+          color: '#a0a4be',
+          font: { family: 'IBM Plex Mono', size: 9, weight: '600' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v
+        }
+      },
+      {
+        label: 'Mar-25 Actual',
+        data: [48306, 27502, 6065, 3963, 2563],
+        borderColor: '#059669',
+        backgroundColor: 'rgba(5,150,105,0.03)',
+        pointBackgroundColor: '#059669',
+        pointBorderColor: RAYA_COLORS.bg,
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        borderWidth: 2,
+        borderDash: [3, 3],
+        tension: 0.38,
+        fill: false,
+        order: 3,
+        datalabels: {
+          align: 'left',
+          offset: 8,
+          color: '#059669',
+          font: { family: 'IBM Plex Mono', size: 9, weight: '600' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v
+        }
+      }
+    ]
+  },
+  options: {
+    ...defaultOpts,
+    layout: { padding: { top: 24, right: 16, bottom: 8, left: 8 } },
+    plugins: {
+      ...defaultOpts.plugins,
+      datalabels: { display: true }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+        ticks: {
+          color: RAYA_COLORS.text,
+          font: { family: 'DM Sans', size: 11, weight: '600' },
+          maxRotation: 0,
+          autoSkip: false
+        }
+      },
+      y: {
+        grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+        ticks: {
+          color: RAYA_COLORS.muted,
+          font: { family: 'IBM Plex Mono', size: 9 },
+          callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v
+        }
+      }
+    }
+  }
+});
+
+// ===== REVENUE BRIDGE =====
+const revItems = [
+  { label: 'Sales Revenue', actual: 30860, budget: 39159, color: RAYA_COLORS.primary },
+  { label: 'Subsidy',       actual: 20125, budget: 23209, color: RAYA_COLORS.light },
+  { label: 'K Factor',      actual: -2422, budget: 0,     color: RAYA_COLORS.danger },
+  { label: 'Other Revenue', actual: 1389,  budget: 288,   color: RAYA_COLORS.success },
+];
+const maxVal = 45000;
+const bridge = document.getElementById('revBridge');
+revItems.forEach(item => {
+  const actPct = Math.max(0, (Math.abs(item.actual) / maxVal) * 100);
+  const budPct = Math.max(0, (item.budget / maxVal) * 100);
+  const isNeg = item.actual < 0;
+  const varPct = item.budget !== 0 ? ((item.actual - item.budget) / Math.abs(item.budget) * 100) : null;
+  const varStr = varPct !== null ? (varPct > 0 ? '+' : '') + varPct.toFixed(1) + '%' : '—';
+  const varColor = (item.actual >= item.budget) ? RAYA_COLORS.success : RAYA_COLORS.danger;
+  const barColor = isNeg ? RAYA_COLORS.danger : item.color;
+
+  bridge.innerHTML += `
+    <div class="bridge-item">
+      <div class="bridge-label">${item.label}</div>
+      <div class="bridge-bar-wrap">
+        <div class="bridge-bar-bg"></div>
+        <div class="bridge-bar-act" style="background:${barColor};width:${actPct}%;opacity:0.85"></div>
+        <div class="bridge-bar-bud" style="width:${budPct}%"></div>
+      </div>
+      <div class="bridge-vals">${item.actual.toLocaleString()}</div>
+      <div class="bridge-var" style="color:${varColor}">${varStr}</div>
+    </div>`;
+});
+
+// ===== MINI CHARTS =====
+function miniBarChart(id, labels, actual, budget, colors) {
+  const ctx = document.getElementById(id).getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Actual',
+          data: actual,
+          backgroundColor: colors.map(c => c + 'CC'),
+          borderColor: colors,
+          borderWidth: 1.5,
+          borderRadius: 6,
+          barPercentage: 0.5,
+          categoryPercentage: 0.85,
+          order: 2
+        },
+        {
+          label: 'Budget',
+          data: budget,
+          backgroundColor: 'rgba(163,165,194,0.18)',
+          borderColor: 'rgba(163,165,194,0.4)',
+          borderWidth: 1,
+          borderRadius: 6,
+          barPercentage: 0.5,
+          categoryPercentage: 0.85,
+          order: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(232,234,242,0.97)',
+          borderColor: 'rgba(116,67,121,0.2)',
+          borderWidth: 1,
+          titleColor: RAYA_COLORS.primary,
+          bodyColor: RAYA_COLORS.text,
+          titleFont: { family: 'IBM Plex Mono', size: 10 },
+          bodyFont: { family: 'IBM Plex Mono', size: 9 },
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString()}K` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: RAYA_COLORS.muted, font: { family: 'DM Sans', size: 8 }, maxRotation: 25 }
+        },
+        y: {
+          grid: { color: 'rgba(163,165,194,0.15)' },
+          ticks: { color: RAYA_COLORS.muted, font: { family: 'IBM Plex Mono', size: 8 }, callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v }
+        }
+      }
+    }
+  });
+}
+
+// ===== DIRECT COST LINE CHART =====
+(function() {
+  const ctx = document.getElementById('directChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: ['Op. & Maintenance', 'Commission Charges', 'Total'],
+      datasets: [
+        {
+          label: 'PTD 2026',
+          data: [4662, 933, 5595],
+          borderColor: RAYA_COLORS.primary,
+          backgroundColor: 'rgba(116,67,121,0.0)',
+          pointBackgroundColor: RAYA_COLORS.primary,
+          pointBorderColor: RAYA_COLORS.bg,
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: false,
+          datalabels: {
+            align: 'top', offset: 6,
+            color: RAYA_COLORS.primary,
+            font: { family: 'IBM Plex Mono', size: 10, weight: '700' },
+            formatter: v => v.toLocaleString()
+          }
+        },
+        {
+          label: 'PTD 2025',
+          data: [4361, 1373, 5734],
+          borderColor: 'rgba(160,164,190,0.85)',
+          backgroundColor: 'rgba(160,164,190,0.0)',
+          pointBackgroundColor: 'rgba(160,164,190,0.85)',
+          pointBorderColor: RAYA_COLORS.bg,
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          borderWidth: 1.8,
+          borderDash: [4, 3],
+          tension: 0.3,
+          fill: false,
+          datalabels: {
+            align: 'bottom', offset: 6,
+            color: '#a0a4be',
+            font: { family: 'IBM Plex Mono', size: 10, weight: '600' },
+            formatter: v => v.toLocaleString()
+          }
+        },
+        {
+          label: 'PTD Budget 26',
+          data: [5564, 2007, 7571],
+          borderColor: '#8d5a8f',
+          backgroundColor: 'rgba(141,90,143,0.0)',
+          pointBackgroundColor: '#8d5a8f',
+          pointBorderColor: RAYA_COLORS.bg,
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          borderWidth: 2,
+          borderDash: [6, 3],
+          tension: 0.3,
+          fill: false,
+          datalabels: {
+            align: 'left', offset: 8,
+            color: '#8d5a8f',
+            font: { family: 'IBM Plex Mono', size: 9, weight: '600' },
+            formatter: v => v.toLocaleString()
+          }
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      layout: { padding: { top: 20, right: 20, bottom: 4, left: 8 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            color: RAYA_COLORS.muted,
+            font: { family: 'DM Sans', size: 9 },
+            boxWidth: 20, boxHeight: 2,
+            padding: 10,
+            usePointStyle: true, pointStyle: 'line'
+          }
+        },
+        datalabels: { display: true },
+        tooltip: {
+          backgroundColor: 'rgba(232,234,242,0.97)',
+          borderColor: 'rgba(116,67,121,0.2)',
+          borderWidth: 1,
+          titleColor: RAYA_COLORS.primary,
+          bodyColor: RAYA_COLORS.text,
+          titleFont: { family: 'IBM Plex Mono', size: 10 },
+          bodyFont: { family: 'IBM Plex Mono', size: 9 },
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString()}K` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+          ticks: { color: RAYA_COLORS.text, font: { family: 'DM Sans', size: 9, weight: '600' } }
+        },
+        y: {
+          grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+          ticks: {
+            color: RAYA_COLORS.muted,
+            font: { family: 'IBM Plex Mono', size: 8 },
+            callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v
+          }
+        }
+      }
+    }
+  });
+})();
+
+// ===== ADMIN COST LINE CHART =====
+(function() {
+  const ctx = document.getElementById('adminChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: ['Salaries\n& Wages', 'Office\nExpenses', 'Insurance', 'Miscellaneous\nExpenses', 'Bad Debt\nProvision', 'Electricity\nCost'],
+      datasets: [
+        {
+          label: 'PTD 2026',
+          data: [4552, 724, 124, -46, 2070, 404],
+          borderColor: RAYA_COLORS.primary,
+          backgroundColor: 'rgba(116,67,121,0.0)',
+          pointBackgroundColor: RAYA_COLORS.primary,
+          pointBorderColor: RAYA_COLORS.bg,
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          borderWidth: 2.5,
+          tension: 0.3,
+          fill: false,
+          datalabels: {
+            align: 'top', offset: 5,
+            color: RAYA_COLORS.primary,
+            font: { family: 'IBM Plex Mono', size: 8.5, weight: '700' },
+            formatter: v => v < 0 ? '('+Math.abs(v)+')' : v.toLocaleString()
+          }
+        },
+        {
+          label: 'PTD 2025',
+          data: [3857, 1383, 0, 0, 314, 511],
+          borderColor: 'rgba(160,164,190,0.85)',
+          backgroundColor: 'rgba(160,164,190,0.0)',
+          pointBackgroundColor: 'rgba(160,164,190,0.85)',
+          pointBorderColor: RAYA_COLORS.bg,
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          borderWidth: 1.8,
+          borderDash: [4, 3],
+          tension: 0.3,
+          fill: false,
+          datalabels: {
+            align: 'bottom', offset: 5,
+            color: '#a0a4be',
+            font: { family: 'IBM Plex Mono', size: 8, weight: '600' },
+            formatter: v => v === 0 ? '' : v.toLocaleString()
+          }
+        },
+        {
+          label: 'PTD Budget 26',
+          data: [4603, 1719, 124, 0, 100, 980],
+          borderColor: '#8d5a8f',
+          backgroundColor: 'rgba(141,90,143,0.0)',
+          pointBackgroundColor: '#8d5a8f',
+          pointBorderColor: RAYA_COLORS.bg,
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          borderWidth: 2,
+          borderDash: [6, 3],
+          tension: 0.3,
+          fill: false,
+          datalabels: {
+            align: 'left', offset: 7,
+            color: '#8d5a8f',
+            font: { family: 'IBM Plex Mono', size: 8, weight: '600' },
+            formatter: v => v === 0 ? '' : v.toLocaleString()
+          }
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      layout: { padding: { top: 20, right: 20, bottom: 4, left: 8 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            color: RAYA_COLORS.muted,
+            font: { family: 'DM Sans', size: 9 },
+            boxWidth: 20, boxHeight: 2,
+            padding: 10,
+            usePointStyle: true, pointStyle: 'line'
+          }
+        },
+        datalabels: { display: true },
+        tooltip: {
+          backgroundColor: 'rgba(232,234,242,0.97)',
+          borderColor: 'rgba(116,67,121,0.2)',
+          borderWidth: 1,
+          titleColor: RAYA_COLORS.primary,
+          bodyColor: RAYA_COLORS.text,
+          titleFont: { family: 'IBM Plex Mono', size: 10 },
+          bodyFont: { family: 'IBM Plex Mono', size: 9 },
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString()}K` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+          ticks: { color: RAYA_COLORS.text, font: { family: 'DM Sans', size: 11, weight: '600' }, maxRotation: 0 }
+        },
+        y: {
+          grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+          ticks: {
+            color: RAYA_COLORS.muted,
+            font: { family: 'IBM Plex Mono', size: 8 },
+            callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v < 0 ? '('+Math.abs(v/1000).toFixed(0)+'K)' : v
+          }
+        }
+      }
+    }
+  });
+})();
+
+// ===== FINANCE COST GROUPED BAR CHART =====
+(function() {
+  const ctx = document.getElementById('financeChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    plugins: [ChartDataLabels],
+    data: {
+      labels: ['Finance Cost\n(LTL)', 'Finance Cost\nIFRS 16', 'Finance\nCost BOT', 'Finance\nIncome'],
+      datasets: [
+        {
+          label: 'PTD 2026',
+          data: [3157, 1083, 371, 921],
+          backgroundColor: 'rgba(163,165,194,0.75)',
+          borderColor: 'rgba(163,165,194,0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.75,
+          categoryPercentage: 0.85
+        },
+        {
+          label: 'PTD 2025',
+          data: [2364, 1316, 393, 109],
+          backgroundColor: 'rgba(216,190,220,0.75)',
+          borderColor: 'rgba(216,190,220,0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.75,
+          categoryPercentage: 0.85
+        },
+        {
+          label: 'PTD Budget 26',
+          data: [3279, 1024, 365, 842],
+          backgroundColor: 'rgba(94,51,96,0.8)',
+          borderColor: 'rgba(94,51,96,0.95)',
+          borderWidth: 1,
+          borderRadius: 4,
+          barPercentage: 0.75,
+          categoryPercentage: 0.85
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      layout: { padding: { top: 22, right: 10, bottom: 4, left: 4 } },
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            color: RAYA_COLORS.muted,
+            font: { family: 'DM Sans', size: 9 },
+            boxWidth: 12, boxHeight: 10,
+            padding: 10,
+            usePointStyle: false
+          }
+        },
+        datalabels: {
+          display: true,
+          anchor: 'end',
+          align: 'top',
+          offset: 2,
+          color: RAYA_COLORS.text,
+          font: { family: 'IBM Plex Mono', size: 8, weight: '600' },
+          formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'K' : v
+        },
+        tooltip: {
+          backgroundColor: 'rgba(232,234,242,0.97)',
+          borderColor: 'rgba(116,67,121,0.2)',
+          borderWidth: 1,
+          titleColor: RAYA_COLORS.primary,
+          bodyColor: RAYA_COLORS.text,
+          titleFont: { family: 'IBM Plex Mono', size: 10 },
+          bodyFont: { family: 'IBM Plex Mono', size: 9 },
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString()}K` }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { color: RAYA_COLORS.text, font: { family: 'DM Sans', size: 11, weight: '600' }, maxRotation: 0 }
+        },
+        y: {
+          grid: { color: 'rgba(163,165,194,0.15)', drawBorder: false },
+          ticks: {
+            color: RAYA_COLORS.muted,
+            font: { family: 'IBM Plex Mono', size: 8 },
+            callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v
+          }
+        }
+      }
+    }
+  });
+})();
+</script>
+</main>
+</div>
+</body>
+</html>
