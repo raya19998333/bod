@@ -618,6 +618,11 @@ body { margin: 0; }
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
       </a>
     </li>
+       <li class="raya-nav-item">
+      <a class="raya-nav-link" href="cashflow_dashboard_raya.html">
+      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
+      </a>
+    </li>
     <li class="raya-nav-item">
       <a class="raya-nav-link" href="receivables_dashboard_raya.html">
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Receivables
@@ -633,11 +638,7 @@ body { margin: 0; }
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
       </a>
     </li>
-       <li class="raya-nav-item">
-      <a class="raya-nav-link" href="cashflow_dashboard_raya.html">
-      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
-      </a>
-    </li>
+    
     <li class="raya-nav-item">
       <a class="raya-nav-link" href="operations_dashboard_raya.html">
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations
@@ -667,6 +668,76 @@ body { margin: 0; }
     <div class="header-right">
       <div class="period-badge">PTD: MAR 2025 – MAR 2026</div>
       <div class="period-label">Latifa Bait Saleem · CFO</div>
+    </div>
+  </div>
+
+  <!-- ===== INTERCOMPANY ===== -->
+  <div class="divider">Intercompany Balances — Details FS (Rows 14–21)</div>
+
+  <div class="ic-section">
+    <div class="ic-title-row">
+      <div>
+        <div class="ic-title">
+          Intercompany Balances
+          <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-body);-webkit-text-fill-color:var(--text-muted)"></span>
+        </div>
+        <div class="ic-subtitle">Related Party Payables by Company &amp; Segment</div>
+      </div>
+      <div style="text-align:right">
+        <div class="ic-total-val">87,588 <span style="font-size:13px;color:var(--text-dim);font-weight:400;-webkit-text-fill-color:var(--text-dim)">OMR K</span></div>
+        <div class="ic-total-lbl">Total Intercompany Exposure</div>
+      </div>
+    </div>
+
+    <div class="ic-grid">
+      <!-- By Company -->
+      <div>
+        <div class="seg-chart-title">By Company</div>
+        <div class="ic-company-list">
+          <div class="ic-co-row">
+            <div class="ic-co-dot" style="background:#744379"></div>
+            <div class="ic-co-name">Oman Power &amp; Water Procurement<small>OPWP SAOC</small></div>
+            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:87.9%"></div></div>
+            <div class="ic-co-val">77,099</div>
+          </div>
+          <div class="ic-co-row">
+            <div class="ic-co-dot" style="background:#8d5a8f"></div>
+            <div class="ic-co-name">Oman Electricity Transmission<small>OETC SAOC</small></div>
+            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:11.1%"></div></div>
+            <div class="ic-co-val">9,693</div>
+          </div>
+          <div class="ic-co-row">
+            <div class="ic-co-dot" style="background:#059669"></div>
+            <div class="ic-co-name">Rural Areas Electricity Company<small>RAEC SAOC</small></div>
+            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:0.9%"></div></div>
+            <div class="ic-co-val">771</div>
+          </div>
+          <div class="ic-co-row">
+            <div class="ic-co-dot" style="background:#744379"></div>
+            <div class="ic-co-name">Oman Water &amp; Wastewater Services<small>OWWSC SAOC</small></div>
+            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#744379,#8d5a8f);width:0.1%"></div></div>
+            <div class="ic-co-val">25</div>
+          </div>
+          <div class="ic-co-row">
+            <div class="ic-co-dot" style="background:var(--text-dim)"></div>
+            <div class="ic-co-name">Nama Holding / Distribution / Supply<small>Nil balances</small></div>
+            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="width:0%"></div></div>
+            <div class="ic-co-val" style="color:var(--text-dim)">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPWP Charts -->
+      <div>
+        <div class="seg-chart-title">OPWP Closure Plan</div>
+        <div class="chart-box" style="height:200px;margin-bottom:22px">
+          <canvas id="opwpClosureChart"></canvas>
+        </div>
+        <div class="seg-chart-title">OPWP Movement</div>
+        <div class="chart-box" style="height:200px">
+          <canvas id="opwpMovementChart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -862,76 +933,6 @@ body { margin: 0; }
         <div class="leg-item"><div class="leg-dot" style="background:#8d5a8f"></div><div><div class="leg-txt">Lease Liability</div><div class="leg-val">58,378</div></div></div>
         <div class="leg-item"><div class="leg-dot" style="background:#744379"></div><div><div class="leg-txt">Intercompany Pay.</div><div class="leg-val">87,080</div></div></div>
         <div class="leg-item"><div class="leg-dot" style="background:#5e3360"></div><div><div class="leg-txt">Current Liabilities</div><div class="leg-val">39,036</div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== INTERCOMPANY ===== -->
-  <div class="divider">Intercompany Balances — Details FS (Rows 14–21)</div>
-
-  <div class="ic-section">
-    <div class="ic-title-row">
-      <div>
-        <div class="ic-title">
-          Intercompany Balances
-          <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-body);-webkit-text-fill-color:var(--text-muted)">معاملات داخلية</span>
-        </div>
-        <div class="ic-subtitle">Related Party Payables by Company &amp; Segment</div>
-      </div>
-      <div style="text-align:right">
-        <div class="ic-total-val">87,588 <span style="font-size:13px;color:var(--text-dim);font-weight:400;-webkit-text-fill-color:var(--text-dim)">OMR K</span></div>
-        <div class="ic-total-lbl">Total Intercompany Exposure</div>
-      </div>
-    </div>
-
-    <div class="ic-grid">
-      <!-- By Company -->
-      <div>
-        <div class="seg-chart-title">By Company</div>
-        <div class="ic-company-list">
-          <div class="ic-co-row">
-            <div class="ic-co-dot" style="background:#744379"></div>
-            <div class="ic-co-name">Oman Power &amp; Water Procurement<small>OPWP SAOC</small></div>
-            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#744379,#5e3360);width:87.9%"></div></div>
-            <div class="ic-co-val">77,099</div>
-          </div>
-          <div class="ic-co-row">
-            <div class="ic-co-dot" style="background:#8d5a8f"></div>
-            <div class="ic-co-name">Oman Electricity Transmission<small>OETC SAOC</small></div>
-            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#8d5a8f,#5e3360);width:11.1%"></div></div>
-            <div class="ic-co-val">9,693</div>
-          </div>
-          <div class="ic-co-row">
-            <div class="ic-co-dot" style="background:#059669"></div>
-            <div class="ic-co-name">Rural Areas Electricity Company<small>RAEC SAOC</small></div>
-            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#059669,#34d399);width:0.9%"></div></div>
-            <div class="ic-co-val">771</div>
-          </div>
-          <div class="ic-co-row">
-            <div class="ic-co-dot" style="background:#744379"></div>
-            <div class="ic-co-name">Oman Water &amp; Wastewater Services<small>OWWSC SAOC</small></div>
-            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="background:linear-gradient(90deg,#744379,#8d5a8f);width:0.1%"></div></div>
-            <div class="ic-co-val">25</div>
-          </div>
-          <div class="ic-co-row">
-            <div class="ic-co-dot" style="background:var(--text-dim)"></div>
-            <div class="ic-co-name">Nama Holding / Distribution / Supply<small>Nil balances</small></div>
-            <div class="ic-co-bar-wrap"><div class="ic-co-bar-fill" style="width:0%"></div></div>
-            <div class="ic-co-val" style="color:var(--text-dim)">—</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- OPWP Charts -->
-      <div>
-        <div class="seg-chart-title">OPWP Closure Plan</div>
-        <div class="chart-box" style="height:200px;margin-bottom:22px">
-          <canvas id="opwpClosureChart"></canvas>
-        </div>
-        <div class="seg-chart-title">OPWP Movement</div>
-        <div class="chart-box" style="height:200px">
-          <canvas id="opwpMovementChart"></canvas>
-        </div>
       </div>
     </div>
   </div>
