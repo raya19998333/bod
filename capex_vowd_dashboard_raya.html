@@ -429,8 +429,9 @@ body { margin: 0; }
       <div class="panel-sub">By Work Package + DISC Total</div>
       <div class="leg">
         <div class="leg-item"><div class="leg-dot" style="background:#744379"></div>Mar-2026 Actual</div>
-        <div class="leg-item"><div class="leg-dot" style="background:rgba(116,67,121,.35);border:1px dashed #744379"></div>Mar-2025 Actual</div>
-        <div class="leg-item"><div class="leg-line" style="background:#8d5a8f;height:2px;border-top:2px dashed #8d5a8f"></div>Budget 2026</div>
+        <div class="leg-item"><div class="leg-dot" style="background:rgba(116,67,121,.35)"></div>Mar-2025 Actual</div>
+        <div class="leg-item"><div class="leg-dot" style="background:rgba(141,90,143,0.2)"></div>Budget Mar-2026</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#059669"></div>Annual Budget 2026</div>
       </div>
       <div class="ch ch280"><canvas id="vowdChart"></canvas></div>
     </div>
@@ -587,40 +588,41 @@ const SCALE_OPTS = {
 
 // ===== VOWD CHART =====
 new Chart(document.getElementById('vowdChart'), {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: WP_LABELS,
     datasets: [
       {
         label: 'Mar-2026 Actual',
         data: [676586, 1643335, 916247, 4719935, 799923, 8756026],
-        borderColor: RC.primary,
-        backgroundColor: (ctx) => {
-          const g = ctx.chart.ctx.createLinearGradient(0,0,0,260);
-          g.addColorStop(0,'rgba(116,67,121,0.14)'); g.addColorStop(1,'rgba(116,67,121,0.0)');
-          return g;
-        },
-        fill:true, tension:0.38,
-        pointBackgroundColor:RC.primary, pointBorderColor:RC.bg,
-        pointBorderWidth:2.5, pointRadius:6, pointHoverRadius:8, borderWidth:2.5
+        backgroundColor: RC.primary,
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false
       },
       {
         label: 'Mar-2025 Actual',
         data: [628421, 543013, 183655, 385876, 48422, 1789386],
-        borderColor:'rgba(116,67,121,0.4)', backgroundColor:'transparent',
-        fill:false, tension:0.38,
-        pointBackgroundColor:'rgba(116,67,121,0.4)', pointBorderColor:RC.bg,
-        pointBorderWidth:2, pointRadius:4, pointHoverRadius:6,
-        borderWidth:1.5, borderDash:[5,3]
+        backgroundColor: 'rgba(116,67,121,0.35)',
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false
       },
       {
         label: 'Budget Mar-2026',
         data: [1178953, 1693845, 2736011, 2126321, 140699, 7875828],
-        borderColor:'rgba(141,90,143,0.65)', backgroundColor:'transparent',
-        fill:false, tension:0.38,
-        pointBackgroundColor:'rgba(141,90,143,0.65)', pointBorderColor:RC.bg,
-        pointBorderWidth:2, pointRadius:4, pointHoverRadius:6,
-        borderWidth:1.5, borderDash:[3,3]
+        backgroundColor: 'rgba(141,90,143,0.2)',
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false
+      },
+      {
+        label: 'Annual Budget 2026',
+        data: [12758599, 14179500, 19589731, 20900656, 22781010, 69706587],
+        backgroundColor: '#059669',
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false
       }
     ]
   },
@@ -637,40 +639,33 @@ new Chart(document.getElementById('vowdChart'), {
 
 // ===== CAPEX CHART =====
 new Chart(document.getElementById('capexChart'), {
-  type: 'line',
+  type: 'bar',
   data: {
     labels: WP_LABELS,
     datasets: [
       {
         label: 'Mar-2026 Actual',
         data: [296526, 2200841, 98147, 3423233, 55998, 6074745],
-        borderColor: RC.orange,
-        backgroundColor: (ctx) => {
-          const g = ctx.chart.ctx.createLinearGradient(0,0,0,260);
-          g.addColorStop(0,'rgba(141,90,143,0.14)'); g.addColorStop(1,'rgba(141,90,143,0.0)');
-          return g;
-        },
-        fill:true, tension:0.38,
-        pointBackgroundColor:RC.orange, pointBorderColor:RC.bg,
-        pointBorderWidth:2.5, pointRadius:6, pointHoverRadius:8, borderWidth:2.5
+        backgroundColor: RC.orange,
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false
       },
       {
         label: 'Mar-2025 Actual',
         data: [1129193, 468266, 232442, 2844415, 17284, 4691600],
-        borderColor:'rgba(141,90,143,0.4)', backgroundColor:'transparent',
-        fill:false, tension:0.38,
-        pointBackgroundColor:'rgba(141,90,143,0.4)', pointBorderColor:RC.bg,
-        pointBorderWidth:2, pointRadius:4, pointHoverRadius:6,
-        borderWidth:1.5, borderDash:[5,3]
+        backgroundColor: 'rgba(141,90,143,0.35)',
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false
       },
       {
         label: 'Budget Mar-2026',
         data: [786312, 1468329, 2736011, 1730791, 151825, 6873268],
-        borderColor:'rgba(141,90,143,0.65)', backgroundColor:'transparent',
-        fill:false, tension:0.38,
-        pointBackgroundColor:'rgba(141,90,143,0.65)', pointBorderColor:RC.bg,
-        pointBorderWidth:2, pointRadius:4, pointHoverRadius:6,
-        borderWidth:1.5, borderDash:[3,3]
+        backgroundColor: 'rgba(141,90,143,0.2)',
+        borderWidth: 0,
+        borderRadius: 6,
+        borderSkipped: false
       }
     ]
   },
