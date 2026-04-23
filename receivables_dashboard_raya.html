@@ -191,32 +191,61 @@
   }
 
   .recv-header-main {
-    height: 40px;
+    height: 45px;
   }
 
   .recv-header-main th {
-    padding: 12px 10px;
-    border-bottom: 2px solid rgba(116,67,121,0.2);
+    padding: 14px 10px;
+    border-bottom: 2px solid rgba(116,67,121,0.25);
     font-weight: 700;
     color: var(--text);
     text-align: center;
     font-family: var(--font-head);
-    font-size: 10px;
-    letter-spacing: 0.5px;
+    font-size: 11px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
+    background: linear-gradient(180deg, rgba(116,67,121,0.06) 0%, rgba(116,67,121,0.02) 100%);
+  }
+
+  /* فاصل بين Mar 2026 و Dec 2025 */
+  .recv-header-main th:nth-child(8) {
+    border-left: 3px solid rgba(116,67,121,0.3);
   }
 
   .recv-header-sub th {
-    padding: 10px 8px;
-    border-bottom: 1px solid rgba(116,67,121,0.15);
+    padding: 11px 8px;
+    border-bottom: 1px solid rgba(116,67,121,0.18);
     font-weight: 700;
     color: var(--text-muted);
     text-align: center;
     font-family: var(--font-mono);
     font-size: 9px;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    background: rgba(116,67,121,0.04);
+    background: rgba(116,67,121,0.05);
+  }
+
+  .recv-header-sub th:nth-child(8) {
+    border-left: 3px solid rgba(116,67,121,0.3);
+  }
+
+  /* ألوان مختلفة لكل مجموعة */
+  .recv-header-sub th:nth-child(3),
+  .recv-header-sub th:nth-child(4),
+  .recv-header-sub th:nth-child(5),
+  .recv-header-sub th:nth-child(6),
+  .recv-header-sub th:nth-child(7) {
+    background: linear-gradient(180deg, rgba(116,67,121,0.08) 0%, rgba(116,67,121,0.03) 100%);
+    color: #744379;
+  }
+
+  .recv-header-sub th:nth-child(8),
+  .recv-header-sub th:nth-child(9),
+  .recv-header-sub th:nth-child(10),
+  .recv-header-sub th:nth-child(11),
+  .recv-header-sub th:nth-child(12) {
+    background: linear-gradient(180deg, rgba(94,51,96,0.08) 0%, rgba(94,51,96,0.03) 100%);
+    color: #5e3360;
   }
 
   .recv-col-code {
@@ -226,12 +255,12 @@
 
   .recv-col-desc {
     text-align: left;
-    min-width: 200px;
+    min-width: 240px;
   }
 
   .recv-col-type {
     text-align: left;
-    min-width: 140px;
+    min-width: 160px;
   }
 
   .recv-table tbody tr {
@@ -244,35 +273,36 @@
   }
 
   .recv-table tbody tr.section-header {
-    background: linear-gradient(90deg, rgba(116,67,121,0.1) 0%, transparent 100%);
-    border-bottom: 2px solid rgba(116,67,121,0.2);
+    background: linear-gradient(90deg, rgba(116,67,121,0.12) 0%, transparent 100%);
+    border-bottom: 2px solid rgba(116,67,121,0.25);
     font-weight: 700;
     color: var(--primary);
   }
 
   .recv-table tbody tr.section-header td {
-    padding: 12px 10px;
-    font-size: 11px;
-    letter-spacing: 0.5px;
+    padding: 13px 10px;
+    font-size: 12px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
-    border-bottom: 2px solid rgba(116,67,121,0.2);
+    border-bottom: 2px solid rgba(116,67,121,0.25);
   }
 
   .recv-table tbody tr.total-row {
-    background: linear-gradient(90deg, rgba(116,67,121,0.08) 0%, transparent 100%);
-    border-top: 2px solid rgba(116,67,121,0.25);
-    border-bottom: 2px solid rgba(116,67,121,0.25);
+    background: linear-gradient(90deg, rgba(116,67,121,0.1) 0%, transparent 100%);
+    border-top: 2px solid rgba(116,67,121,0.28);
+    border-bottom: 2px solid rgba(116,67,121,0.28);
     font-weight: 700;
   }
 
   .recv-table tbody tr.total-row td {
-    padding: 12px 10px;
+    padding: 13px 10px;
     color: var(--primary);
     font-family: var(--font-head);
+    font-size: 12px;
   }
 
   .recv-table td {
-    padding: 9px 8px;
+    padding: 10px 8px;
     text-align: right;
     font-family: var(--font-mono);
     color: var(--text);
@@ -281,27 +311,25 @@
 
   .recv-table td:first-child {
     text-align: left;
-    color: var(--text-muted);
+    color: var(--text);
     font-family: var(--font-body);
     font-weight: 500;
-    padding-left: 12px;
+    padding-left: 14px;
   }
 
   .recv-table td:nth-child(2) {
     text-align: left;
-    color: var(--text);
-    font-family: var(--font-body);
-    font-weight: 500;
-    padding-left: 12px;
-  }
-
-  .recv-table td:nth-child(3) {
-    text-align: left;
     color: var(--text-muted);
     font-family: var(--font-body);
-    font-weight: 400;
+    font-weight: 500;
+    padding-left: 14px;
     font-size: 10px;
-    padding-left: 12px;
+  }
+
+  /* فاصل بين المجموعتين */
+  .recv-table td:nth-child(8),
+  .recv-table th:nth-child(8) {
+    border-left: 3px solid rgba(116,67,121,0.25);
   }
 
   .recv-table .num {
@@ -315,17 +343,8 @@
   }
 
   /* Alternating row colors for better readability */
-  .recv-table tbody tr:nth-child(4n+2) {
-    background: rgba(116,67,121,0.02);
-  }
-
-  /* Divider between Dec and Mar columns */
-  .recv-table td:nth-child(9) {
-    border-left: 2px solid rgba(116,67,121,0.2);
-  }
-
-  .recv-table th:nth-child(9) {
-    border-left: 2px solid rgba(116,67,121,0.2);
+  .recv-table tbody tr:nth-child(4n+2):not(.section-header):not(.total-row) {
+    background: rgba(116,67,121,0.015);
   }
 
   /* ===== GRIDS ===== */
@@ -728,9 +747,9 @@ body { margin: 0; }
       <table class="recv-table">
         <thead>
           <tr class="recv-header-main">
-            <th colspan="3">Account Details</th>
-            <th colspan="6" style="text-align:center">Mar 2026</th>
-            <th colspan="6" style="text-align:center">Dec 2025</th>
+            <th colspan="2">Account Details</th>
+            <th colspan="5" style="text-align:center;color:#744379">MAR 2026</th>
+            <th colspan="5" style="text-align:center;color:#5e3360">DEC 2025</th>
           </tr>
           <tr class="recv-header-sub">
             <th class="recv-col-desc">Description</th>
@@ -740,7 +759,6 @@ body { margin: 0; }
             <th>DWW-SSDC</th>
             <th>DGW</th>
             <th>DISC</th>
-
             <th>DPC</th>
             <th>TANWEER</th>
             <th>DWW-SSDC</th>
@@ -750,7 +768,7 @@ body { margin: 0; }
         </thead>
         <tbody>
           <tr class="section-header">
-            <td colspan="15">ELECTRICITY RECEIVABLES</td>
+            <td colspan="12">ELECTRICITY RECEIVABLES</td>
           </tr>
           <tr>
             <td>Government Electricity Receivable</td>
@@ -759,13 +777,11 @@ body { margin: 0; }
             <td class="num">1,372,259</td>
             <td class="num">-</td>
             <td class="num">-</td>
-          
             <td class="num">2,056,764</td>
             <td class="num">807,445</td>
             <td class="num">1,233,220</td>
             <td class="num">-</td>
             <td class="num">-</td>
-        
             <td class="num">2,040,665</td>
           </tr>
           <tr>
@@ -775,33 +791,27 @@ body { margin: 0; }
             <td class="num">10,397,948</td>
             <td class="num">-</td>
             <td class="num">-</td>
-          
             <td class="num">16,339,196</td>
             <td class="num">8,236,672</td>
             <td class="num">9,816,645</td>
             <td class="num">-</td>
             <td class="num">-</td>
-
             <td class="num">18,053,317</td>
           </tr>
           <tr>
             <td>Unapplied Account</td>
             <td>Government Receivables</td>
-            <td class="num negative"  style="color:#dc3545">(28)</td>
+            <td class="num" style="color:#dc3545">(28)</td>
             <td class="num">-</td>
-            <td class="num negative"  style="color:#dc3545">(843)</td>
-            <td class="num negative"  style="color:#dc3545">(324)</td>
-          
-            <td class="num negative"  style="color:#dc3545">(1,195)</td>
-            <td class="num negative"  style="color:#dc3545">(338)</td>
+            <td class="num" style="color:#dc3545">(843)</td>
+            <td class="num" style="color:#dc3545">(324)</td>
+            <td class="num" style="color:#dc3545">(1,195)</td>
+            <td class="num" style="color:#dc3545">(338)</td>
             <td class="num">-</td>
-            <td class="num negative"  style="color:#dc3545">(843)</td>
-            <td class="num negative"  style="color:#dc3545">(324)</td>
-          
-            <td class="num negative"  style="color:#dc3545">(1,505)</td>
+            <td class="num" style="color:#dc3545">(843)</td>
+            <td class="num" style="color:#dc3545">(324)</td>
+            <td class="num" style="color:#dc3545">(1,505)</td>
           </tr>
-          <tr>
-
           <tr>
             <td>CRT Receivable - Private</td>
             <td>Private Receivables</td>
@@ -809,13 +819,11 @@ body { margin: 0; }
             <td class="num">1,054,121</td>
             <td class="num">-</td>
             <td class="num">-</td>
-            
             <td class="num">22,374,587</td>
             <td class="num">18,796,941</td>
             <td class="num">916,018</td>
             <td class="num">-</td>
             <td class="num">-</td>
-        
             <td class="num">19,712,959</td>
           </tr>
           <tr>
@@ -825,18 +833,16 @@ body { margin: 0; }
             <td class="num">1,415,076</td>
             <td class="num">-</td>
             <td class="num">-</td>
-          
             <td class="num">3,298,968</td>
             <td class="num">2,115,476</td>
             <td class="num">1,545,373</td>
             <td class="num">-</td>
             <td class="num">-</td>
-        
             <td class="num">3,660,849</td>
           </tr>
  
           <tr class="section-header">
-            <td colspan="15">WATER RECEIVABLES</td>
+            <td colspan="12">WATER RECEIVABLES</td>
           </tr>
           <tr>
             <td>Government Water Receivable</td>
@@ -845,13 +851,11 @@ body { margin: 0; }
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">7,060,688</td>
-           
             <td class="num">7,060,688</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">6,172,358</td>
-        
             <td class="num">6,172,358</td>
           </tr>
           <tr>
@@ -861,33 +865,29 @@ body { margin: 0; }
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">3,573,779</td>
-        
             <td class="num">3,573,779</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">2,575,889</td>
-            
             <td class="num">2,575,889</td>
           </tr>
  
           <tr class="section-header">
-            <td colspan="15">OTHER RECEIVABLES </td>
+            <td colspan="12">OTHER RECEIVABLES</td>
           </tr>
           <tr>
             <td>Electricity Billing Receivable</td>
             <td>Private Receivables</td>
             <td class="num">357,636</td>
             <td class="num">-</td>
-            <td class="num negative"  style="color:#dc3545">(80,405)</td>
+            <td class="num" style="color:#dc3545">(80,405)</td>
             <td class="num">-</td>
-          
             <td class="num">277,231</td>
             <td class="num">408,712</td>
             <td class="num">-</td>
-            <td class="num negative"  style="color:#dc3545">(36,536)</td>
+            <td class="num" style="color:#dc3545">(36,536)</td>
             <td class="num">-</td>
-      
             <td class="num">372,176</td>
           </tr>
           <tr>
@@ -897,65 +897,55 @@ body { margin: 0; }
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">-</td>
-          
             <td class="num">27,883</td>
             <td class="num">27,883</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">-</td>
-          
             <td class="num">27,883</td>
           </tr>
           <tr>
-
             <td>SSDC Receivable Government</td>
             <td>Government Receivables</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">320,914</td>
             <td class="num">-</td>
-           
             <td class="num">320,914</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">77,102</td>
             <td class="num">-</td>
-
             <td class="num">77,102</td>
           </tr>
           <tr>
-
             <td>SSDC Receivable Private</td>
             <td>Private Receivables</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">778,626</td>
             <td class="num">-</td>
-         
             <td class="num">778,626</td>
             <td class="num">-</td>
             <td class="num">-</td>
             <td class="num">575,013</td>
             <td class="num">-</td>
-       
             <td class="num">575,013</td>
           </tr>
  
-          <td class="total-row">
-            <td >TOTAL RECEIVABLES</td>
-          </td class="num"></td>
-            <td class="num">30,215,601.49</td>
-            <td class="num">14,239,404.64</td>
-            <td class="num">1,018,291.82</td>
-            <td class="num">10,634,142.2</td>
-    
-            <td class="num">56,107,440.15</td>
-            <td class="num">30,392,792.02</td>
-            <td class="num">13,511,254.80</td>
-            <td class="num">614,736.24</td>
-            <td class="num">8,747,923.01</td>
-
-            <td class="num">53,266,706.07</td>
+          <tr class="total-row">
+            <td>TOTAL RECEIVABLES</td>
+            <td></td>
+            <td class="num">30,215,601</td>
+            <td class="num">14,239,405</td>
+            <td class="num">1,018,292</td>
+            <td class="num">10,634,142</td>
+            <td class="num">56,107,440</td>
+            <td class="num">30,392,792</td>
+            <td class="num">13,511,255</td>
+            <td class="num">614,736</td>
+            <td class="num">8,747,923</td>
+            <td class="num">53,266,706</td>
           </tr>
         </tbody>
       </table>
