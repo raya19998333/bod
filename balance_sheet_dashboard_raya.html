@@ -672,40 +672,148 @@ body { margin: 0; }
       <div class="panel-title"><div class="panel-title-dot"></div>Balance Sheet Detail</div>
       <div class="panel-sub">Actual vs Budget vs Previous Period (OMR K)</div>
       <div style="overflow-x:auto">
-        <table class="bs-table">
-          <thead>
-            <tr>
-              <th style="text-align:left">Item</th>
-              <th>Actual<br><span style="font-size:8px;font-weight:400">Mar 2026</span></th>
-              <th>Actual<br><span style="font-size:8px;font-weight:400">Dec 2025</span></th>
-              <th>Budget<br><span style="font-size:8px;font-weight:400">Mar 2026</span></th>
-              <th>Budget<br><span style="font-size:8px;font-weight:400">Dec 2026</span></th>
-              <th>Var</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="section-hd"><td colspan="6">ASSETS</td></tr>
-            <tr><td>Non-Current Assets</td><td class="num">446,886</td><td class="num">431,671</td><td class="num">442,956</td><td class="num">487,903</td><td class="var-neu">-1%</td></tr>
-            <tr><td>Right of Use of Assets</td><td class="num">50,669</td><td class="num">54,114</td><td class="num">50,031</td><td class="num">38,576</td><td class="var-neu">-1%</td></tr>
-            <tr><td>Account Receivables</td><td class="num">56,107</td><td class="num">53,267</td><td class="num">44,743</td><td class="num">19,612</td><td class="var-neg">-25%</td></tr>
-            <tr><td>Fixed Deposits</td><td class="num">71,187</td><td class="num">82,073</td><td class="num">61,555</td><td class="num">0</td><td class="var-neg">-16%</td></tr>
-            <tr><td>Current Assets</td><td class="num">50,678</td><td class="num">53,735</td><td class="num">71,298</td><td class="num">96,932</td><td class="var-pos">+29%</td></tr>
-            <tr><td>Cash &amp; Banks</td><td class="num">14,953</td><td class="num">35,022</td><td class="num">31,390</td><td class="num">20,595</td><td class="var-pos">+52%</td></tr>
-            <tr class="total-row"><td style="font-weight:700">Total Assets</td><td class="num">690,479</td><td class="num">709,882</td><td class="num">701,972</td><td class="num">663,618</td><td class="var-neu">+2%</td></tr>
-            <tr class="section-hd"><td colspan="6">EQUITY &amp; LIABILITIES</td></tr>
-            <tr><td>Equity</td><td class="num">202,437</td><td class="num">220,140</td><td class="num">216,213</td><td class="num">191,647</td><td class="var-pos">+6%</td></tr>
-            <tr><td>Corporate Loan</td><td class="num">235,101</td><td class="num">237,734</td><td class="num">247,903</td><td class="num">265,038</td><td class="var-pos">+5%</td></tr>
-            <tr><td>Non-Current Liabilities</td><td class="num">68,448</td><td class="num">68,912</td><td class="num">63,686</td><td class="num">50,220</td><td class="var-neg">-7%</td></tr>
-            <tr><td>Lease Liability</td><td class="num">58,378</td><td class="num">62,388</td><td class="num">58,019</td><td class="num">44,779</td><td class="var-neu">-1%</td></tr>
-            <tr><td>Total Liabilities</td><td class="num">488,042</td><td class="num">489,742</td><td class="num">485,759</td><td class="num">471,971</td><td class="var-neu">0%</td></tr>
-            <tr class="total-row"><td style="font-weight:700">Total Liab. &amp; Equity</td><td class="num">690,479</td><td class="num">709,882</td><td class="num">701,972</td><td class="num">663,618</td><td class="var-neu">+2%</td></tr>
-          </tbody>
-        </table>
+                 <table class="bs-table">
+        <thead>
+          <tr>
+            <th style="text-align:left; width: 30%;">Item</th>
+            <th>Actual<br>Mar 2026</th>
+            <th>Actual<br>Dec 2025</th>
+            <th>Budget<br>Mar 2026</th>
+            <th>Budget<br>Dec 2025</th>
+            <th>Var %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-hd"><td colspan="6">ASSETS</td></tr>
+          <tr>
+            <td>Non-Current Assets</td>
+            <td class="num">446,886</td>
+            <td class="num">431,671</td>
+            <td class="num">442,956</td>
+            <td class="num">487,903</td>
+            <td class="var-neg">-1.0%</td>
+          </tr>
+          <tr>
+            <td>Right of Use of Assets</td>
+            <td class="num">50,669</td>
+            <td class="num">54,114</td>
+            <td class="num">50,031</td>
+            <td class="num">38,576</td>
+            <td class="var-neg">+1.3%</td>
+          </tr>
+          <tr>
+            <td>Account Receivables</td>
+            <td class="num">56,107</td>
+            <td class="num">53,267</td>
+            <td class="num">44,743</td>
+            <td class="num">19,612</td>
+            <td class="var-neg">+25.4%</td>
+          </tr>
+          <tr>
+            <td>Fixed Deposits</td>
+            <td class="num">71,187</td>
+            <td class="num">82,073</td>
+            <td class="num">61,555</td>
+            <td class="num">-</td>
+            <td class="var-neg">+15.6%</td>
+          </tr>
+          <tr>
+            <td>Current Assets</td>
+            <td class="num">50,678</td>
+            <td class="num">53,735</td>
+            <td class="num">71,298</td>
+            <td class="num">96,932</td>
+            <td class="var-pos">-28.9%</td>
+          </tr>
+          <tr>
+            <td>Cash &amp; Banks</td>
+            <td class="num">14,953</td>
+            <td class="num">35,022</td>
+            <td class="num">31,390</td>
+            <td class="num">20,595</td>
+            <td class="var-neg">-52.4%</td>
+          </tr>
+          <tr class="total-row">
+            <td><strong>Total Assets</strong></td>
+            <td class="num">690,480</td>
+            <td class="num">709,882</td>
+            <td class="num">701,973</td>
+            <td class="num">663,618</td>
+            <td class="var-neu">+2.0%</td>
+          </tr>
+ 
+          <tr class="section-hd"><td colspan="6">EQUITY &amp; LIABILITIES</td></tr>
+          <tr>
+            <td>Equity</td>
+            <td class="num">202,437</td>
+            <td class="num">220,140</td>
+            <td class="num">216,213</td>
+            <td class="num">191,647</td>
+            <td class="var-pos">-6.4%</td>
+          </tr>
+          <tr>
+            <td>Corporate Loan</td>
+            <td class="num">235,101</td>
+            <td class="num">237,734</td>
+            <td class="num">247,903</td>
+            <td class="num">265,038</td>
+            <td class="var-pos">-5.0%</td>
+          </tr>
+          <tr>
+            <td>Non-Current Liabilities</td>
+            <td class="num">68,448</td>
+            <td class="num">68,912</td>
+            <td class="num">63,686</td>
+            <td class="num">50,220</td>
+            <td class="var-neg">+7.5%</td>
+          </tr>
+          <tr>
+            <td>Lease Liability</td>
+            <td class="num">58,378</td>
+            <td class="num">62,388</td>
+            <td class="num">58,019</td>
+            <td class="num">44,779</td>
+            <td class="var-neg">+0.6%</td>
+          </tr>
+          <tr>
+            <td><span style="color:#744379;">Intercompany Payables</span></td>
+            <td class="num" style="color:#744379;">87,080</td>
+            <td class="num">91,245</td>
+            <td class="num">79,745</td>
+            <td class="num">56,100</td>
+            <td class="var-neg">+9.2%</td>
+          </tr>
+          <tr>
+            <td>Current Liabilities</td>
+            <td class="num">39,036</td>
+            <td class="num">29,464</td>
+            <td class="num">36,408</td>
+            <td class="num">55,834</td>
+            <td class="var-neg">+7.2%</td>
+          </tr>
+          <tr class="total-row">
+            <td><strong>Total Liabilities</strong></td>
+            <td class="num">488,043</td>
+            <td class="num">489,743</td>
+            <td class="num">485,760</td>
+            <td class="num">471,971</td>
+            <td class="var-neu">+0.5%</td>
+          </tr>
+          <tr class="total-row">
+            <td><strong>Total Liab. &amp; Equity</strong></td>
+            <td class="num">690,480</td>
+            <td class="num">709,883</td>
+            <td class="num">701,973</td>
+            <td class="num">663,618</td>
+            <td class="var-neu">+2.0%</td>
+          </tr>
+        </tbody>
+      </table>
       </div>
     </div>
 
 </div>
-  <!-- ===== INTERCOMPANY ===== -->0
+  <!-- ===== INTERCOMPANY ===== -->
   <div class="divider">Intercompany Balances </div>
 
   <div class="ic-section">
@@ -826,7 +934,7 @@ body { margin: 0; }
     <div class="exec-cols">
       <div class="exec-col-item">
         <div class="exec-item-title">Asset Base</div>
-        <div class="exec-item-text">Total Assets of <b>OMR 690,479K</b> are <span class="g">stable vs prior period</span>. Non-Current Assets at <b>OMR 446,886K</b> (64.7% of total) are slightly below budget (-1%).</div>
+        <div class="exec-item-text">Total Assets of <b>OMR 639,810K</b> are <span class="g">42.7% above prior period</span>. Non-Current Assets at <b>OMR 446,886K</b> (69.8% of total) are broadly on budget (+0.9%).</div>
       </div>
       <div class="exec-col-item">
         <div class="exec-item-title">Receivables Pressure</div>
@@ -834,11 +942,11 @@ body { margin: 0; }
       </div>
       <div class="exec-col-item">
         <div class="exec-item-title">Intercompany Exposure</div>
-        <div class="exec-item-text">IC payables at <b>OMR 488,042K</b> are <span class="r">0.6% above budget</span>. Total Liabilities remain stable vs prior periods, indicating controlled debt levels.</div>
+        <div class="exec-item-text">IC payables at <b>OMR 87,080K</b> are <span class="r">9.2% above budget</span>. <b>OPWP</b> accounts for <b>88.0%</b> (OMR 77,099K), primarily from Electricity Urban operations.</div>
       </div>
       <div class="exec-col-item">
         <div class="exec-item-title">Capital Structure</div>
-        <div class="exec-item-text">Equity at <b>OMR 202,437K</b> is <span class="r">6.4% below budget</span>. Corporate Loan is <span class="r">5.2% below budget</span> at OMR 235,101K vs OMR 247,903K budget.</div>
+        <div class="exec-item-text">Equity at <b>OMR 202,437K</b> is <span class="r">6.4% below budget</span>. Corporate Loan is <span class="g">well below budget</span> at OMR 235,101 vs. OMR 247,903K budget.</div>
       </div>
     </div>
   </div>
@@ -870,11 +978,11 @@ Chart.register(ChartDataLabels);
 new Chart(document.getElementById('movementChart'), {
   type: 'line',
   data: {
-    labels: ['Non-Current Assets','Receivables','Fixed Deposits','Equity','Corporate Loan','Curr. Liab.'],
+    labels: ['Non-Current Assets','Receivables','Fixed Deposits','Equity','IC Payables','Curr. Liab.'],
     datasets: [
       {
         label: 'Actual (Mar 2026)',
-        data: [446886, 56107, 71187, 202437, 235101, 488042],
+        data: [446886, 56107, 71187, 202437, 87080, 39036],
         borderColor: '#744379',
         backgroundColor: (ctx) => {
           const g = ctx.chart.ctx.createLinearGradient(0, 0, 0, 240);
@@ -896,7 +1004,7 @@ new Chart(document.getElementById('movementChart'), {
       },
       {
         label: 'Budget (Mar 2026)',
-        data: [442956, 44743, 61555, 216213, 247903, 485759],
+        data: [442956, 44743, 61555, 216213, 79745, 36408],
         borderColor: '#B9BCBF',
         backgroundColor: 'transparent',
         fill: false, tension: 0.38,
@@ -914,7 +1022,7 @@ new Chart(document.getElementById('movementChart'), {
       },
       {
         label: 'Prev. Actual (Dec 2025)',
-        data: [431671, 53267, 82073, 220140, 237734, 489742],
+        data: [431671, 53267, 82073, 220140, 91245, 29464],
         borderColor: '#99CCFF',
         backgroundColor: 'transparent',
         fill: false, tension: 0.38,
