@@ -174,177 +174,116 @@
   .table-wrapper {
     overflow-x: auto;
     border-radius: var(--radius-sm);
-    box-shadow: var(--neu-shadow-sm);
   }
 
   .recv-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .recv-table thead {
-    background: linear-gradient(135deg, rgba(116,67,121,0.08) 0%, rgba(94,51,96,0.06) 100%);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    background: transparent;
   }
 
-  .recv-header-main {
-    height: 45px;
-  }
-
-  .recv-header-main th {
-    padding: 14px 10px;
-    border-bottom: 2px solid rgba(116,67,121,0.25);
+  .recv-table thead th {
+    padding: 14px 14px;
+    text-align: right;
+    border-bottom: 1px solid rgba(212, 205, 214, 0.781);
     font-weight: 700;
-    color: var(--text);
-    text-align: center;
-    font-family: var(--font-head);
-    font-size: 11px;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    background: linear-gradient(180deg, rgba(116,67,121,0.06) 0%, rgba(116,67,121,0.02) 100%);
-  }
-
-  /* فاصل بين Mar 2026 و Dec 2025 */
-  .recv-header-main th:nth-child(8) {
-    border-left: 3px solid rgba(116,67,121,0.3);
-  }
-
-  .recv-header-sub th {
-    padding: 11px 8px;
-    border-bottom: 1px solid rgba(116,67,121,0.18);
-    font-weight: 700;
-    color: var(--text-muted);
-    text-align: center;
     font-family: var(--font-mono);
     font-size: 9px;
-    letter-spacing: 0.5px;
+    color: var(--text-muted);
     text-transform: uppercase;
-    background: rgba(116,67,121,0.05);
+    letter-spacing: 0.9px;
   }
 
-  .recv-header-sub th:nth-child(8) {
-    border-left: 3px solid rgba(116,67,121,0.3);
-  }
-
-  /* ألوان مختلفة لكل مجموعة */
-  .recv-header-sub th:nth-child(3),
-  .recv-header-sub th:nth-child(4),
-  .recv-header-sub th:nth-child(5),
-  .recv-header-sub th:nth-child(6),
-  .recv-header-sub th:nth-child(7) {
-    background: linear-gradient(180deg, rgba(116,67,121,0.08) 0%, rgba(116,67,121,0.03) 100%);
-    color: #744379;
-  }
-
-  .recv-header-sub th:nth-child(8),
-  .recv-header-sub th:nth-child(9),
-  .recv-header-sub th:nth-child(10),
-  .recv-header-sub th:nth-child(11),
-  .recv-header-sub th:nth-child(12) {
-    background: linear-gradient(180deg, rgba(94,51,96,0.08) 0%, rgba(94,51,96,0.03) 100%);
-    color: #5e3360;
-  }
-
-  .recv-col-code {
+  .recv-table thead th:first-child {
     text-align: left;
-    width: 80px;
-  }
-
-  .recv-col-desc {
-    text-align: left;
-    min-width: 240px;
-  }
-
-  .recv-col-type {
-    text-align: left;
-    min-width: 160px;
   }
 
   .recv-table tbody tr {
-    border-bottom: 1px solid rgba(163,165,194,0.12);
+    border-bottom: 1px solid rgba(183, 166, 186, 0.34);
     transition: all 0.2s ease;
   }
 
   .recv-table tbody tr:hover {
-    background: rgba(116,67,121,0.04);
+    background-color: rgba(232, 234, 242, 0.3);
   }
 
   .recv-table tbody tr.section-header {
-    background: linear-gradient(90deg, rgba(116,67,121,0.12) 0%, transparent 100%);
-    border-bottom: 2px solid rgba(116,67,121,0.25);
+     color:#ffffff;
+    background: linear-gradient(90deg, #522F57 0%, #724277 100%);
     font-weight: 700;
-    color: var(--primary);
+   
   }
 
   .recv-table tbody tr.section-header td {
-    padding: 13px 10px;
-    font-size: 12px;
-    letter-spacing: 0.6px;
+    padding: 13px 14px;
+    font-family: var(--font-head);
+    font-size: 10px;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    border-bottom: 2px solid rgba(116,67,121,0.25);
+    border: none;
+  }
+
+  .recv-table tbody td {
+    padding: 12px 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-align: right;
+    font-family: var(--font-mono);
+  }
+
+  .recv-table tbody td:first-child {
+    text-align: left;
+    font-family: var(--font-body);
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .recv-table tbody tr:nth-child(4n+2):not() {
+    background-color: rgba(255, 255, 255, 0.2);
   }
 
   .recv-table tbody tr.total-row {
-    background: linear-gradient(90deg, rgba(116,67,121,0.1) 0%, transparent 100%);
-    border-top: 2px solid rgba(116,67,121,0.28);
-    border-bottom: 2px solid rgba(116,67,121,0.28);
+    background: rgba(232, 234, 242, 0.5);
+    border-top: 1px solid rgba(200, 200, 220, 0.6);
+    border-bottom: 1px solid rgba(200, 200, 220, 0.6);
     font-weight: 700;
   }
 
   .recv-table tbody tr.total-row td {
-    padding: 13px 10px;
-    color: var(--primary);
+    padding: 13px 14px;
     font-family: var(--font-head);
     font-size: 12px;
-  }
-
-  .recv-table td {
-    padding: 10px 8px;
-    text-align: right;
-    font-family: var(--font-mono);
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  .recv-table td:first-child {
-    text-align: left;
-    color: var(--text);
-    font-family: var(--font-body);
-    font-weight: 500;
-    padding-left: 14px;
-  }
-
-  .recv-table td:nth-child(2) {
-    text-align: left;
-    color: var(--text-muted);
-    font-family: var(--font-body);
-    font-weight: 500;
-    padding-left: 14px;
-    font-size: 10px;
-  }
-
-  /* فاصل بين المجموعتين */
-  .recv-table td:nth-child(8),
-  .recv-table th:nth-child(8) {
-    border-left: 3px solid rgba(116,67,121,0.25);
-  }
-
-  .recv-table .num {
-    color: var(--text);
-    font-weight: 600;
     letter-spacing: 0.3px;
   }
 
-  .recv-table .num:after {
-    content: '';
+  .recv-table tbody tr.total-row td:first-child {
+    color: var(--text-muted);
+    font-weight: 700;
   }
 
-  /* Alternating row colors for better readability */
-  .recv-table tbody tr:nth-child(4n+2):not(.section-header):not(.total-row) {
-    background: rgba(116,67,121,0.015);
+  /* Change Column Colors */
+  .change-positive {
+    color: #ff6b6b;
+    font-weight: 700;
+  }
+
+  .change-negative {
+    color: #00a86b;
+    font-weight: 700;
+  }
+
+  .change-neutral {
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+
+  .negative-number {
+    color: #ff6b6b;
+    font-weight: 700;
   }
 
   /* ===== GRIDS ===== */
@@ -362,7 +301,7 @@
     justify-content: space-between;
     flex-wrap: nowrap;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(163,165,194,0.18);
+    border-bottom: 1px solid rgba(187, 163, 194, 0.18);
     gap: 4px;
   }
   .mov-row:last-child { border-bottom: none; }
@@ -547,8 +486,8 @@
     .g31 { grid-template-columns: 1fr; }
     .g2  { grid-template-columns: 1fr; }
     .exec-cols { grid-template-columns: repeat(2, 1fr); }
-    .recv-table { font-size: 10px; }
-    .recv-table td { padding: 8px 6px; }
+    .recv-table { font-size: 11px; }
+    .recv-table td { padding: 10px 10px; }
   }
   @media (max-width: 700px) {
     .page { padding: 16px 14px 28px; gap: 16px; }
@@ -559,10 +498,8 @@
     .mov-label { width: 110px; font-size: 10px; }
     .sub-seg { width: 100px; font-size: 10px; }
     .sub-bar-wrap { display: none; }
-    .recv-table { font-size: 9px; }
-    .recv-table td { padding: 6px 4px; }
-    .recv-col-code { width: 60px; }
-    .recv-col-desc { min-width: 140px; }
+    .recv-table { font-size: 10px; }
+    .recv-table td { padding: 8px 8px; }
   }
   @media (max-width: 440px) {
     .kpi-row { grid-template-columns: 1fr 1fr; }
@@ -625,7 +562,6 @@ body { margin: 0; }
   </div>
   <div class="raya-nav-section">Navigation</div>
   <ul class="raya-nav-menu">
-
     <li class="raya-nav-item">
       <a class="raya-nav-link" href="index.html">
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>Income Statement
@@ -636,9 +572,9 @@ body { margin: 0; }
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>Balance Sheet
       </a>
     </li>
-       <li class="raya-nav-item">
+    <li class="raya-nav-item">
       <a class="raya-nav-link" href="cashflow_dashboard_raya.html">
-      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow</a></li>
+      <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Cash Flow
       </a>
     </li>
     <li class="raya-nav-item">
@@ -656,7 +592,6 @@ body { margin: 0; }
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>KPI — DSO
       </a>
     </li>
-    
     <li class="raya-nav-item">
       <a class="raya-nav-link" href="operations_dashboard_raya.html">
         <span class="raya-nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></span>Operations
@@ -742,211 +677,88 @@ body { margin: 0; }
   <div class="panel" style="padding:22px">
     <div class="panel-title"><div class="panel-title-dot"></div>Receivable Detail</div>
     <div class="panel-sub">By segment & type — Dec 2025 vs Mar 2026 (OMR K)</div>
-    
+   
     <div class="table-wrapper">
       <table class="recv-table">
         <thead>
-          <tr class="recv-header-main">
-            <th colspan="2">Account Details</th>
-            <th colspan="5" style="text-align:center;color:#744379">MAR 2026</th>
-            <th colspan="5" style="text-align:center;color:#5e3360">DEC 2025</th>
-          </tr>
-          <tr class="recv-header-sub">
-            <th class="recv-col-desc">Description</th>
-            <th class="recv-col-type">Classification</th>
-            <th>DPC</th>
-            <th>TANWEER</th>
-            <th>DWW-SSDC</th>
-            <th>DGW</th>
-            <th>DISC</th>
-            <th>DPC</th>
-            <th>TANWEER</th>
-            <th>DWW-SSDC</th>
-            <th>DGW</th>
-            <th>DISC</th>
+          <tr>
+            <th>SEGMENT / TYPE</th>
+            <th>DEC 2025</th>
+            <th>MAR 2026</th>
           </tr>
         </thead>
         <tbody>
+          <!-- GOVERNMENT RECEIVABLES -->
           <tr class="section-header">
-            <td colspan="12">ELECTRICITY RECEIVABLES</td>
+            <td colspan="4">GOVERNMENT RECEIVABLES</td>
           </tr>
           <tr>
-            <td>Government Electricity Receivable</td>
-            <td>Government Receivables</td>
-            <td class="num">684,505</td>
-            <td class="num">1,372,259</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">2,056,764</td>
-            <td class="num">807,445</td>
-            <td class="num">1,233,220</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">2,040,665</td>
+            <td>Electricity Urban</td>
+            <td>2,596,252</td>
+            <td>2,950,467</td>
+        
           </tr>
           <tr>
-            <td>Private Electricity Receivable</td>
-            <td>Private Receivables</td>
-            <td class="num">5,941,247</td>
-            <td class="num">10,397,948</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">16,339,196</td>
-            <td class="num">8,236,672</td>
-            <td class="num">9,816,645</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">18,053,317</td>
+            <td>Electricity Rural</td>
+            <td>2,787,335</td>
+            <td>2,778,592</td>
+          
           </tr>
           <tr>
-            <td>Unapplied Account</td>
-            <td>Government Receivables</td>
-            <td class="num" style="color:#dc3545">(28)</td>
-            <td class="num">-</td>
-            <td class="num" style="color:#dc3545">(843)</td>
-            <td class="num" style="color:#dc3545">(324)</td>
-            <td class="num" style="color:#dc3545">(1,195)</td>
-            <td class="num" style="color:#dc3545">(338)</td>
-            <td class="num">-</td>
-            <td class="num" style="color:#dc3545">(843)</td>
-            <td class="num" style="color:#dc3545">(324)</td>
-            <td class="num" style="color:#dc3545">(1,505)</td>
+            <td>Wastewater</td>
+            <td>320,071</td>
+            <td>76,259</td>
+          
           </tr>
           <tr>
-            <td>CRT Receivable - Private</td>
-            <td>Private Receivables</td>
-            <td class="num">21,320,466</td>
-            <td class="num">1,054,121</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">22,374,587</td>
-            <td class="num">18,796,941</td>
-            <td class="num">916,018</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">19,712,959</td>
+            <td>Water Urban</td>
+            <td>7,060,363</td>
+            <td>6,172,034</td>
+           
           </tr>
-          <tr>
-            <td>CRT Receivable - Government</td>
-            <td>Government Receivables</td>
-            <td class="num">1,883,892</td>
-            <td class="num">1,415,076</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">3,298,968</td>
-            <td class="num">2,115,476</td>
-            <td class="num">1,545,373</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">3,660,849</td>
-          </tr>
- 
-          <tr class="section-header">
-            <td colspan="12">WATER RECEIVABLES</td>
-          </tr>
-          <tr>
-            <td>Government Water Receivable</td>
-            <td>Government Receivables</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">7,060,688</td>
-            <td class="num">7,060,688</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">6,172,358</td>
-            <td class="num">6,172,358</td>
-          </tr>
-          <tr>
-            <td>Private Water Receivable</td>
-            <td>Private Receivables</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">3,573,779</td>
-            <td class="num">3,573,779</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">2,575,889</td>
-            <td class="num">2,575,889</td>
-          </tr>
- 
-          <tr class="section-header">
-            <td colspan="12">OTHER RECEIVABLES</td>
-          </tr>
-          <tr>
-            <td>Electricity Billing Receivable</td>
-            <td>Private Receivables</td>
-            <td class="num">357,636</td>
-            <td class="num">-</td>
-            <td class="num" style="color:#dc3545">(80,405)</td>
-            <td class="num">-</td>
-            <td class="num">277,231</td>
-            <td class="num">408,712</td>
-            <td class="num">-</td>
-            <td class="num" style="color:#dc3545">(36,536)</td>
-            <td class="num">-</td>
-            <td class="num">372,176</td>
-          </tr>
-          <tr>
-            <td>Protected Customers Recoverable</td>
-            <td>Government Receivables</td>
-            <td class="num">27,883</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">27,883</td>
-            <td class="num">27,883</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">27,883</td>
-          </tr>
-          <tr>
-            <td>SSDC Receivable Government</td>
-            <td>Government Receivables</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">320,914</td>
-            <td class="num">-</td>
-            <td class="num">320,914</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">77,102</td>
-            <td class="num">-</td>
-            <td class="num">77,102</td>
-          </tr>
-          <tr>
-            <td>SSDC Receivable Private</td>
-            <td>Private Receivables</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">778,626</td>
-            <td class="num">-</td>
-            <td class="num">778,626</td>
-            <td class="num">-</td>
-            <td class="num">-</td>
-            <td class="num">575,013</td>
-            <td class="num">-</td>
-            <td class="num">575,013</td>
-          </tr>
- 
           <tr class="total-row">
-            <td>TOTAL RECEIVABLES</td>
-            <td></td>
-            <td class="num">30,215,601</td>
-            <td class="num">14,239,405</td>
-            <td class="num">1,018,292</td>
-            <td class="num">10,634,142</td>
-            <td class="num">56,107,440</td>
-            <td class="num">30,392,792</td>
-            <td class="num">13,511,255</td>
-            <td class="num">614,736</td>
-            <td class="num">8,747,923</td>
-            <td class="num">53,266,706</td>
+            <td>Total Govt AR</td>
+            <td>12,764,022</td>
+            <td>11,977,352</td>
+  
           </tr>
+
+          <!-- PRIVATE RECEIVABLES -->
+          <tr class="section-header">
+            <td colspan="4">PRIVATE RECEIVABLES</td>
+          </tr>
+          <tr>
+            <td>Electricity Urban</td>
+            <td>27,619,349</td>
+            <td>27,442,325</td>
+          
+          </tr>
+          <tr>
+            <td>Electricity Rural</td>
+            <td>11,452,070</td>
+            <td>10,732,663</td>
+     
+          </tr>
+          <tr>
+            <td>Wastewater</td>
+            <td>698,220</td>
+            <td>538,477</td>
+       
+          </tr>
+          <tr>
+            <td>Water Urban</td>
+            <td>3,573,779</td>
+            <td>2,575,889</td>
+       
+          </tr>
+          <tr class="total-row">
+            <td>Total Private AR</td>
+            <td>43,343,418</td>
+            <td>41,289,354</td>
+           
+          </tr>
+
+        
         </tbody>
       </table>
     </div>
